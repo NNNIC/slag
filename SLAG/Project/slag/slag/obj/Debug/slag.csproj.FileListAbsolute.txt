@@ -1,8 +1,0 @@
-N:\Project\slag\slag\bin\Debug\slag.exe.config
-N:\Project\slag\slag\bin\Debug\slag.exe
-N:\Project\slag\slag\bin\Debug\slag.pdb
-N:\Project\slag\slag\bin\Debug\slagtool.dll
-N:\Project\slag\slag\bin\Debug\slagtool.pdb
-N:\Project\slag\slag\obj\Debug\slag.exe
-N:\Project\slag\slag\obj\Debug\slag.pdb
-N:\Project\slag\slag\obj\Debug\slag.csprojResolveAssemblyReference.cache
