@@ -1,0 +1,1 @@
+N:\Project\namedpipe\monitor1\monitor1\bin\Debug\monitor1.exe.config

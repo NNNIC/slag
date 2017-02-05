@@ -1,0 +1,160 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using slagtool;
+using number = System.Double;
+
+#if obs
+namespace slagtool.runtime
+{
+    public class process
+    {
+        //List<YVALUE> m_illist;  //intermediate langege list
+        //StateBuffer  m_statebuf;
+
+        //public void Init(List<YVALUE> illist)
+        //{
+        //    m_illist = illist;
+        //    m_statebuf = new StateBuffer();
+
+        //    runtime.builtin.builtin_func.Init();
+        //}      
+        //public void Run()
+        //{
+        //    run_script.run(m_illist[0],m_statebuf);
+        //}
+
+#region 関数関連
+        //public bool ExistFunc(string funcname)
+        //{
+        //    return builtin.builtin_func.IsFunc(funcname);
+        //}
+        //public object CallFunc(string funcname,object[] param=null)
+        //{
+        //    var fv = (YVALUE)m_statebuf.get_func(funcname);
+        //    if (fv==null)
+        //    {
+        //        if (builtin.builtin_func.IsFunc(funcname))
+        //        {
+        //            return builtin.builtin_func.Run(funcname,param,m_statebuf);
+        //        }
+        //        throw new SystemException("CallFunc : Not Found Function : " + funcname);
+        //    }
+        //    if (fv!=null)
+        //    {
+        //        var ol = param;
+        //        var numofparam= ol!=null ? ol.Length : 0;
+        //        m_statebuf.set_funcwork();
+        //        {
+        //            var fvbk = util.normalize_func_bracket(fv.list_at(1).list_at(1)); //ファンクション定義部の引数部分
+        //            if (   fvbk.list.Count != numofparam)
+        //            {
+        //                util._error("number of arguments in valid.");
+        //            }
+        //            int n = 0;
+        //            if (fvbk!=null) for(int i = 0; i<fvbk.list.Count; i+=2)
+        //            {
+        //                var varname = fvbk.list_at(i).GetString();//定義側の変数名
+        //                object o = ol!=null && n < ol.Length ? ol[n] : null;
+        //                m_statebuf.define(varname, o);
+        //                n++;
+        //            }
+        //            m_statebuf = run_script.run(fv.list_at(2),m_statebuf);
+        //            m_statebuf.breaknone();
+        //        }
+        //        m_statebuf.reset_funcwork();
+
+        //        return m_statebuf.m_cur;
+        //    }
+
+        //    throw new SystemException("CallFunc : Not Found The Function : " + funcname);
+        //}
+#endregion
+
+        //#region 変数関連
+        //public bool ExistVal(string name)
+        //{
+        //    name = name.ToUpper();
+        //    if (m_statebuf!=null&&m_statebuf.m_root_dic!=null)
+        //    {
+        //        return m_statebuf.m_root_dic.ContainsKey(name);
+        //    }
+        //    return false;
+        //}
+        //public object GetVal(string name)
+        //{
+        //    var ret = _getval(name);
+        //    if (ret==null) throw new SystemException("GetVal : Not Found Valriable : " + name);
+        //    return ret;
+        //}
+        //private object _getval(string name)
+        //{
+        //    name = name.ToUpper();
+        //    if (m_statebuf!=null&&m_statebuf.m_root_dic!=null)
+        //    {
+        //        var dic = m_statebuf.m_root_dic;
+        //        if (dic.ContainsKey(name))
+        //        {
+        //            return dic[name];
+        //        }
+        //    }
+        //    return null;
+        //}
+        //public number GetNumVal(string name)
+        //{
+        //    var ret = _getval(name);
+        //    if (ret==null)                       throw new SystemException("GetNumVal : Not Found Valriable : "     + name);
+        //    if (ret.GetType() != typeof(number)) throw new SystemException("GetNumVal : Valriable is not Number : " + name);
+                
+        //    return (number)ret;
+        
+        //}
+        //public string GetStrVal(string name)
+        //{
+        //    var ret = _getval(name);
+        //    if (ret==null)                       throw new SystemException("GetStrVal : Not Found Valriable : "     + name);
+        //    if (ret.GetType() != typeof(string)) throw new SystemException("GetStrVal : Valriable is not String : " + name);
+                
+        //    return (string)ret;
+        //}
+        //public void SetVal(string name, object val,bool bCreateIfNotExist=true)
+        //{            
+        //    if (!_setval(name,val,bCreateIfNotExist))
+        //    {
+        //        throw new SystemException("SetVal : Fail to Set ; " + name);
+        //    }
+        //}
+        //public bool _setval(string name, object val, bool bCreateIfNotExist)
+        //{
+        //    name = name.ToUpper();
+        //    if (ExistVal(name))
+        //    {
+        //        m_statebuf.m_root_dic[name] = val;
+        //        return true;
+        //    }
+        //    if (bCreateIfNotExist)
+        //    {
+        //        m_statebuf.m_root_dic[name] = val;
+        //        return true;
+        //    }
+        //    return false;
+        //}
+        //public void SetNumVal(string name, number val,bool bCreateIfNotExist=true)
+        //{
+        //    if (!_setval(name,val,bCreateIfNotExist))
+        //    {
+        //        throw new SystemException("SetNumVal : Fail to Set ; " + name);
+        //    }
+        //}
+        //public void SetStrVal(string name, string val,bool bCreateIfNotExist=true)
+        //{
+        //    if (!_setval(name,val,bCreateIfNotExist))
+        //    {
+        //        throw new SystemException("SetStrVal : Fail to Set ; " + name);
+        //    }
+        //}
+        //#endregion
+    }
+}
+#endif

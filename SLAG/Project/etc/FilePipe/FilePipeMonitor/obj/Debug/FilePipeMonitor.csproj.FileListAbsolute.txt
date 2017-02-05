@@ -1,0 +1,10 @@
+N:\Project\etc\FilePipeMonitor\FilePipeMonitor\bin\Debug\FilePipeMonitor.exe.config
+N:\Project\etc\FilePipe\FilePipeMonitor\bin\Debug\FilePipeMonitor.exe.config
+N:\Project\etc\FilePipe\FilePipeMonitor\bin\Debug\FilePipeMonitor.exe
+N:\Project\etc\FilePipe\FilePipeMonitor\bin\Debug\FilePipeMonitor.pdb
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.csprojResolveAssemblyReference.cache
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.Form1.resources
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.Properties.Resources.resources
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.csproj.GenerateResource.Cache
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.exe
+N:\Project\etc\FilePipe\FilePipeMonitor\obj\Debug\FilePipeMonitor.pdb

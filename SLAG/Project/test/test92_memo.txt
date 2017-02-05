@@ -1,0 +1,191 @@
+ゲーム仕様
+
+- ジョーカーを除く５２枚
+- 持ち点100クレジット
+- １回交換可能
+
+
+ワンペア    x   2
+ツーペア 　 x   4
+スリーカードx  10
+フルハウス  x  50
+ストレート  x  50
+フラッシュ  x  50
+ストレートフラッシュx 100
+
+
++-----------+
+|           | <- オッズパネル    [OP]
+|           |
+|           | <- カードパネル    [CP]
+|           |
+|           | <- メッセージパネル[MP]
++-----------+
+
+１）ベット
+ OP:
+    ベットが押されるたびにオッズの賞金が変化
+ CP:
+    何もない
+ MP:
+　  １クレジット [ベット] [スタート]
+
+２）ディール
+ OP:
+ CP: 裏返しのカード５枚
+ MP: GOOD LUCK
+
+３）オープン１
+ OP: 確定役があれば色替え
+ CP: オープン
+ MP: なし
+
+４）チェンジ
+ OP: 
+ CP: カードが選択されたら裏へ
+ MP: 交換するカードを選択、または、[OK]　※ＯＫ時はXXクレジット支払い
+
+５）オープン２
+ OP: 確定役があれば色替え
+ CP: オープン
+ MP: XXクレジット支払い
+ 1)へ(繰返)
+
+プログラム
+
+util_xxx     -- 汎用API
+rdc_xxx      -- ラウンド制御--ゲーム全体動作
+oddspc_xxx   -- オッズパネル制御
+cardpc_xxx   -- カードパネル制御
+msgpc_xxx    -- メッセージパネル制御
+
+// util --汎用API
+Hashtable $ht = util_create_msgobj(string msg);
+          $ht.setmsg(string msg);      // メッセージ変更
+          $ht.blink(bool onoff);       // 点滅
+          $ht.setcol(Color col);       // 色
+          $ht.setbgsize(int x);        // ＢＧの横サイズを指定
+　　　　　$ht.setbgsize_reset(float w);// ＢＧのサイズをリセット（現文字） w:倍数
+          $ht.setbgcol(Color col);     // ＢＧ色 (透明も可能)
+          $ht.go  --- GameObject;
+          $ht.bhv --- slagremote_unity_monobehaviour
+
+Hashtable $ht = util_create_card(cardmark mark,int num);           
+          $ht.go  --- GameObject
+          $ht.bhv --- slagremote_unity_monobehaviour
+          $ht.clickFunc           --- クリック時のファンクション
+          $ht.flip(bool showhide) --- フリップ
+          $ht.setSelect(bool);    --- セレクトモード
+          $ht.setStrong(bool);    --- 強調
+
+// round control --ラウンド制御
+var rdc_$sm = StateManager();
+    rdc_$sm.Goto(rdc_$_Init);
+
+function rdc_$_Init($sm,$bFirst);      --- 初期化
+function rdc_$_WaitStart($sm,$bFirst); --- スタート待ち
+function rdc_$_Bet($sm,$bFirst);       --- ベット
+function rdc_$_Deal_1($sm,$bFirst);    --- ディール１
+function rdc_$_Open_1($sm,$bFirst);    --- オープン１
+function rdc_$_Change($sm,$bFirst);    --- チェンジ
+function rdc_$_Deal_2($sm,$bFirst);    --- ディール２
+function rdc_$_Open_2($sm,$bFirst);    --- オープン２
+function rdc_$_Result($sm,$bFirst);    --- 結果
+
+// オッズパネル制御
+　　　　　oddspc_createPanel();   --- オッズ一覧表示
+          oddspc_set_credits(int num);  　     --- オッズをnum倍にする
+          oddspc_set_blink( hands);            --- 強調する役。 NULLでOFF
+
+// カードパネル制御
+　　　　　cardpc_$ht = cardpc_CreatePanel();         --- カードパネル作成
+Hashtable cardpc_deal($pos/*場所*/, $mark, $num)     --- 1枚配る
+          cardpc_$ht.event_touched;                  --- タッチされたカードオブジェクト
+          cardpc_$ht.event_reset();                  --- イベントクリア
+          
+
+// メッセージパネル制御
+Hashtable $ht = msgpc_CreatePanel(Phase);  --- メッセージパネル作成
+          $ht.Callback =                   --- 変更があったときに呼ばれる
+          $ht.event_betPushed              --- ベットボタンが押された
+          $ht.event_startPushed            --- スタートボタンが押された
+          $ht.event_callPushed             --- コールボタンが押された
+          $ht.event_on                     --- 何かイベントがあった。
+          $ht.event_reset()                --- 全イベントクリア
+          
+
+// Globals;
+
+var oddspc_$ht;  -- オッズパネル
+var cardpc_$ht;  -- カードパネル
+var msgpc_$ht;   -- メッセージパネル
+var g_$bet;      -- ベット数
+var g_$conis;    -- 所持コイン
+var g_$cards[5]  -- マークと数字のペア５個
+var g_$stock[52] -- マークと数字のペア13x4個
+
+
+---------------------
+
+全体の流れ
+
+1.　Bed
+MP
+　　BET:　0 Credits  [ADD]   <-- 掛金
+    
+    [ START ]    <-- 開始ボタン   
+
+    XX Credits　 <-- 所持金
+
+　1) [BED]を押す
+     掛け金が増える
+     所持金が減る
+     オッズ表が変化
+  
+  2) [START]を押すと開始
+     ※掛け金が０時は、自動で１になり開始
+
+2.　Start
+MP
+     X BED
+ 
+     DEAL   
+
+    XX CREDITS
+
+3. OPEN1
+
+MP
+    n BED
+
+    OPEN
+
+   nn CREDITS
+
+4. SELECT
+
+    n.BED
+ 
+ SELECT CHANGE 
+ 
+  [CALL]
+
+  1) カードを選択したとき
+　　 ボタンは [CHANGE]へ
+    
+    [CHANGE]を押すか
+    全部選択したらOPEN2へ
+
+5. OPEN2
+
+MP
+
+    n.BED
+
+    LOSE or WIN 100 credits.
+
+
+ nn CREDITS
+
+1. へ
+

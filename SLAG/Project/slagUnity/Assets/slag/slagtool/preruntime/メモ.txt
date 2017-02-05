@@ -1,0 +1,27 @@
+
+■ 概要
+
+高速化のためリスト化されたスクリプトを再構成する。
+
+省略された型を完全にする。
+    "using"を使用。
+
+　　例）
+　　"using System.IO";
+    "using UnityEngine";
+
+対象１．C#の int,string等
+　　
+対象２．ポインタ値
+
+対象３．new でインスタンスするタイプ
+
+
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+＊プログラムの際に混同しそうな命名は避けて頂く＊
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+
+■ 使い方
+
+List<YVALUE> slagtool.preruntime.Convert(List<YVALUE> list);
+

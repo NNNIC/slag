@@ -1,0 +1,8 @@
+N:\Project\slag\slagruntime\bin\Debug\slagruntime.exe.config
+N:\Project\slag\slagruntime\bin\Debug\slagruntime.exe
+N:\Project\slag\slagruntime\bin\Debug\slagruntime.pdb
+N:\Project\slag\slagruntime\bin\Debug\slagtool.dll
+N:\Project\slag\slagruntime\bin\Debug\slagtool.pdb
+N:\Project\slag\slagruntime\obj\Debug\slagruntime.csprojResolveAssemblyReference.cache
+N:\Project\slag\slagruntime\obj\Debug\slagruntime.exe
+N:\Project\slag\slagruntime\obj\Debug\slagruntime.pdb

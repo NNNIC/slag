@@ -1,0 +1,14 @@
+N:\Project\monoProject\slagtool\slagtool\bin\Debug\slagtool.dll
+N:\Project\monoProject\slagtool\slagtool\bin\Debug\slagtool.pdb
+N:\Project\monoProject\slagtool\slagtool\obj\Debug\slagtool.dll
+N:\Project\monoProject\slagtool\slagtool\obj\Debug\slagtool.pdb
+N:\Project\monoProject\slagtool\slagtool\bin\Debug\UnityEngine.dll
+N:\Project\monoProject\slagtool\slagtool\bin\Debug\UnityEngine.xml
+N:\Project\monoProject\slagtool\slagtool\obj\Debug\slagtool.csprojResolveAssemblyReference.cache
+N:\Project\slag\slagtool\bin\Debug\slagtool.dll
+N:\Project\slag\slagtool\bin\Debug\slagtool.pdb
+N:\Project\slag\slagtool\bin\Debug\UnityEngine.dll
+N:\Project\slag\slagtool\bin\Debug\UnityEngine.xml
+N:\Project\slag\slagtool\obj\Debug\slagtool.dll
+N:\Project\slag\slagtool\obj\Debug\slagtool.pdb
+N:\Project\slag\slagtool\obj\Debug\slagtool.csprojResolveAssemblyReference.cache

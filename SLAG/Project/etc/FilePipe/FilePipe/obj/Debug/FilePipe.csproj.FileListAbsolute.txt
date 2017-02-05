@@ -1,0 +1,6 @@
+N:\Project\etc\FilePipe\FilePipe\bin\Debug\FilePipe.exe.config
+N:\Project\etc\FilePipe\FilePipe\bin\Debug\FilePipe.exe
+N:\Project\etc\FilePipe\FilePipe\bin\Debug\FilePipe.pdb
+N:\Project\etc\FilePipe\FilePipe\obj\Debug\FilePipe.csprojResolveAssemblyReference.cache
+N:\Project\etc\FilePipe\FilePipe\obj\Debug\FilePipe.exe
+N:\Project\etc\FilePipe\FilePipe\obj\Debug\FilePipe.pdb

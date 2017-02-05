@@ -1,0 +1,9 @@
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.csprojResolveAssemblyReference.cache
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.Form1.resources
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.Properties.Resources.resources
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.csproj.GenerateResource.Cache
+N:\Project\slag\slagmonitor\bin\Debug\slagmonitor.exe.config
+N:\Project\slag\slagmonitor\bin\Debug\slagmonitor.exe
+N:\Project\slag\slagmonitor\bin\Debug\slagmonitor.pdb
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.exe
+N:\Project\slag\slagmonitor\obj\Debug\slagmonitor.pdb
