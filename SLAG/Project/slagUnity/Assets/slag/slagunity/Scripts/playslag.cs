@@ -32,18 +32,16 @@ public class playslag : MonoBehaviour {
     {
         if (bFirst)
         {
-            var fileinfos = new DirectoryInfo(Application.dataPath + "/slag/slagunity/Resources/bin").GetFiles("*.bytes");
+            var listtext = ((TextAsset)Resources.Load<TextAsset>("bin/_list")).text;
+            var listline = listtext.Split('\n');
             files = new List<string>();
-            Array.ForEach(fileinfos,f=> { files.Add(f.FullName); Debug.Log(f.Name); });
-
-            //slagtool.util.SetDebugLevel(0);
-            //slagtool.util.SetBuitIn(typeof(slagunity_builtinfunc));
-            //slagtool.util.SetCalcOp(slagunity_builtincalc_op.Calc_op);
-
-            //m_slag = new slagtool.slag(this);
-
-            //slagunity_root.SLAG = m_slag;
-            
+            Array.ForEach(listline,f=> {
+                var f2 = f.Trim();
+                if (!string.IsNullOrEmpty(f2))
+                {
+                    files.Add(f2);
+                }
+            });
 
             m_slagunity = slagunity.Create(gameObject);
 
@@ -64,7 +62,7 @@ public class playslag : MonoBehaviour {
     {
         var gh = GUILayout.Height(50);
 
-        GUILayout.BeginArea(new Rect(0,Screen.height / 2, Screen.width/2,Screen.height / 2));
+        GUILayout.BeginArea(new Rect(Screen.width/4,0, Screen.width/2,Screen.height));
         m_pos = GUILayout.BeginScrollView(m_pos);
         for(int i = 0; i<files.Count; i++)
         {
