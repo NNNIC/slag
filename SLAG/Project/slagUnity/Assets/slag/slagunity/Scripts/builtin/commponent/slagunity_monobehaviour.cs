@@ -115,6 +115,7 @@ public class slagunity_monobehaviour : MonoBehaviour {
                 {
                     slagtool.sys.logline("--- 例外発生 ---");
                     slagtool.sys.logline(e.Message);
+                    slagtool.sys.log_stopinfo();
                     slagtool.sys.logline("----------------");
                 }
             }
@@ -157,6 +158,7 @@ public class slagunity_monobehaviour : MonoBehaviour {
                 {
                     slagtool.sys.logline("--- 例外発生 ---");
                     slagtool.sys.logline(e.Message);
+                    slagtool.sys.log_stopinfo();
                     slagtool.sys.logline("----------------");
                 }
             }

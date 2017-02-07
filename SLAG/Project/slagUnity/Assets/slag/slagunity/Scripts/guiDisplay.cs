@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -11,13 +12,16 @@ public class guiDisplay : MonoBehaviour
     void Start()
     {
         V = this;
-
-        //WriteLine("slag monitor からコマンドを入力して下さい。"+Environment.NewLine);
     }
 
 
     void OnGUI()
     {
+        if (GUI.Button(new Rect(Screen.width-100,0,100,50),"[Menu]"))
+        {
+            SceneManager.LoadScene("0.Menu");            
+        }
+
         guishow();
     }
 #endregion

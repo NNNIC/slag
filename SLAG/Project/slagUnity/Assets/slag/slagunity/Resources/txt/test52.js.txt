@@ -1,0 +1,65 @@
+/*
+    TEST 52
+*/
+
+"using UnityEngine";
+
+function CreateRectangleGameObject($width,$height)
+{
+    var $go = new GameObject();
+    var $mr = $go.AddComponent(typeof(MeshRenderer));
+    var $shader = Resources.Load("Shaders/SampleAlphaTex");
+    var $tex    = Resources.Load("2d/at");
+    $mr.material = new Material($shader);
+    $mr.material.SetTexture("_MainTex",$tex);
+
+    var $mf  = $go.AddComponent(typeof(MeshFilter));
+    $mf.mesh = CreateRectangleMesh($width,$height);
+
+    return $go;
+}
+
+function CreateRectangleMesh($width,$height)
+{
+    var $verts   = new Vector3[4];
+    var $normals = new Vector3[4];
+    var $uv      = new Vector2[4];
+    var $tri     = new int[6];
+
+    var $hw = $width  / 2;
+    var $hh = $height / 2;
+
+    $verts[0] = new Vector3(-$hw, -$hh, 0);
+    $verts[1] = new Vector3(+$hw, -$hh, 0);
+    $verts[2] = new Vector3(-$hw, +$hh, 0);
+    $verts[3] = new Vector3(+$hw, +$hh, 0);
+
+    for (var $i = 0; $i < $normals.Length; $i++) {
+        $normals[$i] = Vector3.up;
+    }
+
+    $uv[0] = new Vector2(0, 0);
+    $uv[1] = new Vector2(1, 0);
+    $uv[2] = new Vector2(0, 1);
+    $uv[3] = new Vector2(1, 1);
+
+    $tri[0] = 0;
+    $tri[1] = 2;
+    $tri[2] = 3;
+
+    $tri[3] = 0;
+    $tri[4] = 3;
+    $tri[5] = 1;
+
+    var $mesh  = new Mesh();
+    $mesh.vertices  = $verts;
+    $mesh.triangles = $tri;
+    $mesh.uv        = $uv;
+    $mesh.normals   = $normals;
+
+    return $mesh;
+}
+
+var $go= CreateRectangleGameObject(1,1);
+$go.name = "test52";
+$go.transform.localScale = Vector3.one * 60;

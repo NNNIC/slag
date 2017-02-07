@@ -59,5 +59,10 @@ namespace slagtool
                 }
             }
         }
+
+        internal static void log_stopinfo()
+        {
+            logline(YDEF_DEBUG.RuntimeErrorInfo(),true);
+        }
     }
 }
