@@ -26,8 +26,8 @@ public class slagremote_unity_main : MonoBehaviour {
 
         UnityEngine.Debug.logger.logEnabled = false;
 
-        netcomm.Log = (s)=>Debug.Log(s);
-        FilePipe.Log= (s)=>Debug.Log(s);
+        //netcomm.Log = (s)=>Debug.Log(s);
+        //FilePipe.Log= (s)=>Debug.Log(s);
 
         m_netcomm = new netcomm();
         m_netcomm.Start();
