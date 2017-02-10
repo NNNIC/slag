@@ -297,7 +297,7 @@ namespace slagtool
             if (current_v==null) return null;
 
             var fid = current_v.dbg_file_id;
-            var file = slag.m_curslag!=null &&  fid>=0 && slag.m_curslag.m_idlist.Length > fid ? slag.m_curslag.m_idlist[fid] : "";
+            var file = slag.m_curslag!=null &&  fid>=0 &&  slag.m_curslag.m_idlist!=null  && slag.m_curslag.m_idlist.Length > fid ? slag.m_curslag.m_idlist[fid] : "";
 
             string s = null;
 

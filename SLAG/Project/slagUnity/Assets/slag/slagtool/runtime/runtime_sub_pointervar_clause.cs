@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.IO;
 using System.Text;
 using System.Reflection;
 using LIST = System.Collections.Generic.List<object>;
 using number = System.Double;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace slagtool.runtime
 {
@@ -415,6 +418,10 @@ namespace slagtool.runtime
                 {
                     item.o = runtime.sub_reflection.InstantiateType(ti,param.ToArray());//Activator.CreateInstance(ti,args:param.ToArray());
                 }
+                else
+                {
+                    UnityEngine.Debug.Log("Cannot find a type for instantiate " + searchname);
+                }
                 return item;
             }
             throw new SystemException("unexpected");
@@ -509,7 +516,7 @@ namespace slagtool.runtime
             }
             var mem1 = otype.GetDefaultMembers();
             var mem2 = otype.GetMembers();
-            var find_mi = Array.Find(otype.GetMembers(),mi=>mi.Name.ToUpper()==name);
+            var find_mi = Array.Find(otype.GetMembers(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy),mi=>mi.Name.ToUpper()==name);
             if (find_mi!=null)
             { 
                 if (find_mi.MemberType == MemberTypes.Property)
@@ -561,11 +568,75 @@ namespace slagtool.runtime
                 throw new System.Exception("unknown");
             }
             return item;
-
         }
 
+        #region タイプ検索 IL2CPP
+#if x//ENABLE_IL2CPP
+        internal class AllAssemblies
+        {
+            Dictionary<string,Type> m_dic;
+            public AllAssemblies() {}
+            internal void Init()
+            {
+                var typelistdic = new Dictionary<string,string>();
+                var bin = ((UnityEngine.TextAsset)UnityEngine.Resources.Load("data/typelist")).bytes;
+                using (var ms = new MemoryStream(bin))
+                {
+                    var bf = new BinaryFormatter();
+                    typelistdic = (Dictionary<string,string>)bf.Deserialize(ms);
+                }
 
-        #region タイプ検索
+                m_dic = new Dictionary<string, Type>();
+                foreach(var k in typelistdic.Keys)
+                {
+                    Type t = null;
+                    try
+                    {
+                        t = Type.GetType(typelistdic[k]);
+                    }
+                    catch
+                    {
+                        t = null;
+                    }
+                    if (t!=null)
+                    {
+                        m_dic.Add(k,t);
+                    }
+                }
+
+                UnityEngine.Debug.Log("[NUMOFTYPES]:" + m_dic.Count);
+
+            }
+
+            internal Type Find(string name)
+            {
+                name = name.ToUpper();
+                if (m_dic.ContainsKey(name))
+                {
+                    return m_dic[name];
+                }
+                return null;
+            }
+        }
+        private static AllAssemblies __allAssemblies;
+        private static AllAssemblies m_allAssemblies
+        { 
+            get {
+                if (__allAssemblies==null)
+                {
+                    __allAssemblies = new AllAssemblies();
+                    __allAssemblies.Init();
+                }
+                return __allAssemblies;
+            }
+        }
+
+        public static Type find_typeinfo(string searchname)
+        {
+            return m_allAssemblies.Find(searchname);
+        }
+
+#else
         internal class AllAssemblies
         {
             Dictionary<string,Type> m_dic;
@@ -588,6 +659,8 @@ namespace slagtool.runtime
 
             internal Type Find(string name)
             {
+                UnityEngine.Debug.Log("[NUMOFTYPES]:" + m_dic.Count);
+
                 name = name.ToUpper();
                 if (m_dic.ContainsKey(name))
                 {
@@ -602,6 +675,7 @@ namespace slagtool.runtime
         {
             return m_allAssemblies.Find(searchname);
         }
+#endif
         #endregion
     }
 }

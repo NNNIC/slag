@@ -5,6 +5,8 @@ using UnityEditor;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class slageditortool : MonoBehaviour {
 
@@ -15,6 +17,57 @@ public class slageditortool : MonoBehaviour {
         UnityEngine.Debug.Log("path="+path);
         Process.Start(path);
     }
+
+    [MenuItem("slag/Prebuild/create type list binary")]
+    static void create_typelistbin()
+    {
+        var dic = new Dictionary<string, string>();
+        foreach(var asm in System.AppDomain.CurrentDomain.GetAssemblies())
+        {
+            var types= asm.GetTypes();
+
+            foreach(var ti in asm.GetTypes())
+            {
+                var n = ti.FullName.ToUpper();
+                if (!dic.ContainsKey(n))
+                { 
+                    var fullname = ti.AssemblyQualifiedName;
+                    var index = fullname.IndexOf(", Version");
+                    fullname = fullname.Substring(0,index);
+
+                    if (!dic.ContainsKey(n))
+                    { 
+                        //UnityEngine.Debug.Log(fullname);
+                        dic.Add(n,fullname);
+                    }
+                }
+            }
+
+            
+            
+        }
+
+        var file = Application.dataPath +@"\slag\slagunity\Resources\data\typelist.bytes";
+        var bf = new BinaryFormatter();
+        using (var ms = new MemoryStream())
+        {
+            bf.Serialize(ms,dic);
+
+            File.WriteAllBytes(file ,ms.ToArray());
+        }
+
+        UnityEngine.Debug.Log("Created " + file);
+
+
+        var list = new List<string>();
+        foreach(var k in dic.Keys)
+        {
+            list.Add(dic[k]);
+        }
+        
+        File.WriteAllLines(file +".txt",list.ToArray());
+    }
+
 
     [MenuItem("slag/test/コンパイル結果をリソースBINへ出力")]
     static void CompileTestFiles()

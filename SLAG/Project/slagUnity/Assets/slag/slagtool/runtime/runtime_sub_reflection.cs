@@ -37,14 +37,19 @@ namespace slagtool.runtime
             }
 
             var paramtypes = GetObjectsType(parameters);
-            var mts = type.GetMethods();
+            var mts1 = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //var mts2 = type.GetMethods(BindingFlags.Public);
+
 
             MethodInfo find_m = null;
             var mlist = cache_util.GetFuncCache(name,type,paramtypes);
-            mlist.AddRange(mts);
+            mlist.AddRange(mts1);
+            //mlist.AddRange(mts2);
 
+            UnityEngine.Debug.Log("[NUMOFMETHODS]:" + type.Name + ":" + mts1.Length );
             foreach(var m in mlist)
             {
+                UnityEngine.Debug.Log("[NAMEMETHOD]:" + type.Name + ":" + m.Name);
                 if (m.Name.ToUpper() != name) continue;
                 var pis = m.GetParameters();
                 if (_isMatchTypes(paramtypes,pis))
@@ -179,15 +184,19 @@ namespace slagtool.runtime
         internal static object InstantiateType(Type type, object[] parameters)
         {
             var paramtypes = GetObjectsType(parameters);
-            var cts = type.GetConstructors();
+            var cts = type.GetConstructors(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
+            UnityEngine.Debug.Log("[NUMOFCONSTRUCTOR]:" + type.Name + ":* 0 *" );
             if (cts==null) return null;
 
             ConstructorInfo find_c = null;
             var clist = cache_util.GetNewCache(type,paramtypes);
             clist.AddRange(cts);
             
+            UnityEngine.Debug.Log("[NUMOFCONSTRUCTOR]:" + type.Name + ":" + clist.Count);
+
             foreach(var c in clist)
             {
+                UnityEngine.Debug.Log("[CONSTRUCTOR]:" + type.Name + "." + c.ToString());
                 var pis = c.GetParameters();
                 if (_isMatchTypes(paramtypes,pis))
                 {
