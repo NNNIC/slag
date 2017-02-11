@@ -379,7 +379,7 @@ namespace slagtool.runtime
                 type = o.GetType();
                 obj  = o;
             }
-
+#if !test
             var mem1 = type.GetDefaultMembers();
             var mem2 = type.GetMembers();
             var find_mi = Array.Find(type.GetMembers(),mi=>mi.Name.ToUpper()==name);
@@ -401,10 +401,43 @@ namespace slagtool.runtime
                     item.setter = (x)=> fi.SetValue(obj,x); 
                     return item;
                 }
+                
                 throw new System.Exception("unknown");
             }
-            return item;
+#endif
+            return _GetObjMissing(type,obj,name,item);
         }
+        private static PointervarItem _GetObjMissing(Type type, object obj, string name, PointervarItem item) //IL2CPP対策
+        {
+            var subtypename = "F_" + type.FullName.Replace('.','_');
+            var subtype = find_typeinfo(subtypename);
+            if (subtype!=null)
+            {
+                var mts = subtype.GetMethods(BindingFlags.Static| BindingFlags.Public);
+
+                var searchname_set = "__SET__" + name;
+                var find_set =Array.Find(mts, m=>m.Name.ToUpper()==searchname_set);
+                if (find_set!=null)
+                {
+                    item.setter = (x) => find_set.Invoke(null,new object[2] { obj, x });
+                }
+
+                var searchname_get = "__GET__" + name;
+                var find_get =Array.Find(mts, m=>m.Name.ToUpper()==searchname_get);
+                if (find_get!=null)
+                {
+                    item.getter = () => find_get.Invoke(null,new object[1] { obj });
+                }
+
+                return item;
+            }
+            util._error("Unknown Name : " + name + "(" + type.Name + ")");
+            //throw new System.Exception("unknown");
+            return null;
+        }
+
+
+
         private static PointervarItem ExecuteFunc(string pre, string cur, List<object> param, PointervarItem item)
         {
             if (item!=null && item.mode == PointervarMode.NEW)
@@ -565,7 +598,7 @@ namespace slagtool.runtime
         }
 
 
-        #region タイプ検索
+#region タイプ検索
         internal class AllAssemblies
         {
             Dictionary<string,Type> m_dic;
@@ -602,6 +635,6 @@ namespace slagtool.runtime
         {
             return m_allAssemblies.Find(searchname);
         }
-        #endregion
+#endregion
     }
 }

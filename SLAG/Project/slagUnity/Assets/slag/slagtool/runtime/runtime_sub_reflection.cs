@@ -36,6 +36,73 @@ namespace slagtool.runtime
                 obj  = o;
             }
 
+            //var paramtypes = GetObjectsType(parameters);
+            //var mts = type.GetMethods();
+
+            //MethodInfo find_m = null;
+            //var mlist = cache_util.GetFuncCache(name,type,paramtypes);
+            //mlist.AddRange(mts);
+
+            //foreach(var m in mlist)
+            //{
+            //    if (m.Name.ToUpper() != name) continue;
+            //    var pis = m.GetParameters();
+            //    if (_isMatchTypes(paramtypes,pis))
+            //    {
+            //        find_m = m;
+            //        break;
+            //    }                
+            //}
+
+            //if (find_m!=null)
+            //{
+            //    cache_util.RecordCache(name,type,paramtypes,find_m);
+            //    var p2 = ChangeObjs(parameters,find_m.GetParameters());
+            //    if (obj==null && !find_m.IsStatic)
+            //    { 
+            //        if (name == "TOSTRING")
+            //        {
+            //            return type.ToString();
+            //        }
+            //        throw new System.Exception("methods requires class pointer but it's null.");
+            //    }
+            //    else
+            //    { 
+            //        return find_m.Invoke(obj,p2);
+            //    }
+            //}
+            
+            object retobj = null;
+            var b = _executeFunc(type,obj,name,parameters,out retobj);
+            if (b) return retobj;
+
+            return ExecuteFuncMissing(type,obj,name,parameters);
+        }
+        private static object ExecuteFuncMissing(Type type,object obj, string name, object[] parameters ) //IL2CPP対策
+        {
+            if (type!=null)
+            { 
+                var subtype_name = "F_" + type.FullName.Replace('.','_');
+                var subtype = sub_pointervar_clause.find_typeinfo(subtype_name);
+                if (subtype_name!=null)
+                {
+                    if (obj!=null) //null出ないときは、パラメータの先頭に挿入する
+                    {
+                        var l = new List<object>(parameters);
+                        l.Insert(0,obj);
+                        parameters = l.ToArray();
+                    }
+                    object retobj;
+                    var b = _executeFunc(type,obj,name,parameters,out retobj);     
+                    if (b) return retobj;
+                }
+            }
+            throw new SystemException("Cannot find method : " + type + "." + name + "(API is none or parameter typs not match.)");
+        }
+
+        private static bool _executeFunc(Type type,object obj,string name, object[] parameters, out object retobj)
+        {
+            retobj = null;
             var paramtypes = GetObjectsType(parameters);
             var mts = type.GetMethods();
 
@@ -62,18 +129,22 @@ namespace slagtool.runtime
                 { 
                     if (name == "TOSTRING")
                     {
-                        return type.ToString();
+                        retobj = type.ToString();
+                        return true;
                     }
                     throw new System.Exception("methods requires class pointer but it's null.");
                 }
                 else
                 { 
-                    return find_m.Invoke(obj,p2);
+                    retobj =  find_m.Invoke(obj,p2);
+                    return true;
                 }
             }
-
-            throw new SystemException("Cannot find method : " + type + "." + name + "(API is none or parameter typs not match.)");
+            return false;
         }
+
+
+
         private static bool _isMatchTypes(Type[] paramtypes, ParameterInfo[] pis)
         {
             var bNull_paramtypes = __isNullOrNothing(paramtypes);
@@ -176,11 +247,15 @@ namespace slagtool.runtime
         }
         #endregion
 
+        #region 生成
         internal static object InstantiateType(Type type, object[] parameters)
         {
             var paramtypes = GetObjectsType(parameters);
             var cts = type.GetConstructors();
-            if (cts==null) return null;
+            if (cts==null)
+            {
+                return InstatiateType_Missing(type,parameters);
+            }
 
             ConstructorInfo find_c = null;
             var clist = cache_util.GetNewCache(type,paramtypes);
@@ -202,7 +277,17 @@ namespace slagtool.runtime
             var p2 = ChangeObjs(parameters,find_c.GetParameters());
             return Activator.CreateInstance(type,args:p2);
         }
-
+        internal static object InstatiateType_Missing(Type type, object[] parameters) //IL2CPP対策
+        {
+            var n = type.FullName.Replace('.','_');
+            var subtype = sub_pointervar_clause.find_typeinfo( "F_"+n);
+            if (subtype!=null)
+            {
+                return ExecuteFunc(subtype,"__NEW__",parameters);
+            }
+            return null;
+        }
+#endregion
     }
 
     public class cache_util
@@ -231,7 +316,7 @@ namespace slagtool.runtime
             m_hash[key] = vlist;
         }
 
-        #region Method Info用
+#region Method Info用
         internal static List<MethodInfo> GetFuncCache(string name,Type type, Type[] tlist)
         {
             var key =_makekey_func(name,type,tlist);
@@ -295,6 +380,6 @@ namespace slagtool.runtime
             } 
             return s;
         }
-        #endregion
+#endregion
     }
 }
