@@ -25,7 +25,7 @@ public class slagunity {
 #else
         slagtool.util.SetDebugLevel(1);
 #endif
-        slagtool.util.SetBuitIn(typeof(slagunity_builtinfunc));
+        slagtool.util.SetBuiltIn(typeof(slagunity_builtinfunc));
         slagtool.util.SetCalcOp(slagunity_builtincalc_op.Calc_op);
 
         m_slag = new slagtool.slag(this);

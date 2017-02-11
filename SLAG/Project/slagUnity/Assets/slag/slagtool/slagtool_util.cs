@@ -364,7 +364,7 @@ namespace slagtool
     {
 
         #region 組込関数設定
-        public static void SetBuitIn(Type type, string name = null)
+        public static void SetBuiltIn(Type type, string name = null)
         {
             var catname = !string.IsNullOrEmpty(name) ? name : type.ToString();
             runtime.builtin.builtin_func.Subscribe(type, catname);
@@ -373,6 +373,11 @@ namespace slagtool
         {
             runtime.util.User_Calc_op = user_calc_op;
         }
+        public static void SetItemsForIL2CPP(Type type) //IL2CPPにて、不明となったメソッド対策 Constuctors・Methods・Members
+        {
+            
+        }
+ 
         #endregion
 
 
