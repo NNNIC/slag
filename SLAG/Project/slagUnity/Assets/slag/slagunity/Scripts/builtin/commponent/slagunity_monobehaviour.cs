@@ -15,6 +15,8 @@ public class slagunity_monobehaviour : MonoBehaviour {
     [System.NonSerialized]    public  YVALUE m_onMouseUpAsButtonFunc;
     [System.NonSerialized]    private Hashtable m_msgfunctable;
 
+    public GameObject gameobject { get { return base.gameObject;  } } //IL2CPP対策
+
     public object    m_usrobj;                    //ユーザ用。必要に応じて使用してください。
     public Hashtable m_usrtbl = new Hashtable();  //ユーザ用。必要に応じて使用してください。
 

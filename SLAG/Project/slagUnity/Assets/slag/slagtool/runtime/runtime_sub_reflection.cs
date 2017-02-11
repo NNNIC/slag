@@ -39,43 +39,44 @@ namespace slagtool.runtime
             //var paramtypes = GetObjectsType(parameters);
             //var mts = type.GetMethods();
 
-            //MethodInfo find_m = null;
-            //var mlist = cache_util.GetFuncCache(name,type,paramtypes);
-            //mlist.AddRange(mts);
+//MethodInfo find_m = null;
+//var mlist = cache_util.GetFuncCache(name,type,paramtypes);
+//mlist.AddRange(mts);
 
-            //foreach(var m in mlist)
-            //{
-            //    if (m.Name.ToUpper() != name) continue;
-            //    var pis = m.GetParameters();
-            //    if (_isMatchTypes(paramtypes,pis))
-            //    {
-            //        find_m = m;
-            //        break;
-            //    }                
-            //}
+//foreach(var m in mlist)
+//{
+//    if (m.Name.ToUpper() != name) continue;
+//    var pis = m.GetParameters();
+//    if (_isMatchTypes(paramtypes,pis))
+//    {
+//        find_m = m;
+//        break;
+//    }                
+//}
 
-            //if (find_m!=null)
-            //{
-            //    cache_util.RecordCache(name,type,paramtypes,find_m);
-            //    var p2 = ChangeObjs(parameters,find_m.GetParameters());
-            //    if (obj==null && !find_m.IsStatic)
-            //    { 
-            //        if (name == "TOSTRING")
-            //        {
-            //            return type.ToString();
-            //        }
-            //        throw new System.Exception("methods requires class pointer but it's null.");
-            //    }
-            //    else
-            //    { 
-            //        return find_m.Invoke(obj,p2);
-            //    }
-            //}
-            
+//if (find_m!=null)
+//{
+//    cache_util.RecordCache(name,type,paramtypes,find_m);
+//    var p2 = ChangeObjs(parameters,find_m.GetParameters());
+//    if (obj==null && !find_m.IsStatic)
+//    { 
+//        if (name == "TOSTRING")
+//        {
+//            return type.ToString();
+//        }
+//        throw new System.Exception("methods requires class pointer but it's null.");
+//    }
+//    else
+//    { 
+//        return find_m.Invoke(obj,p2);
+//    }
+//}
+
+#if !test
             object retobj = null;
             var b = _executeFunc(type,obj,name,parameters,out retobj);
             if (b) return retobj;
-
+#endif
             return ExecuteFuncMissing(type,obj,name,parameters);
         }
         private static object ExecuteFuncMissing(Type type,object obj, string name, object[] parameters ) //IL2CPP対策
@@ -93,7 +94,7 @@ namespace slagtool.runtime
                         parameters = l.ToArray();
                     }
                     object retobj;
-                    var b = _executeFunc(type,obj,name,parameters,out retobj);     
+                    var b = _executeFunc(subtype,obj,name,parameters,out retobj);     
                     if (b) return retobj;
                 }
             }
@@ -205,7 +206,7 @@ namespace slagtool.runtime
             return (t==typeof(Single) || t==typeof(Double));
         }
 
-        #region タイプ収取
+#region タイプ収取
         private static Type[] GetObjectsType(object[] args)
         {
             if (args==null || args.Length==0) return null;
@@ -223,9 +224,9 @@ namespace slagtool.runtime
             }
             return tlist.ToArray();
         }
-        #endregion
+#endregion
 
-        #region オブジェクトのタイプ変換
+#region オブジェクトのタイプ変換
         private static object[] ChangeObjs(object[] ol, ParameterInfo[] pis)
         {
             util._assert(ol!=null&&pis!=null&&ol.Length==pis.Length);
@@ -245,9 +246,9 @@ namespace slagtool.runtime
 
             return ol;
         }
-        #endregion
+#endregion
 
-        #region 生成
+#region 生成
         internal static object InstantiateType(Type type, object[] parameters)
         {
             var paramtypes = GetObjectsType(parameters);

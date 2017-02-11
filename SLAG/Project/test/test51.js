@@ -22,7 +22,7 @@ function $_Update($bv)
     
     var $bUp  = Input.GetKey(KeyCode.UpArrow);
     var $bDwn = Input.GetKey(KeyCode.DownArrow);
-    var $bDel = Input.GetKey(KeyCode.Delete);
+    var $bDel = Input.GetKey(KeyCode.D);
 
     if ($bUp)  { $speed++; Println($speed); }
     
@@ -48,5 +48,5 @@ $m_bhv.m_onDestroyFunc = $_OnDestroy;
 
 PrintLn("Up key   --- speed++");
 PrintLn("Down key --- speed--");
-PrintLn("Del key  --- delete");
+PrintLn("D key    --- delete");
 

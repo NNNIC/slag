@@ -7,6 +7,11 @@ test06.js.txt
 test07.js.txt
 test08.js.txt
 test09.js.txt
+test10.js.txt
+test11.js.txt
+test12.js.txt
+test13.js.txt
+test14.js.txt
 test51.js.txt
 test52.js.txt
 test53.js.txt

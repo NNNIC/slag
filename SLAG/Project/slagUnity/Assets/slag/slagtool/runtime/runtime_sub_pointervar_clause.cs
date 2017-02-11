@@ -432,7 +432,6 @@ namespace slagtool.runtime
                 return item;
             }
             util._error("Unknown Name : " + name + "(" + type.Name + ")");
-            //throw new System.Exception("unknown");
             return null;
         }
 
