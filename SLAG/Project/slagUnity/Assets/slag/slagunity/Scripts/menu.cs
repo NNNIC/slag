@@ -30,6 +30,12 @@ public class menu : MonoBehaviour {
                 SceneManager.LoadScene("remote");
             }
 #endif
+            if (GUILayout.Button("Open Wiki",gh))
+            {
+                Application.OpenURL("https://github.com/NNNIC/slag/wiki");
+            }
+
+
         }
         GUILayout.EndArea();
     }

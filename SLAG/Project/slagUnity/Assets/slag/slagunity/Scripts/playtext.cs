@@ -81,7 +81,10 @@ public class playtext : MonoBehaviour {
     private void gui_load()
     {
         var gh = GUILayout.Height(50);
-        GUILayout.BeginArea(new Rect(Screen.width/4,0,Screen.width/2,Screen.height));
+
+        GUI.Label(new Rect(0,0,Screen.width,30), "※IL2CPPモードではtest53以降は動作不可");
+
+        GUILayout.BeginArea(new Rect(Screen.width/4,30,Screen.width/2,Screen.height-30));
         {
             m_pos = GUILayout.BeginScrollView(m_pos);
             foreach(var s in m_filelist)

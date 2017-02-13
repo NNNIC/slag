@@ -28,12 +28,12 @@ function cardpc_createPanel()
     cardpc_$ht.event_touched =null;
     cardpc_$ht.event_reset=cardpc_createPanel__event_reset;
 }
-function cardpc_deal_card_clicked($ht)
+function cardpc_deal_card_clicked($bhv)
 {
     if (cardpc_$ht.event_touched==null)
     {
         //PrintLn("Clicked:" + $ht.go.name);
-        cardpc_$ht.event_touched = $ht.go;
+        cardpc_$ht.event_touched = $bhv.gameobject;
     }
     else
     {
