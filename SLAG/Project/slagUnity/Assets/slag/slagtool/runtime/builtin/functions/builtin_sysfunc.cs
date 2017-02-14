@@ -240,19 +240,28 @@ namespace slagtool.runtime.builtin
                 if (s!=null) s+=",";
                 s += tostr(o);
             }
-
-            //UnityEngine.Debug.Log(s);
-            //guiDisplay.WriteLine(s);
             m_printLnFunc(s);
 
             return s;
         }
-
-
-
         #endregion
 
 
+        #region ヘルプ取得
+
+        public static object F_GetHelp(bool bHelp, object[] ol, StateBuffer sb)
+        {
+            if (bHelp)
+            {
+                return "ビルトインの全関数ヘルプ取得";
+            }
+
+            var s = slagtool.runtime.builtin.builtin_func.Help();
+
+            return s;
+        }
+
+        #endregion
 
 
 

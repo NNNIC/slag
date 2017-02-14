@@ -14,7 +14,7 @@ public class playtext : MonoBehaviour {
 
     private void Start()
     {
-        if (m_src==null) m_src = "//　ソースを入力するか、Loadボタンを押してください。";
+        if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
         m_sm.Goto(S_EDIT);
