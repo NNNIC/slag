@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using System;
 
 public class slagunity {
 
@@ -13,6 +14,12 @@ public class slagunity {
     { }
 
     #region Initialization
+    private static List<Type>   m_customBuitInList;
+    public  static void AddBuiltIn(Type t) 
+    {
+        if (m_customBuitInList==null) m_customBuitInList = new List<Type>();
+        m_customBuitInList.Add(t);
+    }
     bool m_bInitialized = false;
     public void Init(GameObject go,bool bCompileOnly=false)
     {
@@ -31,6 +38,14 @@ public class slagunity {
 
         slagtool.util.SetBuiltIn(typeof(slagunity_builtinfunc));
         slagtool.util.SetCalcOp(slagunity_builtincalc_op.Calc_op);
+
+        if (m_customBuitInList!=null)
+        {
+            foreach(var t in m_customBuitInList)
+            {
+                slagtool.util.SetBuiltIn(t);
+            }
+        }
 
         m_slag = new slagtool.slag(this);
 
