@@ -621,6 +621,13 @@ namespace slagtool.runtime
             internal Type Find(string name)
             {
                 name = name.ToUpper();
+
+                //                   01234567890
+                if (name.StartsWith("$NAMELESS."))
+                {
+                    name = name.Substring(10);
+                }
+
                 if (m_dic.ContainsKey(name))
                 {
                     return m_dic[name];

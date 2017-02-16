@@ -6,6 +6,8 @@ using System;
 
 public class playtext : MonoBehaviour {
 
+    public static string test = "OK";
+
     public guiDisplay m_guiDisplay;
 
     StateManager m_sm;

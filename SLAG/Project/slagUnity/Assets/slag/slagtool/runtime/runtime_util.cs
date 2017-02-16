@@ -143,12 +143,35 @@ namespace slagtool.runtime
         internal static Func<object, object, string, object> User_Calc_op = null; //ユーザ用
         internal static object Calc_op(object a, object b, string op)
         {
-            if (a==null || b==null)
+            if (a!=null && b==null)
             {
                 switch(op)
                 {
-                    case "==": return (a==null && b==null);
-                    case "!=": return (a!=b);
+                    case "+": return a;
+                    case "==": return false;
+                    case "!=": return true;
+                }
+                _error("unexpected null");
+                return null;
+            }
+            if (a==null && b!=null)
+            {
+                switch(op)
+                {
+                    case "+": return b;
+                    case "==": return false;
+                    case "!=": return true;
+                }
+                _error("unexpected null");
+                return null;
+            }
+            if (a==null && b==null)
+            {
+                switch(op)
+                {
+                    case "+": return null;
+                    case "==": return true;
+                    case "!=": return false;
                 }
                 _error("unexpected null");
                 return null;

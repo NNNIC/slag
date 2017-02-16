@@ -10,7 +10,15 @@ namespace slagtool.preruntime
             Type find = null;
             foreach(var pre in prefixlist)
             {
-                var ss = pre + "." + s;
+                string ss = null;
+                if (pre.ToLower()=="$nameless")
+                {
+                    ss = s;
+                }
+                else
+                { 
+                    ss = pre + "." + s;
+                }
                 var ti = slagtool.runtime.sub_pointervar_clause.find_typeinfo(ss);
                 if (ti!=null)
                 {
