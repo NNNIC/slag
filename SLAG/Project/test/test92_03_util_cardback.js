@@ -19,7 +19,7 @@ function util_create_cardback_texture()
     var $tex = new Texture2D($w,$h,TextureFormat.RGBA32,false);
     
     //参照
-    var $reftex   = Resources.Load("2d/snow");
+    var $reftex   = Resources.Load("slag/2d/snow");
     var $refpixels = $reftex.GetPixels(8,8,16,16,0);
     var $whitepixels = new Color[256];
     for(var $i=0; $i < 256; $i++) $whitepixels[$i]=Color.white;

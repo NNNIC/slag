@@ -71,7 +71,7 @@ public class playslag : MonoBehaviour {
             var fn = Path.GetFileNameWithoutExtension(files[i]);
             if (GUILayout.Button(fn,gh))
             {
-                var bytes = Resources.Load<TextAsset>("slag/bin/" + fn).bytes;
+                var bytes = Resources.Load<TextAsset>("bin/" + fn).bytes;
                 m_slagunity.LoadBin(bytes);
                 m_slagunity.Run();
                 m_sm.Goto(S_PLAYING);

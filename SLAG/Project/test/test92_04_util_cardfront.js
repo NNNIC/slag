@@ -35,7 +35,7 @@ function util_create_cardfront_obj($mark,$num) //out: gameobj /in: $mark = "h","
     default : $png = "spade";   break;
     }
     
-    var $tex = Resources.Load("2d/" + $png);
+    var $tex = Resources.Load("slag/2d/" + $png);
     
     $rdr.material.setTexture("_MainTex",$tex);
     $rdr.material.mainTextureScale  = new Vector2(1*2.5,1.25*2.5);

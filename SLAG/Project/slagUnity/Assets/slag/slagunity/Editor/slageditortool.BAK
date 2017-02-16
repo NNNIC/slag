@@ -51,7 +51,7 @@ public class slageditortool : MonoBehaviour {
             "test93.inc"
         };   
 
-        string savefolder = Application.dataPath + "/slag/slagunity/Resources/slag/bin";
+        string savefolder = Application.dataPath + "/slag/slagunity/Resources/bin";
 
         //slagtool.slag slag = new slagtool.slag(null);
         var slag = slagunity.Create(null,false);

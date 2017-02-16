@@ -93,7 +93,7 @@ public class playtext : MonoBehaviour {
             { 
                 if (GUILayout.Button(s,gh))
                 {
-                    m_src = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text;
+                    m_src = ((TextAsset)Resources.Load("txt/" + s,typeof(TextAsset))).text;
                     m_sm.Goto(S_EDIT);
                 }
             }
