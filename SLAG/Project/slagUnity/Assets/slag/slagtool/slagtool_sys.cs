@@ -13,12 +13,13 @@ namespace slagtool
         internal  static int  DEBUGLEVEL
         {
             get { return _debuglevel;}
-            set
+            private set
             {
                 USETRY = (value != 2);
                 _debuglevel = value;
             }
         }
+        internal static void set_debugLevel(int x) { DEBUGLEVEL = x; }  // util.SetDebugLevelのみに呼出しを制限
 
         internal  static bool USETRY = true;
 

@@ -392,7 +392,7 @@ namespace slagtool
         #region デバッグレベル設定・取得
         public static void SetDebugLevel(int debugLevel)
         {
-            sys.DEBUGLEVEL = debugLevel;
+            sys.set_debugLevel(debugLevel);
         }
         public static int GetDebugLevel()
         {

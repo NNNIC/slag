@@ -119,8 +119,14 @@ public class playtext : MonoBehaviour {
         }
         else
         {
-            m_slagunity.LoadSrc(m_src);
-            m_slagunity.Run();
+            try { 
+                m_slagunity.LoadSrc(m_src);
+                m_slagunity.Run();
+            }
+            catch (SystemException e)
+            {
+                guiDisplay.Write(e.Message);                       
+            }
             m_sm.Goto(S_RUNNING);
         }
     }

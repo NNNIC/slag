@@ -51,7 +51,7 @@ namespace slagtool
                     if (stopmatch_count==MATCHLIMIT-1)
                     {
                         sys.logline("it will be reached to the limit of match "); //for debug
-                        sys.DEBUGLEVEL = 2;
+                        util.SetDebugLevel(2);
                     }
 
                     if (stopmatch_count++>MATCHLIMIT)

@@ -332,7 +332,7 @@ namespace slagremote
 
                 if (slagtool.sys.DEBUGLEVEL==0)
                 {
-                    slagtool.sys.DEBUGLEVEL=1;
+                    slagtool.util.SetDebugLevel(1);
                     wk.SendWriteLine("デバッグレベル１を設定しました。");
                 }
 
