@@ -1,7 +1,7 @@
 準備中です。
 ----
 
-# slag
+# slag (something like a gei-es)
 
 Unity用組込スクリプトシステム
 
