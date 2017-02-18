@@ -20,3 +20,5 @@ test54.js.txt
 test55.js.txt
 test56.js.txt
 test91.js.txt
+test92.inc.txt
+test93.inc.txt

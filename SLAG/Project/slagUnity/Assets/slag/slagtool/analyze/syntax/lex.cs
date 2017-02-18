@@ -91,7 +91,7 @@ namespace slagtool
     {
         internal static List<List<YVALUE>> lexSource(string src, int file_id)
         {
-            const int LOOPMAX = 10000;
+            const int LOOPMAX = 50000;
 
             var lex = new lexPrimitive();
             lex.Init(src, file_id);

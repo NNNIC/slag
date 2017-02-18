@@ -93,7 +93,26 @@ public class playtext : MonoBehaviour {
             { 
                 if (GUILayout.Button(s,gh))
                 {
-                    m_src = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text;
+                    if (s.EndsWith(".js"))
+                    { 
+                        m_src = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text;
+                    }
+                    else if (s.EndsWith(".inc"))
+                    {
+                        var inc = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text.Split('\n');
+                        m_src = null;
+                        foreach(var i in inc)
+                        {
+                            if (string.IsNullOrEmpty(i)) continue;
+                            if (i.StartsWith("//")) continue;
+                            var f = i.Trim();
+                            var ta = ((TextAsset)Resources.Load("slag/txt/" + f,typeof(TextAsset)));
+                            if (ta==null) continue;
+                            m_src += "//### include file : " + f +"\n";
+                            m_src += ta.text;
+                            m_src += "\n\n";
+                        }                       
+                    }
                     m_sm.Goto(S_EDIT);
                 }
             }
