@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
+using System.Text;
 
 public class playtext : MonoBehaviour {
 
     public static string test = "OK";
+    public static string WORKINGDIR = @"N:\Project\Test";
 
     public guiDisplay m_guiDisplay;
 
-    StateManager m_sm;
-    Action       m_guiFunc;
-    static string       m_src;
+    StateManager  m_sm;
+    Action        m_guiFunc;
+    static string m_src;
+
+    bool          m_resOrWorkDir;
 
     private void Start()
     {
+        m_resOrWorkDir = true;
         if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
@@ -79,6 +85,56 @@ public class playtext : MonoBehaviour {
         }
 
     }
+    private void _renewList()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        if (m_resOrWorkDir)
+        {
+            __renewList_Resources();
+        }
+        else
+        {
+            __renewList_WorkingDir();
+        }
+#else
+        m_resOrWorkDir = true;
+        __renewList_Resources();
+#endif
+    }
+    private void __renewList_Resources()
+    {
+        var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
+        m_filelist = new List<string>();
+        Array.ForEach(list,i=> {
+            var s = i.Trim();
+            if (!string.IsNullOrEmpty(s))
+            { 
+                s = s.Replace(".txt","");
+                m_filelist.Add(s);
+            }
+        });
+    }
+    private void __renewList_WorkingDir()
+    {
+        m_filelist = new List<string>();
+        if (!Directory.Exists(WORKINGDIR)) return;
+        Array.ForEach((new DirectoryInfo(WORKINGDIR)).GetFiles("test??.js") ,i=>m_filelist.Add(i.Name));
+        Array.ForEach((new DirectoryInfo(WORKINGDIR)).GetFiles("test??.inc"),i=>m_filelist.Add(i.Name));
+    }
+    string _getsrc(string file)
+    {
+        if (m_resOrWorkDir)
+        {
+            var ta = ((TextAsset)Resources.Load("slag/txt/" + file,typeof(TextAsset)));
+            if (ta==null) return null;
+            return ta.text;
+        }
+        else
+        {
+            var text = File.ReadAllText(Path.Combine(WORKINGDIR,file),Encoding.UTF8);
+            return text;
+        }
+    }
     Vector2 m_pos;
     private void gui_load()
     {
@@ -88,6 +144,13 @@ public class playtext : MonoBehaviour {
 
         GUILayout.BeginArea(new Rect(Screen.width/4,30,Screen.width/2,Screen.height-30));
         {
+            var srcdir = m_resOrWorkDir ? "Resources/slag/txt":WORKINGDIR;
+            if (GUILayout.Button("Source Directory\n"+srcdir))
+            {
+                m_resOrWorkDir = !m_resOrWorkDir;
+                _renewList();
+            }
+
             m_pos = GUILayout.BeginScrollView(m_pos);
             foreach(var s in m_filelist)
             { 
@@ -95,21 +158,21 @@ public class playtext : MonoBehaviour {
                 {
                     if (s.EndsWith(".js"))
                     { 
-                        m_src = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text;
+                        m_src = _getsrc(s);  //((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text;
                     }
                     else if (s.EndsWith(".inc"))
                     {
-                        var inc = ((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text.Split('\n');
+                        var inc = _getsrc(s).Split('\n'); //((TextAsset)Resources.Load("slag/txt/" + s,typeof(TextAsset))).text.Split('\n');
                         m_src = null;
                         foreach(var i in inc)
                         {
                             if (string.IsNullOrEmpty(i)) continue;
                             if (i.StartsWith("//")) continue;
                             var f = i.Trim();
-                            var ta = ((TextAsset)Resources.Load("slag/txt/" + f,typeof(TextAsset)));
-                            if (ta==null) continue;
+                            var text = _getsrc(f); //var ta = ((TextAsset)Resources.Load("slag/txt/" + f,typeof(TextAsset)));
+                            if (text==null) continue;
                             m_src += "//### include file : " + f +"\n";
-                            m_src += ta.text;
+                            m_src += text;
                             m_src += "\n\n";
                         }                       
                     }
@@ -120,9 +183,11 @@ public class playtext : MonoBehaviour {
         }
         GUILayout.EndArea();
     }
-    #endregion
 
-    #region run
+
+#endregion
+
+#region run
     slagunity m_slagunity;
     private void S_RUN(bool bFirst)
     {
@@ -160,5 +225,5 @@ public class playtext : MonoBehaviour {
     private void S_RUNNING(bool bFirst)
     {
     }
-    #endregion
+#endregion
 }
