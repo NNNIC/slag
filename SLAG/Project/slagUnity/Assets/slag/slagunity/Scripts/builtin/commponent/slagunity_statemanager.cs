@@ -102,11 +102,6 @@ public class slagunity_statemanager : MonoBehaviour {
                 dbg_elapsedtime += Time.realtimeSinceStartup - save;
             }
         }
-        //便宜： GameObject、 本コンポネントやunity_monobehaviourが取得できる機能を提供
-        //public GameObject go { get { return smco.gameObject; } }
-        //public slagunity_monobehaviour bhv { get { return smco.GetComponent<slagunity_monobehaviour>(); } }
-        ////便宜: ユーザオブジェ 
-        //public object usrobj;
     }
 
     StateManager m_sm;
