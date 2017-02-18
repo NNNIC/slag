@@ -32,6 +32,7 @@ public class slagunity {
 #else
         slagtool.util.SetDebugLevel(1);
 #endif
+
         //表示の切り替え
         slagtool.runtime.builtin.builtin_sysfunc.m_printFunc   = (s)=> { Debug.Log(s); guiDisplay.Write(s);     };
         slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc = (s)=> { Debug.Log(s); guiDisplay.WriteLine(s); };
