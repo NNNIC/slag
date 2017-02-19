@@ -621,16 +621,80 @@ namespace slagtool.runtime
                 var bkt = v.list_at(1);
                 var sts = v.list_at(2);
 
-                nsb.push_blk();
-                nsb = run(bkt.list_at(1),nsb.curnull());
-                for(var loop = 0; loop<=CFG.LOOPMAX; loop++)
+                if (bkt.list_at(2).IsType(YDEF.IN)) // for .. in
                 {
-                    if (loop == CFG.LOOPMAX) util._error("unexpected. it reached CFG.LOOPMAX:" + CFG.LOOPMAX);
+                    nsb.push_blk();
 
-                    nsb = run(bkt.list_at(2),nsb.curnull());
-                    if (nsb.get_bool_cur())
+                    LIST list = null;
+
+                    nsb = run(bkt.list_at(3), nsb.curnull());
+                    var ar = nsb.m_cur;
+                    if (ar==null) util._error("loop target value is null");
+                    var artype = ar.GetType();
+                    //if (ar is LIST)
+                    //{
+                    //    list = (LIST)ar;
+                    //}
+                    //else
+                    if (ar is IList)
                     {
-                        nsb = run(sts,nsb.curnull());                                                
+                        list = new LIST();
+                        foreach(var i in (IList)ar)
+                        {
+                            list.Add(i);
+                        }
+                    }
+                    else if (artype.IsArray)
+                    {
+                        list = new LIST();
+                        foreach(var i in (Array)ar)
+                        {
+                            list.Add(i);
+                        }
+                    }
+                    else if (ar is IEnumerable) // string対応
+                    {
+                        list = new LIST();
+                        foreach(var i in (IEnumerable)ar)
+                        {
+                            list.Add(i);
+                        }
+                    }
+                    //else if (ar is string)
+                    //{
+                    //    list = new LIST();
+                    //    foreach(var i in (string)ar)
+                    //    {
+                    //        list.Add(i);
+                    //    }
+                    //}
+                    //else if (ar is Type && ((Type)ar).IsEnum)
+                    //{
+                    //    list = new LIST();
+                    //    var type = (Type)ar;
+                    //    foreach(var i in  Enum.GetNames(type))
+                    //    {
+                    //        var n = Enum.Parse(artype,i);
+                    //        list.Add(n);
+                    //    }
+                    //}
+                    else util._error("For..in unsuprted type:" + artype); 
+
+                    string iterator_name = null;
+                    if (bkt.list_at(1).IsType(YDEF.sx_var_name))
+                    {
+                        iterator_name = bkt.list_at(1).list_at(1).GetString(); 
+                        nsb = run(bkt.list_at(1),nsb.curnull());
+                    }
+                    else
+                    {
+                        iterator_name = bkt.list_at(1).GetString();
+                    }
+
+                    foreach(var i in list)
+                    {
+                        nsb.find_and_set(iterator_name,i);
+                        nsb = run(sts,nsb.curnull()); 
                         if (nsb.m_breakType == BREAKTYPE.BREAK)
                         {
                             nsb.breaknone();
@@ -645,15 +709,47 @@ namespace slagtool.runtime
                             nsb.breaknone();                            
                         }
                     }
-                    else
-                    {
-                        break;
-                    }
-                    
-                    nsb = run(bkt.list_at(3),nsb.curnull());
+
+                    nsb.pop_blk();
+
+                    return nsb;
                 }
-                nsb.pop_blk();
-                return nsb;
+                else
+                { 
+                    nsb.push_blk();
+                    nsb = run(bkt.list_at(1),nsb.curnull());
+                    for(var loop = 0; loop<=CFG.LOOPMAX; loop++)
+                    {
+                        if (loop == CFG.LOOPMAX) util._error("unexpected. it reached CFG.LOOPMAX:" + CFG.LOOPMAX);
+
+                        nsb = run(bkt.list_at(2),nsb.curnull());
+                        if (nsb.get_bool_cur())
+                        {
+                            nsb = run(sts,nsb.curnull());                                                
+                            if (nsb.m_breakType == BREAKTYPE.BREAK)
+                            {
+                                nsb.breaknone();
+                                break;
+                            }
+                            if (nsb.m_breakType == BREAKTYPE.RETURN)
+                            {
+                                break;
+                            }
+                            if (nsb.m_breakType == BREAKTYPE.CONTINUE)
+                            {
+                                nsb.breaknone();                            
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    
+                        nsb = run(bkt.list_at(3),nsb.curnull());
+                    }
+                    nsb.pop_blk();
+                    return nsb;
+                }
             }            
             if (v.type == YDEF.get_type(YDEF.sx_while_clause))
             {

@@ -17,11 +17,10 @@ public class playtext : MonoBehaviour {
     Action        m_guiFunc;
     static string m_src;
 
-    bool          m_resOrWorkDir;
+    static bool   m_resOrWorkDir = true;
 
     private void Start()
     {
-        m_resOrWorkDir = true;
         if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
@@ -71,16 +70,17 @@ public class playtext : MonoBehaviour {
     {
         if (bFirst)
         {
-            var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
-            m_filelist = new List<string>();
-            Array.ForEach(list,i=> {
-                var s = i.Trim();
-                if (!string.IsNullOrEmpty(s))
-                { 
-                    s = s.Replace(".txt","");
-                    m_filelist.Add(s);
-                }
-            });
+            _renewList();
+            //var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
+            //m_filelist = new List<string>();
+            //Array.ForEach(list,i=> {
+            //    var s = i.Trim();
+            //    if (!string.IsNullOrEmpty(s))
+            //    { 
+            //        s = s.Replace(".txt","");
+            //        m_filelist.Add(s);
+            //    }
+            //});
             m_guiFunc = gui_load;
         }
 

@@ -517,7 +517,10 @@ namespace slagtool.runtime
                     {
                         ret = ht[index];
                     }
-                    ret = null;
+                    else
+                    { 
+                        ret = null;
+                    }
                     return true;
                 }
                 if (t==typeof(string))

@@ -258,6 +258,7 @@ namespace slagtool
                 case "CONTINUE": return any_return(v,YDEF.CONTINUE,null,s);
                 case "RETURN"  : return any_return(v,YDEF.RETURN,null,s);
                 case "NEW"     : return any_return(v,YDEF.NEW,null,s);
+                case "IN"      : return any_return(v,YDEF.IN,null,s);
 
                 case "TRUE"    : return any_return(v,YDEF.BOOL,null,s);
                 case "FALSE"   : return any_return(v,YDEF.BOOL,null,s);

@@ -20,6 +20,16 @@ namespace slagtool.runtime.builtin
             return new System.Collections.Hashtable();
         }
 
+        public  static object F_HashtableKeys(bool bHelp, object[] ol,StateBuffer sb)
+        {
+            if (bHelp)
+            {
+                return "ハッシュテーブルのキー取得" + NL + "format: hashtabeKeys(ハッシュテーブル);";
+            }
+            var ht = (Hashtable)ol[0];
+            return ht.Keys;
+        }
+
         #region 変換
         public static object F_ToNumber(bool bHelp, object[] ol,StateBuffer sb=null)
         {

@@ -41,6 +41,7 @@ namespace slagtool
         CONTINUE,//=20
         RETURN,  //=21
         NEW,     //=22
+        IN,      //=23
 
         OP      ,// 曖昧
         OP3     ,// wikipedia:演算子の優先順位=3    ※wikipedia:「演算子の優先順位」
@@ -99,6 +100,7 @@ namespace slagtool
         public static int CONTINUE = (int)TOKEN.CONTINUE;
         public static int RETURN   = (int)TOKEN.RETURN;
         public static int NEW      = (int)TOKEN.NEW;
+        public static int IN       = (int)TOKEN.IN;
 
         //オペレータ                                      //   　　　　　〃
         public static int OP    = (int)TOKEN.OP;          //   　　　　　〃
@@ -425,6 +427,10 @@ namespace slagtool
                                                             "(",";","sx_expr_clause","sx_expr",")",                           __MAKE__, YCODE.DO_NEW,0,1,2,3,4,
                                                             __OR__,
                                                             "(",";","sx_expr_clause","sx_assign_expr",")",                    __MAKE__, YCODE.DO_NEW,0,1,2,3,4,
+                                                            __OR__,
+                                                            "(","sx_var_name",IN,"sx_expr",")",                               __MAKE__, YCODE.DO_NEW,0,1,2,3,4,
+                                                            __OR__,
+                                                            "(",NAME,IN,"sx_expr",")",                                        __MAKE__, YCODE.DO_NEW,0,1,2,3,4,
                                                       };
     }
 }
