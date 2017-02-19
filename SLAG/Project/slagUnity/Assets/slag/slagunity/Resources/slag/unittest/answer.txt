@@ -123,3 +123,115 @@ END
 
 YES
 
+###########################[test16]
+
+
+#1
+0
+1
+2
+3
+4
+#2
+0
+1
+2
+3
+4
+#3
+hoge!!
+#4
+0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
+#5
+OSXEditor
+OSXPlayer
+WindowsPlayer
+OSXWebPlayer
+OSXDashboardPlayer
+WindowsWebPlayer
+WindowsEditor
+IPhonePlayer
+PS3
+XBOX360
+Android
+NaCl
+LinuxPlayer
+FlashPlayer
+LinuxEditor
+WebGLPlayer
+WSAPlayerX86
+MetroPlayerX86
+WSAPlayerX64
+MetroPlayerX64
+WSAPlayerARM
+MetroPlayerARM
+WP8Player
+BlackBerryPlayer
+BB10Player
+TizenPlayer
+PSP2
+PS4
+PSM
+XboxOne
+SamsungTVPlayer
+WiiU
+tvOS
+#6
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+#7
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+#8
+_0=0
+_1=1
+_2=2
+_3=3
+#9
+0
+1
+2
+3
+4
+5
+Break at 5
+#10
+Continue :0
+Continue :1
+Continue :2
+Continue :3
+Continue :4
+5
+6
+7
+8
+9
+#11
+0
+1
+2
+3
+4
+5
+6
+7
+8
+Return :8
+Returned from hoge()
+
