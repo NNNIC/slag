@@ -1,4 +1,4 @@
-# slag (something like a gai-es)
+# slag (something like a JS[gei-es])
 
 Unity用組込スクリプトシステム
 
