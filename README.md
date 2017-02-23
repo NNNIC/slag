@@ -6,6 +6,8 @@ Unity用組込スクリプトシステム
 
 Unityアプリケーション上で実行できるスクリプトシステムを提供
 
+<img src="https://github.com/NNNIC/wiki_depot/blob/master/slag/images/demo/remote2.png" width=480px />
+
 ## 特徴
 
 * アプリケーションに組込みロード・実行
@@ -63,4 +65,6 @@ C#のクラスとシームレスにアクセスできるので、例えばホッ
 ## Wiki
 
 [Wiki](https://github.com/NNNIC/slag/wiki)  
+
+
 
