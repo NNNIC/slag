@@ -6,7 +6,7 @@ Unity用組込スクリプトシステム
 
 Unityアプリケーション上で実行できるスクリプトシステムを提供
 
-<img src="https://github.com/NNNIC/wiki_depot/blob/master/slag/images/demo/remote2.png" width=480px />
+<a href="https://github.com/NNNIC/wiki_depot/blob/master/slag/images/demo/remote2.png"><img src="https://github.com/NNNIC/wiki_depot/blob/master/slag/images/demo/remote2.png" width=480px /></a>
 
 ## 特徴
 
