@@ -16,7 +16,7 @@ public class slageditortool : MonoBehaviour {
         Process.Start(path);
     }
 
-    [MenuItem("slag/test/コンパイル結果をリソースBINへ出力")]
+    [MenuItem("slag/test/全テストのコンパイル(リソースBINへ出力)")]
     static void CompileTestFiles()
     {
         string   wd  = "N:/Project/test";
