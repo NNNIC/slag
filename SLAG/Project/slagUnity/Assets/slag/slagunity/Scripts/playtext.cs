@@ -71,16 +71,6 @@ public class playtext : MonoBehaviour {
         if (bFirst)
         {
             _renewList();
-            //var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
-            //m_filelist = new List<string>();
-            //Array.ForEach(list,i=> {
-            //    var s = i.Trim();
-            //    if (!string.IsNullOrEmpty(s))
-            //    { 
-            //        s = s.Replace(".txt","");
-            //        m_filelist.Add(s);
-            //    }
-            //});
             m_guiFunc = gui_load;
         }
 
@@ -101,18 +91,34 @@ public class playtext : MonoBehaviour {
         __renewList_Resources();
 #endif
     }
+    //private void __renewList_Resources_obs()
+    //{
+    //    var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
+    //    m_filelist = new List<string>();
+    //    Array.ForEach(list,i=> {
+    //        var s = i.Trim();
+    //        if (!string.IsNullOrEmpty(s))
+    //        { 
+    //            s = s.Replace(".txt","");
+    //            m_filelist.Add(s);
+    //        }
+    //    });
+    //}
     private void __renewList_Resources()
     {
-        var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
+        var objs =  Resources.LoadAll("slag/txt",typeof(TextAsset));
         m_filelist = new List<string>();
-        Array.ForEach(list,i=> {
-            var s = i.Trim();
-            if (!string.IsNullOrEmpty(s))
-            { 
-                s = s.Replace(".txt","");
-                m_filelist.Add(s);
+        Array.ForEach(objs,i=> { 
+            var file = i.name;
+            var ext  = Path.GetExtension(file);
+            var name = Path.GetFileNameWithoutExtension(file);
+            if (name.Length==6 && name.StartsWith("test"))
+            {
+                if (ext==".js")  m_filelist.Add(file);
+                if (ext==".inc") m_filelist.Add(file);
             }
         });
+        m_filelist.Sort();
     }
     private void __renewList_WorkingDir()
     {
