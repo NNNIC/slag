@@ -99,9 +99,17 @@ namespace slagtool
         #region Print
         public static void PrintListValue(List<YVALUE> l,bool bForce=false)
         {
-            var s = "";
-            l.ForEach(v=>s+=PrintValue(v)); 
+            //var s = "";
+            //l.ForEach(v=>s+=PrintValue(v)); 
+            var s = GetStringListValue(l);
             sys.logline(s,bForce);
+        }
+        public static string GetStringListValue(List<YVALUE> l)
+        {
+            var s = "";
+            if (l==null) return "GetStringListValue:引数にNULLが設定されています";
+            l.ForEach(v=>s+=PrintValue(v)); 
+            return s;
         }
         public static string PrintValue(YVALUE v)
         {

@@ -239,7 +239,7 @@ namespace slagtool
                 {
                     return builtin_func.Run(funcname, param, m_statebuf);
                 }
-                throw new SystemException("CallFunc : Not Found Function : " + funcname);
+                throw new SystemException("CallFunc : ファンクションがありません : " + funcname);
             }
             return CallFunc(fv, param);
 
@@ -284,7 +284,7 @@ namespace slagtool
         public object GetVal(string name)
         {
             var ret = _getval(name);
-            if (ret == null) throw new SystemException("GetVal : Not Found Valriable : " + name);
+            if (ret == null) throw new SystemException("GetVal : 変数が見つかりません : " + name);
             return ret;
         }
         private object _getval(string name)
@@ -303,8 +303,8 @@ namespace slagtool
         public number GetNumVal(string name)
         {
             var ret = _getval(name);
-            if (ret == null) throw new SystemException("GetNumVal : Not Found Valriable : " + name);
-            if (ret.GetType() != typeof(number)) throw new SystemException("GetNumVal : Valriable is not Number : " + name);
+            if (ret == null) throw new SystemException("GetNumVal : 変数が見つかりません : " + name);
+            if (ret.GetType() != typeof(number)) throw new SystemException("GetNumVal : 変数が Number ではありません : " + name);
 
             return (number)ret;
 
@@ -312,8 +312,8 @@ namespace slagtool
         public string GetStrVal(string name)
         {
             var ret = _getval(name);
-            if (ret == null) throw new SystemException("GetStrVal : Not Found Valriable : " + name);
-            if (ret.GetType() != typeof(string)) throw new SystemException("GetStrVal : Valriable is not String : " + name);
+            if (ret == null) throw new SystemException("GetStrVal : 変数が見つかりません : " + name);
+            if (ret.GetType() != typeof(string)) throw new SystemException("GetStrVal : 変数が String ではありません : " + name);
 
             return (string)ret;
         }
@@ -321,7 +321,7 @@ namespace slagtool
         {
             if (!_setval(name, val, bCreateIfNotExist))
             {
-                throw new SystemException("SetVal : Fail to Set ; " + name);
+                throw new SystemException("SetVal : Setに失敗しました ; " + name);
             }
         }
         private bool _setval(string name, object val, bool bCreateIfNotExist)
@@ -343,14 +343,14 @@ namespace slagtool
         {
             if (!_setval(name, val, bCreateIfNotExist))
             {
-                throw new SystemException("SetNumVal : Fail to Set ; " + name);
+                throw new SystemException("SetNumVal : Setに失敗しました ; " + name);
             }
         }
         public void SetStrVal(string name, string val, bool bCreateIfNotExist = true)
         {
             if (!_setval(name, val, bCreateIfNotExist))
             {
-                throw new SystemException("SetStrVal : Fail to Set ; " + name);
+                throw new SystemException("SetStrVal : Setに失敗しました ; " + name);
             }
         }
 #endregion

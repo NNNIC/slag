@@ -58,14 +58,14 @@ namespace slagtool
                     { 
                         if (m_latest_analyze_target!=null)
                         { 
-                            sys.logline("=============================",true);
-                            sys.logline("= The Latest Analyze Target =",true);
+                            sys.logline("========================",true);
+                            sys.logline("=  最終分析ターゲット  =",true);
                             YDEF_DEBUG.PrintLineAndCol(m_latest_analyze_target,true); sys.logline(null,true);
                             YDEF_DEBUG.PrintListValue(m_latest_analyze_target,true); 
-                            sys.logline("=============================",true);
-                            sys.error("ERROR:Check the latest analyze target.");
+                            sys.logline("========================",true);
+                            sys.error("YANALYZER_ERROR:以下を確認せよ:\n" + YDEF_DEBUG.GetStringListValue(m_latest_analyze_target)+"\n--");
                         }
-                        sys.error("ERROR:Someting happend.");
+                        sys.error("YANALYZER_ERRORR:不明エラー");
                     }
 
                     max_stopmatch_count = Math.Max(stopmatch_count,max_stopmatch_count); //計測
@@ -77,7 +77,7 @@ namespace slagtool
             }
             vp = null;
 
-            sys.logline("MAX of stopmatch_count=" + max_stopmatch_count);
+            sys.logline("整合カウンタ(max_stopmatch_count)がＭＡＸに達した。カウンタを増やせ。現在値：" + max_stopmatch_count);
 
             return true; 
         }
@@ -910,7 +910,7 @@ namespace slagtool
                 {
                     if (stack.Count==0||stack[0].value != openbrackets[idx_close].ToString())
                     {
-                        throw new SystemException("Pair of Branckets is invalid at " );
+                        throw new SystemException("括弧不整合" );
                     }
                     stack.RemoveAt(0);
                     continue;
@@ -918,7 +918,7 @@ namespace slagtool
             }
             if (stack.Count > 0)
             {
-                throw new SystemException("Pair of Branckets is invalid. Check " );
+                throw new SystemException("括弧不整合" );
             }
 
             if (deepest!=null)
