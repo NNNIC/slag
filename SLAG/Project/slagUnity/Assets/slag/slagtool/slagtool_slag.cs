@@ -215,7 +215,21 @@ namespace slagtool
 #else
     #if UNITY_5
             var save = UnityEngine.Time.realtimeSinceStartup;
-            run_script.run(m_exelist[0], m_statebuf);
+
+            try { 
+                run_script.run(m_exelist[0], m_statebuf);
+            } catch (SystemException e)
+            {
+                if (e.Message=="EXIT" && m_statebuf.m_bExit)
+                {
+                    ; //OK!
+                }
+                else
+                {
+                    throw new SystemException(e.Message);
+                }
+            }
+    
             UnityEngine.Debug.Log("Elapsed time :"+(UnityEngine.Time.realtimeSinceStartup - save));
     #else
             throw new NotImplementedException();

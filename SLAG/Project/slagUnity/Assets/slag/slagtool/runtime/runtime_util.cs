@@ -456,6 +456,24 @@ namespace slagtool.runtime
         #region call script function
         internal static StateBuffer CallFunction(YVALUE fv,List<object> ol, StateBuffer sb)
         {
+            if (sb.m_bExit) return sb;
+            try { 
+                sb = _callFunction(fv,ol,sb);
+            } catch (SystemException e)
+            {
+                if (e.Message=="EXIT" && sb.m_bExit)
+                {
+                    //OK!
+                }        
+                else
+                {
+                    throw new SystemException(e.Message);
+                }        
+            }
+            return sb;
+        }
+        private static StateBuffer _callFunction(YVALUE fv,List<object> ol, StateBuffer sb)
+        {
             var nsb = sb;
             YDEF_DEBUG.funcCntSmp++;
             nsb.set_funcwork();

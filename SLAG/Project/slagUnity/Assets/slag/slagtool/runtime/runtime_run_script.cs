@@ -96,6 +96,8 @@ namespace slagtool.runtime
 
         public BREAKTYPE      m_breakType;
 
+        public bool           m_bExit;            //スクリプト終了
+
 #region api
 
         public const string KEY_PARENT   = "!PARENT!";
@@ -380,6 +382,11 @@ namespace slagtool.runtime
         {
             YDEF_DEBUG.current_v = v;
             YDEF_DEBUG.current_sb = sb;
+
+            if (sb.m_bExit)
+            {
+                throw new SystemException("EXIT");
+            }
 
             if (YDEF_DEBUG.bRequestAbort)
             {

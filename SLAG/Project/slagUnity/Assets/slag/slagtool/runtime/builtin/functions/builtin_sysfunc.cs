@@ -273,7 +273,24 @@ namespace slagtool.runtime.builtin
 
         #endregion
 
+        #region Exit
 
+        public static object F_Exit(bool bHelp, object[] ol, StateBuffer sb)
+        {
+            if (bHelp)
+            {
+                return "スクリプト実行終了";
+            }
+
+            sb.m_bExit = true;
+
+            sys.logline("Exit!",true);
+
+            return null;
+        }
+
+
+        #endregion
 
     }
 }
