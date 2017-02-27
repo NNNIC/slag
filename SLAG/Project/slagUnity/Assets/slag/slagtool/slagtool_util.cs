@@ -25,10 +25,10 @@ namespace slagtool
         {
             runtime.util.User_Calc_op = user_calc_op;
         }
-        public static void SetItemsForIL2CPP(runtime.runtime_sub_missings user_missing_class) //IL2CPPにて、不明となったメソッド対策 Constuctors・Methods・Members
-        {
+        //public static void SetItemsForIL2CPP(runtime.runtime_sub_missings user_missing_class) //IL2CPPにて、不明となったメソッド対策 Constuctors・Methods・Members
+        //{
             
-        }
+        //}
  
         #endregion
 
