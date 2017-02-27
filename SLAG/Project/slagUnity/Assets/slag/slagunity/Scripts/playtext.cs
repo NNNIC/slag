@@ -91,19 +91,6 @@ public class playtext : MonoBehaviour {
         __renewList_Resources();
 #endif
     }
-    //private void __renewList_Resources_obs()
-    //{
-    //    var list = ((TextAsset)Resources.Load("slag/txt/_list")).text.Split('\n');
-    //    m_filelist = new List<string>();
-    //    Array.ForEach(list,i=> {
-    //        var s = i.Trim();
-    //        if (!string.IsNullOrEmpty(s))
-    //        { 
-    //            s = s.Replace(".txt","");
-    //            m_filelist.Add(s);
-    //        }
-    //    });
-    //}
     private void __renewList_Resources()
     {
         var objs =  Resources.LoadAll("slag/txt",typeof(TextAsset));
@@ -175,6 +162,8 @@ public class playtext : MonoBehaviour {
                             if (string.IsNullOrEmpty(i)) continue;
                             if (i.StartsWith("//")) continue;
                             var f = i.Trim();
+                            if (string.IsNullOrEmpty(f)) continue;
+
                             var text = _getsrc(f); //var ta = ((TextAsset)Resources.Load("slag/txt/" + f,typeof(TextAsset)));
                             if (text==null) continue;
                             m_src += "//### include file : " + f +"\n";

@@ -16,6 +16,7 @@ public class menu : MonoBehaviour {
         var gh = GUILayout.Height(100);
         GUILayout.BeginArea(new Rect(Screen.width / 4, 0,Screen.width /2, Screen.height));
         {
+            GUILayout.Label("slag ver.0.6.20170227");
             if (GUILayout.Button("Load text file and play\nテキストファイルのロードと実行",gh))
             {
                 SceneManager.LoadScene("playtext");
