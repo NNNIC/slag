@@ -37,6 +37,9 @@ public class slagunity {
         slagtool.runtime.builtin.builtin_sysfunc.m_printFunc   = (s)=> { Debug.Log(s); guiDisplay.Write(s);     };
         slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc = (s)=> { Debug.Log(s); guiDisplay.WriteLine(s); };
 
+        //デバッグログ
+        slagtool.util.SetLogFunc(Debug.Log,Debug.Log);
+
         slagtool.util.SetBuiltIn(typeof(slagunity_builtinfunc));
         slagtool.util.SetCalcOp(slagunity_builtincalc_op.Calc_op);
 

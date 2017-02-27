@@ -89,10 +89,10 @@ public class slagunity_statemanager : MonoBehaviour {
                     }
                     catch (System.Exception e)
                     {
-                        slagtool.sys.logline("--- 例外発生 ---");
-                        slagtool.sys.logline(e.Message);
+                        slagtool.sys.logline("--- 例外発生 ---",true);
+                        slagtool.sys.logline(e.Message,true);
                         slagtool.sys.log_stopinfo();
-                        slagtool.sys.logline("----------------");
+                        slagtool.sys.logline("----------------",true);
                     }
                 }
                 else
@@ -129,6 +129,19 @@ public class slagunity_statemanager : MonoBehaviour {
     public void Goto(slagtool.YVALUE v)
     {
         m_sm.Goto(v);
+    }
+
+    public void Goto(string funcname)
+    {
+        var v = m_slag.FindFunc(funcname);
+        if (v!=null)
+        {
+            m_sm.Goto(v);
+        }
+        else
+        {
+            slagtool.sys.logline("slagunity_statemanager.Goto cannot find function : " + funcname,true);
+        }
     }
 
     public void WaitCount(int cnt)

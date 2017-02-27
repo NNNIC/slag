@@ -229,6 +229,11 @@ namespace slagtool
             m_curslag = this;
             return builtin_func.IsFunc(funcname);
         }
+        public YVALUE FindFunc(string funcname)
+        {
+            var fv = (YVALUE)m_statebuf.get_func(funcname);
+            return fv;
+        }
         public object CallFunc(string funcname, object[] param = null)
         {
             m_curslag = this;
