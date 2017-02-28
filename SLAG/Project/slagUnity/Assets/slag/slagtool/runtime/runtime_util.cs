@@ -199,8 +199,8 @@ namespace slagtool.runtime
                     case "%":   return _calc_numeric(a,b,op);
                 }
 
-                var x = util.ToNumber(a);
-                var y = util.ToNumber(b);
+                var x = util.ToNumber(a,true);
+                var y = util.ToNumber(b,true);
 
                 switch(op)
                 { 

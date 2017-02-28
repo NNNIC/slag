@@ -7,6 +7,9 @@ using System;
 
 public class slagunity {
 
+    public const string version = "0.6.20170228";  // X.X.年月日
+
+
     public slagtool.slag  m_slag {get; private set; }
     public slagunity_root m_root {get; private set; }
 
