@@ -63,7 +63,7 @@ namespace slagtool
                             YDEF_DEBUG.PrintLineAndCol(m_latest_analyze_target,true); sys.logline(null,true);
                             YDEF_DEBUG.PrintListValue(m_latest_analyze_target,true); 
                             sys.logline("========================",true);
-                            sys.error("YANALYZER_ERROR:以下を確認せよ:\n" + YDEF_DEBUG.GetStringListValue(m_latest_analyze_target)+"\n--");
+                            sys.error("YANALYZER_ERROR:以下を確認せよ:\n" + YDEF_DEBUG.GetStringListValue(m_latest_analyze_target)+"\n--" + YDEF_DEBUG.ErrorHint(m_latest_analyze_target)+"\n--" );
                         }
                         sys.error("YANALYZER_ERRORR:不明エラー");
                     }

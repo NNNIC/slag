@@ -144,15 +144,43 @@ namespace slagtool
         }
         public static void PrintLineAndCol(List<YVALUE> l,bool bForce=false)
         {
-            if (l==null || l.Count==0) { sys.log("Line:?,Col:?",bForce); return; }
+            sys.logline(GetLineAndCol(l),bForce);
+        }
+        public static string GetLineAndCol(List<YVALUE> l)
+        {
+            if (l==null || l.Count == 0) return GetLineAndCol((YVALUE)null);
             var v = l[0];
+            return GetLineAndCol(v);
+        }
+        public static string GetLineAndCol(YVALUE v)
+        {
+            if (v==null) return "Line:?,Col:?";
             var line = v.get_dbg_line(true);
             var col  = v.get_dbg_col(true);
             var file = v.get_dbg_file();
 
-            sys.log( string.Format("Line:{0},Col:{1} in {2}",line,col,file),bForce);
+            return string.Format("Line:{0},Col:{1} in {2}",line,col,file);
         }
         #endregion
+
+        #region Error Hint
+        public static string ErrorHint(List<YVALUE> l)
+        {
+            if (l==null) return null;
+            //lの要素がsentence_listでないもの
+            foreach(var v in l)
+            {
+                if (v.IsType(YDEF.BOF)) continue;
+                if (v.IsType(YDEF.sx_sentence_list)) continue;
+                if (v.IsType(YDEF.sx_sentence)) continue;
+                return "Error Hint:" + GetLineAndCol(v);
+            } 
+            return null;       
+        }
+
+
+        #endregion
+
         #endregion
 
         #region [  RUNTIME  ]
