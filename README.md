@@ -1,3 +1,5 @@
+> [English - Translated by Google](https://translate.googleusercontent.com/translate_c?act=url&depth=1&hl=ja&ie=UTF8&prev=_t&rurl=translate.google.co.jp&sl=ja&sp=nmt1&tl=en&u=https://github.com/NNNIC/slag&usg=ALkJrhg0cc2ax8-HdmuZB7xKGm1U0a_pbA)
+
 # slag (Something Like A Gei-es[JS])
 
 Unity用組込スクリプトシステム
