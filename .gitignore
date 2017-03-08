@@ -28,3 +28,11 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+SLAG/Project/slagUnity/.vs/
+SLAG/Project/slagUnity/slag/obj/
+SLAG/Project/slagUnity/slaglangtool/obj/
+*.user
+/**/Library/
+/**/obj/
+/**/tmp/
