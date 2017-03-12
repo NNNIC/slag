@@ -16,7 +16,6 @@ public class slagremote_unity_main : MonoBehaviour {
     void Awake()
     {
         V = this;
-        
     }
 
 	IEnumerator Start () {
@@ -26,16 +25,10 @@ public class slagremote_unity_main : MonoBehaviour {
 
         UnityEngine.Debug.logger.logEnabled = false;
 
-        //netcomm.Log = (s)=>Debug.Log(s);
-        //FilePipe.Log= (s)=>Debug.Log(s);
-
         m_netcomm = new netcomm();
         m_netcomm.Start();
 
-        slagtool.util.SetLogFunc(wk.SendWriteLine,wk.SendWrite);
-        //slagtool.util.SetDebugLevel(0);
-        //slagtool.util.SetBuitIn(typeof(slagunity_builtinfunc));
-        //slagtool.util.SetCalcOp(slagunity_builtincalc_op.Calc_op);
+        //slagtool.util.SetLogFunc(wk.SendWriteLine,wk.SendWrite);
 
         slagremote.cmd.init();
 
@@ -66,7 +59,6 @@ public class slagremote_unity_main : MonoBehaviour {
     void Update()
     {
         if (!m_bReqAbort) wk.Update();
-        //if (!m_bReqAbort) slagremote.cmd_sub.UpdateExec();
     }
 
     void Reset()

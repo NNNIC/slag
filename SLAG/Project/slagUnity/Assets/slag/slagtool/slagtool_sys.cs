@@ -23,18 +23,38 @@ namespace slagtool
 
         internal  static bool USETRY = true;
 
+        #region コンソール出力
         internal  static Action<string> m_conWrite=null;
         internal  static Action<string> m_conWriteLine = null;
 
-        internal  static void error(string s, YVALUE v = null)
+        internal  static Action<string> m_con_remoteWrite = null;           //ネットログ用
+        internal  static Action<string> m_con_remoteWriteLine = null;       //ネットログ用
+
+        private   static void conWrite(string s)
+        {
+            Console.Write(s);
+            if (m_conWrite!=null) m_conWrite(s);
+            if (m_con_remoteWrite!=null) m_con_remoteWrite(s);
+        }
+        private   static void conWriteLine(string s)
+        {
+            Console.WriteLine(s);
+            if (m_conWriteLine!=null) m_conWriteLine(s);
+            if (m_con_remoteWriteLine!=null) m_con_remoteWriteLine(s);
+        }
+        #endregion
+
+        internal static void error(string s, YVALUE v = null)
         {
             int line = -1;
             if (v!=null) line = v.get_dbg_line(true);
             
             string es = "ERROR"+ (line>=0 ? "(L:" + line.ToString() + ")" : "") + ":" + s;
 
-            Console.WriteLine(es);
-            if (m_conWriteLine!=null) m_conWriteLine(es);
+            //Console.WriteLine(es);
+            //if (m_conWriteLine!=null) m_conWriteLine(es);
+
+            conWriteLine(es);
 
             throw new SystemException(es);
         }
@@ -43,10 +63,11 @@ namespace slagtool
         {
             if (DEBUGMODE||bForce)
             {
-                if (m_conWrite!=null)
-                {
-                    m_conWrite(s);
-                }
+                //if (m_conWrite!=null)
+                //{
+                //    m_conWrite(s);
+                //}
+                conWrite(s);
             }
         }
 
@@ -54,10 +75,11 @@ namespace slagtool
         {
             if (DEBUGMODE||bForce)
             { 
-                if (m_conWriteLine!=null)
-                {
-                    m_conWriteLine(s);
-                }
+                //if (m_conWriteLine!=null)
+                //{
+                //    m_conWriteLine(s);
+                //}
+                conWriteLine(s);
             }
         }
 

@@ -32,12 +32,16 @@ namespace slagtool
  
         #endregion
 
-
         #region ログ設定
         public static void SetLogFunc(Action<string> writeline, Action<string> write = null)
         {
             sys.m_conWrite = write;
             sys.m_conWriteLine = writeline;
+        }
+        public static void SetRemoteLogFunc(Action<string> writeline, Action<string> write = null)
+        {
+            sys.m_con_remoteWrite = write;
+            sys.m_con_remoteWriteLine = writeline;
         }
         #endregion
 

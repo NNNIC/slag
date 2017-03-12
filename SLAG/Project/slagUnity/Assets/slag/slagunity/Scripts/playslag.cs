@@ -11,7 +11,6 @@ public class playslag : MonoBehaviour {
     Action       m_guiFunc;
 
     List<string> files = null;
-    //slagtool.slag m_slag;
     slagunity m_slagunity;
 
 	void Start () {

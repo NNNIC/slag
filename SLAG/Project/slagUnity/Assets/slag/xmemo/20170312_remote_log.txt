@@ -1,0 +1,14 @@
+■ リモートログのコールツリー
+slagremote.wk.SendWrite -> slagremote.unity.wk_.SendWriteLine -> slagremote_unity_main.m_netcomm.SendMsg
+
+■ リモートログ機能をslagのログと接続している箇所
+slagremote_unity_main.cs #31
+
+slagtool.util.SetLogFunc(wk.SendWriteLine,wk.SendWrite); 
+
+2017.3.12 slagtool.util.SetRemoteLogFunc(wk.SendWriteLine,wk.SendWrite);  ----- リモート用新設
+ 
+
+
+
+

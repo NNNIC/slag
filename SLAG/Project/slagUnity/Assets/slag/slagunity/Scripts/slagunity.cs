@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 using System;
+using slagremote;
 
 public class slagunity {
 
@@ -14,6 +15,8 @@ public class slagunity {
 
     public slagtool.slag  m_slag {get; private set; }
     public slagunity_root m_root {get; private set; }
+    
+    public static netcomm m_netcomm;
 
     private slagunity()
     { }
@@ -70,7 +73,64 @@ public class slagunity {
             }
         }
     }
-#endregion
+    #endregion
+
+    #region netcomm
+    public void StartNetComm(Action cb=null)
+    {
+        slagremote_unity_manager.Create();
+        slagremote_unity_manager.V.StartCom(cb);
+    }
+    public void TerminateNetComm(Action cb=null)
+    {
+        slagremote_unity_manager.V.AbortCom(cb);
+    }
+
+    //private MonoBehaviour m_mono;
+    //public void StartNetComm(MonoBehaviour mono)
+    //{
+    //    m_mono = mono;
+
+    //    if (m_netcomm==null)
+    //    {
+    //        m_netcomm = new netcomm();
+    //        m_netcomm.Start();
+
+    //        mono.StartCoroutine(_startNetComm());
+    //    }
+    //}
+    //private  IEnumerator _startNetComm()
+    //{
+    //    while(true)
+    //    {
+    //        if (m_bReqAbort) break;
+
+    //        yield return null;
+     
+    //        if (m_bReqAbort) break;
+
+    //        var cmd = slagremote.cmd.GetNextCmd();
+    //        if (cmd==null) cmd = m_netcomm.GetCmd();
+            
+    //        if (cmd==null)
+    //        {
+    //            continue;
+    //        }
+    //        slagremote.cmd.execute(cmd);
+    //    }
+    //    m_bEnd = true;
+    //}
+
+
+    //public void TerminateNetComm(Action cb)
+    //{
+    //    if (m_netcomm!=null)
+    //    {
+    //        m_netcomm.Terminate();
+    //        m_netcomm = null;
+    //    }
+    //}
+    #endregion
 
     /// <summary>
     /// 指定パスよりロード

@@ -48,6 +48,7 @@ namespace slagremote
             m_thread.Priority = ThreadPriority.AboveNormal;
             m_thread.Start();
 
+            slagtool.util.SetRemoteLogFunc(wk.SendWriteLine,wk.SendWrite);
         }
 
         public void Terminate()
@@ -56,6 +57,8 @@ namespace slagremote
             {
                 m_pipe.Terminate();
             }
+
+            slagtool.util.SetRemoteLogFunc(null,null);
         }
 
         public bool IsEnd()
@@ -112,7 +115,7 @@ namespace slagremote
             }
         }
 
-        #region ログ
+        #region ログ  // ref xmemo/20170312_remote_log.txt
         public void SendMsg(string s)
         {
             Log(s);

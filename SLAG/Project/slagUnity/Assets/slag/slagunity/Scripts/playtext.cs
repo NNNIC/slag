@@ -24,6 +24,10 @@ public class playtext : MonoBehaviour {
         if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
+
+        m_slagunity = slagunity.Create(gameObject);
+        m_slagunity.StartNetComm();    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
+
         m_sm.Goto(S_EDIT);
     }
 
@@ -35,6 +39,14 @@ public class playtext : MonoBehaviour {
     private void OnGUI()
     {
         if (m_guiFunc!=null) m_guiFunc();
+    }
+
+    private void OnDestroy()
+    {
+        if (m_slagunity!=null)
+        {
+            m_slagunity.TerminateNetComm();
+        }
     }
 
     #region edit
@@ -188,10 +200,11 @@ public class playtext : MonoBehaviour {
     {
         if (bFirst)
         {
-            if (m_slagunity == null)
-            {
-                m_slagunity = slagunity.Create(gameObject);
-            }
+            //if (m_slagunity == null)
+            //{
+            //    m_slagunity = slagunity.Create(gameObject);
+            //    m_slagunity.StartNetComm();    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
+            //}
 
             m_guiDisplay.gameObject.SetActive(true);
             m_guiFunc = playingGUI;

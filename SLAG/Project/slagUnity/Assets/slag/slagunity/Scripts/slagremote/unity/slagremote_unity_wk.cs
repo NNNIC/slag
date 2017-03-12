@@ -2,6 +2,8 @@
 using System.Collections;
 using System;
 
+// ref xmemo/20170312_remote_log.txt
+
 namespace slagremote.unity { 
     public class wk_
     {
@@ -15,7 +17,11 @@ namespace slagremote.unity {
             m_tmp += s;
             var save = m_tmp;
             m_tmp = null;
-            if (slagremote_unity_main.m_netcomm!=null) slagremote_unity_main.m_netcomm.SendMsg(save);
+            //if (slagremote_unity_main.m_netcomm!=null) slagremote_unity_main.m_netcomm.SendMsg(save);
+            if (slagremote_unity_manager.V!=null && slagremote_unity_manager.V.m_netcomm!=null)
+            {
+                slagremote_unity_manager.V.m_netcomm.SendMsg(save);
+            }
             //Debug.Log(s);
         }
 

@@ -1,5 +1,5 @@
-remote�f�o�b�O�������ł����s�\�ɂ���B
-monitor�ɂăt�@�C����READ����BP�̐ݒ���\�ɂ���B
+remoteデバッグを何時でも実行可能にする。
+monitorにてファイルをREADしてBPの設定を可能にする。
 
 
 

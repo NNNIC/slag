@@ -411,7 +411,7 @@ namespace slagremote
 
         public static void Test()
         {
-            wk.SendWriteLine(".. 1234.\n567.");
+            wk.SendWriteLine("...Test returned!");
         }
 
         public static void Debug(string p)

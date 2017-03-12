@@ -67,6 +67,8 @@ namespace slagremote
 
                 case COMMAND.QUIT:
                 case COMMAND.RESET: cmd_sub.BP(new string[1] {"c"});  cmd_sub.Resume(); m_nextcmd = "reset";  return null;
+
+                case COMMAND.TEST:         cmd_sub.Test();                                             break;
             }
 
             return cmdbuf;
