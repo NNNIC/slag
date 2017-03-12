@@ -13,8 +13,9 @@ public class slagunity {
         get { return slagunity_version.version;  }
     }
 
-    public slagtool.slag  m_slag {get; private set; }
-    public slagunity_root m_root {get; private set; }
+    public slagtool.slag  m_slag   {get; private set; }
+    public slagunity_root m_root   {get; private set; }
+    public static string           m_script;
     
     public static netcomm m_netcomm;
 
@@ -78,58 +79,13 @@ public class slagunity {
     #region netcomm
     public void StartNetComm(Action cb=null)
     {
-        slagremote_unity_manager.Create();
+        slagremote_unity_manager.Create(this);
         slagremote_unity_manager.V.StartCom(cb);
     }
     public void TerminateNetComm(Action cb=null)
     {
         slagremote_unity_manager.V.AbortCom(cb);
     }
-
-    //private MonoBehaviour m_mono;
-    //public void StartNetComm(MonoBehaviour mono)
-    //{
-    //    m_mono = mono;
-
-    //    if (m_netcomm==null)
-    //    {
-    //        m_netcomm = new netcomm();
-    //        m_netcomm.Start();
-
-    //        mono.StartCoroutine(_startNetComm());
-    //    }
-    //}
-    //private  IEnumerator _startNetComm()
-    //{
-    //    while(true)
-    //    {
-    //        if (m_bReqAbort) break;
-
-    //        yield return null;
-     
-    //        if (m_bReqAbort) break;
-
-    //        var cmd = slagremote.cmd.GetNextCmd();
-    //        if (cmd==null) cmd = m_netcomm.GetCmd();
-            
-    //        if (cmd==null)
-    //        {
-    //            continue;
-    //        }
-    //        slagremote.cmd.execute(cmd);
-    //    }
-    //    m_bEnd = true;
-    //}
-
-
-    //public void TerminateNetComm(Action cb)
-    //{
-    //    if (m_netcomm!=null)
-    //    {
-    //        m_netcomm.Terminate();
-    //        m_netcomm = null;
-    //    }
-    //}
     #endregion
 
     /// <summary>
@@ -181,6 +137,22 @@ public class slagunity {
     {
         m_slag.LoadSrc(src);
     }
+    #region スクリプト格納とコンパイル
+    /// <summary>
+    /// ファイルを読み込み、m_scriptに格納する
+    /// </summary>
+    public void ReadScript(string file)
+    {
+        m_script = File.ReadAllText(file,Encoding.UTF8);
+    }
+    /// <summary>
+    /// m_scriptをコンパイル
+    /// </summary>
+    public void CompileScript()
+    {
+        m_slag.LoadSrc(m_script);
+    }
+    #endregion
     /// <summary>
     /// バイナリロード
     /// </summary>

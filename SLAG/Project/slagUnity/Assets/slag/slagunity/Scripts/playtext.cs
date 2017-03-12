@@ -15,13 +15,13 @@ public class playtext : MonoBehaviour {
 
     StateManager  m_sm;
     Action        m_guiFunc;
-    static string m_src;
+    string m_src { get { return slagunity.m_script; } set { slagunity.m_script = value;  } }
 
     static bool   m_resOrWorkDir = true;
 
     private void Start()
     {
-        if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。";
+        if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。\n//   または、モニターよりコマンドを入力してください。";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
 
@@ -200,12 +200,6 @@ public class playtext : MonoBehaviour {
     {
         if (bFirst)
         {
-            //if (m_slagunity == null)
-            //{
-            //    m_slagunity = slagunity.Create(gameObject);
-            //    m_slagunity.StartNetComm();    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
-            //}
-
             m_guiDisplay.gameObject.SetActive(true);
             m_guiFunc = playingGUI;
         }

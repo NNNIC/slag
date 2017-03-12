@@ -103,8 +103,6 @@ namespace slagtool
         public void LoadJSFiles(string[] filenames)
         {
             m_curslag = this;
-            //m_id = Path.GetFileNameWithoutExtension(filenames[0]);
-            //m_filename = filenames[0];
             var ids = new List<string>();
             var sources = new List<string>();
             Array.ForEach(filenames, f =>

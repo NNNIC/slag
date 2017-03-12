@@ -8,19 +8,13 @@ namespace slagremote
 {
     public class cmd_sub
     {
-        public static slagunity m_slagunity;
-
-        //public static slagtool.slag m_slag
-        //{
-        //    set { slagunity_root.SLAG = value;   }
-        //    get { return slagunity_root.SLAG;     }
-        //}
-
+        private static slagunity m_slagunity
+        {
+            get { return slagremote_unity_manager.V.m_slagunity; }
+        }
         public static slagtool.slag Load(string path, string[] files)
         {
-            //m_slag = null;
-            //m_slag = new slagtool.slag(null);
-            m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
+            //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
 
             var fullpath_files = new List<string>();
             for (var i = 0; i<files.Length; i++)
@@ -58,7 +52,7 @@ namespace slagremote
                     //m_slag = new slagtool.slag(null);
                     //m_slag.LoadJSFiles(fullpath_files.ToArray());
 
-                    m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
+                    //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                     m_slagunity.LoadJSFiles(fullpath_files.ToArray());
                 }
                 catch(SystemException e)
@@ -73,7 +67,7 @@ namespace slagremote
             {
                 //m_slag = new slagtool.slag(null);
                 //m_slag.LoadJSFiles(fullpath_files.ToArray());
-                m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
+                //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                 m_slagunity.LoadJSFiles(fullpath_files.ToArray());
             }
             wk.SendWriteLine("Loaded.");
@@ -82,7 +76,20 @@ namespace slagremote
 
             return  m_slagunity.m_slag;
         }
-
+        public static void Read(string path, string file)
+        {
+            string fullpath = null;
+            try
+            {
+                fullpath = Path.Combine(path,file);
+            }
+            catch
+            {
+                wk.SendWriteLine("ERROR:Unexpcted path name");
+                return;
+            }
+            m_slagunity.ReadScript(fullpath);
+        }
         public static slagtool.slag Load(string path, string file)
         {
             string fullpath = null;
@@ -112,7 +119,7 @@ namespace slagremote
                 wk.SendWriteLine("ERROR:File does not exist!");
             }
 
-            m_slagunity = null;
+            //m_slagunity = null;
 
             if (slagtool.sys.USETRY)
             {
@@ -120,7 +127,7 @@ namespace slagremote
                 {
                     //m_slag = new slagtool.slag(null);
                     //m_slag.LoadFile(fullpath);
-                    m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
+                    //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                     m_slagunity.LoadFile(fullpath);
                 }
                 catch(SystemException e)
@@ -135,7 +142,7 @@ namespace slagremote
             {
                 //m_slag = new slagtool.slag(null);
                 //m_slag.LoadFile(fullpath);
-                m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
+                //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                 m_slagunity.LoadFile(fullpath);
             }
             wk.SendWriteLine("Loaded.");
@@ -185,9 +192,6 @@ namespace slagremote
 
         public static void Run()
         {
-            //if (slag!=null) m_slag = slag;
-
-            //UpdateClear();
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
             if (slagtool.sys.USETRY)
@@ -219,7 +223,11 @@ namespace slagremote
             slagtool.YDEF_DEBUG.ResetAllBreakpoints();//BPクリア
             slagtool.YDEF_DEBUG.bPausing = false;     //ポーズOFF
 
-            UnityEngine.GameObject.Find("main").SendMessage("Reset");
+            var main_go = UnityEngine.GameObject.Find("main");
+            if (main_go!=null)
+            { 
+                main_go.SendMessage("Reset");
+            }
         }
         #region BP
         public static int? m_curFild_id=null; //base 0
@@ -411,6 +419,7 @@ namespace slagremote
 
         public static void Test()
         {
+
             wk.SendWriteLine("...Test returned!");
         }
 

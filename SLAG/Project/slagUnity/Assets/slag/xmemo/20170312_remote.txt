@@ -8,7 +8,22 @@ slagtool.util.SetLogFunc(wk.SendWriteLine,wk.SendWrite);
 
 2017.3.12 slagtool.util.SetRemoteLogFunc(wk.SendWriteLine,wk.SendWrite);  ----- リモート用新設
  
+■ リモートが出来るようになったら・・・
 
+Load text file and playとつながる。
+
+"Remote load and play"は廃止？
+
+全リモートコマンド見直し
+
+
+
+■slagremote.cmd_sub内のslagunityと外のslagunityの関係を整理する
+
+slagunityは外でインスタンスする。
+
+コマンドの実行部分が２か所あって、リセットがかかるとどちが動くかよくわからない！
+リセット時のパイプ関連は正常動作しているようだ。
 
 
 

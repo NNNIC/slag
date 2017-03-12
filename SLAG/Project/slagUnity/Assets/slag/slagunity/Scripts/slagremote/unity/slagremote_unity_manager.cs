@@ -17,7 +17,7 @@ public class slagremote_unity_manager : MonoBehaviour {
     #region インスタンス
     const string m_name = "slagremote_unity_manager";
     public static slagremote_unity_manager V;
-    public static void Create()
+    public static void Create(slagunity p_slagunity)
     {
         if (V==null)
         {
@@ -25,6 +25,8 @@ public class slagremote_unity_manager : MonoBehaviour {
             GameObject.DontDestroyOnLoad(go);
 
             V = go.AddComponent<slagremote_unity_manager>();
+            V.m_slagunity   = p_slagunity;
+
             V.m_start_done  = false;
 
             V.m_bReqAbort   = false;
@@ -35,6 +37,7 @@ public class slagremote_unity_manager : MonoBehaviour {
     #endregion
 
     #region フレームワーク
+    public slagunity m_slagunity { get; private set; }
     private StateSequencer m_seq;
     void Start () {
 	}

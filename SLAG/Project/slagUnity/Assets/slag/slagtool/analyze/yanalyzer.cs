@@ -851,7 +851,7 @@ namespace slagtool
 
             //Yes, they match! then Make it.
 
-            var makefunc = (Func<int, YVALUE[], int[], YVALUE>)ts.make_func;
+            //var makefunc = (Func<int, YVALUE[], int[], YVALUE>)ts.make_func;
 
             var newv = ts.make_func(ts.type,args.ToArray(),ts.make_index.ToArray());
 

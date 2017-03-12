@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class menu : MonoBehaviour {
 
+    slagunity m_slagunity;
+
 	void Start () {
-		
+		m_slagunity = slagunity.Create(gameObject,false);
+        m_slagunity.StartNetComm();
 	}
+
 	void Update () {
 		
 	}

@@ -13,7 +13,8 @@ namespace slagremote
             NONE,
             WD,     //Set Working Directory
 
-            LOAD,   //Load FILENAME (.js or .txt)
+            READ,   //Read FILENAME (.js or .inc)
+            LOAD,   //Load FILENAME (.js, .inc, .bin or .base64)
             LOADRUN,//Load and run FILENAME (.js or .txt)
             LOADBIN,//Load binary file
             LOADBASE64, //Load Base64 file
@@ -23,6 +24,7 @@ namespace slagremote
             LOADTMPBASE64,//Load tmp.base64
             
             RUN,    //Run
+            RUNTEXT,//Run text
             STEP,   //Step in or out
             BP,     //Set breakpoint          
             PRINT,  //Print variable
@@ -82,6 +84,7 @@ namespace slagremote
             switch(cmd)
             {
                 case COMMAND.WD:           if (!string.IsNullOrEmpty(p1)) Set_WorkingDirectoy(p1);     break;
+                case COMMAND.READ:         cmd_sub.Read(m_workDir,p1);                                 break;
                 case COMMAND.LOAD:         if (plist!=null)
                                            { 
                                                if (plist.Length == 1) { cmd_sub.Load(m_workDir,p1);    break; }
@@ -94,6 +97,7 @@ namespace slagremote
                 case COMMAND.SAVETMPBASE64:cmd_sub.SaveBase64(m_workDir,"tmp.base64");                 break;
                 case COMMAND.LOADTMPBIN:   cmd_sub.Load(m_workDir,"tmp.bin");                          break;
                 case COMMAND.LOADTMPBASE64:cmd_sub.Load(m_workDir,"tmp.base64");                       break;
+
 
                 case COMMAND.RUN:          cmd_sub.Run();                                              break;
                 case COMMAND.STEP:         break;
