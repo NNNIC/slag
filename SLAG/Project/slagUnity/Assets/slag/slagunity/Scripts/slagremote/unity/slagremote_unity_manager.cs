@@ -116,6 +116,13 @@ public class slagremote_unity_manager : MonoBehaviour {
             slagremote.cmd.execute(cmd);
         }
         m_bReqAbort  = false;
+
+        if (m_netcomm!=null)
+        {
+            m_netcomm.Terminate();
+            while(!m_netcomm.IsEnd()) yield return null;
+            m_netcomm = null;
+        }
         m_abort_done = true;
         m_start_done = false;
     }
