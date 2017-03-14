@@ -26,7 +26,7 @@ public class playtext : MonoBehaviour {
         m_guiDisplay.gameObject.SetActive(false);
 
         m_slagunity = slagunity.Create(gameObject);
-        m_slagunity.StartNetComm();    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
+        m_slagunity.StartNetComm( slagremote.RUNMODE.RunLimit);    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
 
         m_sm.Goto(S_EDIT);
     }

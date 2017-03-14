@@ -47,6 +47,8 @@ public class slagremote_unity_manager : MonoBehaviour {
 	}
     #endregion
 
+    //コマンド制限用の実行モード
+    slagremote.RUNMODE m_runmode;
 
     // 以下ステート
     public netcomm m_netcomm;
@@ -87,7 +89,7 @@ public class slagremote_unity_manager : MonoBehaviour {
         m_bReqAbort   = false;
         m_abort_done  = false;
 
-        m_netcomm = new netcomm();
+        m_netcomm = new netcomm(m_runmode);
         m_netcomm.Start();
 
         slagremote.cmd.init();
@@ -128,8 +130,10 @@ public class slagremote_unity_manager : MonoBehaviour {
     }
 
     //リクエスト
-    public void StartCom(Action cb=null) //スタート
+    public void StartCom(RUNMODE runmode,  Action cb=null) //スタート
     {
+        m_runmode = runmode;
+
         if (m_seq.IsEmpty())  //シーケンスに次のリクエストがない状態で
         {         
             if (m_start_done) //既に実行済みにつき、すぐに終了
@@ -182,4 +186,9 @@ public class slagremote_unity_manager : MonoBehaviour {
             });
         }
     }
+    //public void SetRunMode(slagremote.RUNMODE mode)
+    //{
+    //    if (m_netcomm!=null) m_netcomm.SetRunMode(mode);
+    //}
+
 }

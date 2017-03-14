@@ -77,10 +77,10 @@ public class slagunity {
     #endregion
 
     #region netcomm
-    public void StartNetComm(Action cb=null)
+    public void StartNetComm(RUNMODE mode,  Action cb=null)
     {
         slagremote_unity_manager.Create(this);
-        slagremote_unity_manager.V.StartCom(cb);
+        slagremote_unity_manager.V.StartCom(mode, cb);
     }
     public void TerminateNetComm(Action cb=null)
     {

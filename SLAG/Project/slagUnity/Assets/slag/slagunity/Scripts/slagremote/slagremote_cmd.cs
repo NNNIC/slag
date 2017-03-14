@@ -6,10 +6,14 @@ using System.IO;
 
 namespace slagremote
 {
-    class cmd
+    internal class cmd
     {
-        public enum COMMAND
+        internal enum COMMAND
         {
+            /*
+               slagremote_cmd_valid_table.cs にフラグあり
+            */
+
             NONE,
             WD,     //Set Working Directory
 
@@ -51,6 +55,8 @@ namespace slagremote
             return s;
         }
 
+        public static RUNMODE m_runMode;
+
         public static string preexecute(string cmdbuf)        //※UnityAPI使用不可
         {
             if (!slagtool.YDEF_DEBUG.bPausing) return cmdbuf; //ポーズ外・・通過。
@@ -58,6 +64,13 @@ namespace slagremote
             string[] plist;
             COMMAND cmd = GetCmd(cmdbuf,out plist);
             string p1 = plist!=null && plist.Length>0 ? plist[0] : null;
+
+            if (!valid_table.IsValid(m_runMode,cmd))
+            {
+                wk.SendWriteLine(cmd +" is disabled on purpose.");
+                return null;
+            }
+
 
             switch (cmd)
             {
@@ -81,7 +94,12 @@ namespace slagremote
             string[] plist;
             COMMAND cmd = GetCmd(cmdbuff,out plist);
             string p1 = plist!=null && plist.Length>0 ? plist[0] : null;
-            switch(cmd)
+            if (!valid_table.IsValid(m_runMode,cmd))
+            {
+                wk.SendWriteLine(cmd +" is disabled on purpose.");
+                return;
+            }
+            switch (cmd)
             {
                 case COMMAND.WD:           if (!string.IsNullOrEmpty(p1)) Set_WorkingDirectoy(p1);     break;
                 case COMMAND.READ:         cmd_sub.Read(m_workDir,p1);                                 break;

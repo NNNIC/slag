@@ -9,7 +9,7 @@ public class menu : MonoBehaviour {
 
 	void Start () {
 		m_slagunity = slagunity.Create(gameObject,false);
-        m_slagunity.StartNetComm();
+        m_slagunity.StartNetComm( slagremote.RUNMODE.RunLimit );
 	}
 
 	void Update () {
