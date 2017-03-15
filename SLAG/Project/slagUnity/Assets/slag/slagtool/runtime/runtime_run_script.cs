@@ -827,7 +827,7 @@ namespace slagtool.runtime
                         }
                         else if (vc.IsType(YDEF.sx_default_clause))
                         {
-                            var sx_default_clause = vc.FindValueByTravarse(YDEF.sx_default_clause);
+                            //var sx_default_clause = vc.FindValueByTravarse(YDEF.sx_default_clause);
                             b = true;
                         }
                     }

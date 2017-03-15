@@ -43,7 +43,7 @@ public class slagremote_unity_manager : MonoBehaviour {
 	}
 	
 	void Update () {
-		m_seq.Update();
+        if (m_seq!=null) m_seq.Update();
 	}
     #endregion
 

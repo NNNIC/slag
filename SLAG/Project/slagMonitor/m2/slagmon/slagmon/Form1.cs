@@ -74,6 +74,18 @@ namespace slagmon
 
             textBoxVar.Text += s + Environment.NewLine;
         }
+        private void WritePlayText(string s)
+        {
+            try { 
+                var base64 = s.Substring(6);
+                var bytes = Convert.FromBase64String(base64);
+
+                textBox2_src.Text = Encoding.UTF8.GetString(bytes);
+            } catch {
+                WriteLog("GetPlayText got unknown text");
+            }
+
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             for(var loop= 0; loop<5000; loop++)
@@ -84,7 +96,11 @@ namespace slagmon
                     if (s[0]=='@')
                     {
                         WriteVar(s);
-                    }   
+                    }
+                    else if (s.StartsWith("?TEXT?"))
+                    {
+                        WritePlayText(s);
+                    } 
                     else
                     {                   
                         WriteLog(s);

@@ -17,7 +17,7 @@ namespace slagremote
             NONE,
             WD,     //Set Working Directory
 
-            READ,   //Read FILENAME (.js or .inc)
+            //READ,   //Read FILENAME (.js or .inc)
             LOAD,   //Load FILENAME (.js, .inc, .bin or .base64)
             LOADRUN,//Load and run FILENAME (.js or .txt)
             LOADBIN,//Load binary file
@@ -39,6 +39,8 @@ namespace slagremote
             HELP, 
             QUIT,   //Quit and Close          --- 実行中OK
             RESET,  //Same as Quit
+
+            GETPLAYTEXT, //実行側でリードしたテキスト要求する
         }
 
         public static string m_workDir = @"N:\Project\test";
@@ -83,7 +85,9 @@ namespace slagremote
                 case COMMAND.QUIT:
                 case COMMAND.RESET: cmd_sub.BP(new string[1] {"c"});  cmd_sub.Resume(); m_nextcmd = "reset";  return null;
 
-                case COMMAND.TEST:         cmd_sub.Test();                                             break;
+                case COMMAND.TEST:         cmd_sub.Test();            return null;
+
+                case COMMAND.GETPLAYTEXT:  cmd_sub.GetPlayText();     return null;
             }
 
             return cmdbuf;
@@ -102,7 +106,7 @@ namespace slagremote
             switch (cmd)
             {
                 case COMMAND.WD:           if (!string.IsNullOrEmpty(p1)) Set_WorkingDirectoy(p1);     break;
-                case COMMAND.READ:         cmd_sub.Read(m_workDir,p1);                                 break;
+                //case COMMAND.READ:         cmd_sub.Read(m_workDir,p1);                                 break;
                 case COMMAND.LOAD:         if (plist!=null)
                                            { 
                                                if (plist.Length == 1) { cmd_sub.Load(m_workDir,p1);    break; }
@@ -119,7 +123,7 @@ namespace slagremote
 
                 case COMMAND.RUN:          cmd_sub.Run();                                              break;
                 case COMMAND.STEP:         break;
-                case COMMAND.BP:           cmd_sub.BP(plist);                               break;
+                case COMMAND.BP:           cmd_sub.BP(plist);                                          break;
                 case COMMAND.PRINT:        break;
                 case COMMAND.STOP:         cmd_sub.Stop();                                             break;
                 case COMMAND.RESUME:       break;
@@ -130,6 +134,8 @@ namespace slagremote
                 case COMMAND.QUIT:         cmd_sub.Reset();                                            break;
                                                                                                      
                 case COMMAND.HELP:         cmd_sub.Help();                                             break;
+
+                case COMMAND.GETPLAYTEXT:  cmd_sub.GetPlayText();                                      break;
 
                 default:                   wk.SendWriteLine("ignore:" + cmdbuff); break;
             }

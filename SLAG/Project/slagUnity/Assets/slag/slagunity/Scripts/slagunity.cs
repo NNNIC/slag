@@ -79,12 +79,16 @@ public class slagunity {
     #region netcomm
     public void StartNetComm(RUNMODE mode,  Action cb=null)
     {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         slagremote_unity_manager.Create(this);
         slagremote_unity_manager.V.StartCom(mode, cb);
+#endif
     }
     public void TerminateNetComm(Action cb=null)
     {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         slagremote_unity_manager.V.AbortCom(cb);
+#endif
     }
     #endregion
 
@@ -137,22 +141,22 @@ public class slagunity {
     {
         m_slag.LoadSrc(src);
     }
-    #region スクリプト格納とコンパイル
-    /// <summary>
-    /// ファイルを読み込み、m_scriptに格納する
-    /// </summary>
-    public void ReadScript(string file)
-    {
-        m_script = File.ReadAllText(file,Encoding.UTF8);
-    }
-    /// <summary>
-    /// m_scriptをコンパイル
-    /// </summary>
-    public void CompileScript()
-    {
-        m_slag.LoadSrc(m_script);
-    }
-    #endregion
+    //#region スクリプト格納とコンパイル
+    ///// <summary>
+    ///// ファイルを読み込み、m_scriptに格納する
+    ///// </summary>
+    //public void ReadScript(string file)
+    //{
+    //    m_script = File.ReadAllText(file,Encoding.UTF8);
+    //}
+    ///// <summary>
+    ///// m_scriptをコンパイル
+    ///// </summary>
+    //public void CompileScript()
+    //{
+    //    m_slag.LoadSrc(m_script);
+    //}
+    //#endregion
     /// <summary>
     /// バイナリロード
     /// </summary>

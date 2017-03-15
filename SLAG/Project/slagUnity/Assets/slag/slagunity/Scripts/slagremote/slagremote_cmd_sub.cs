@@ -76,20 +76,20 @@ namespace slagremote
 
             return  m_slagunity.m_slag;
         }
-        public static void Read(string path, string file)
-        {
-            string fullpath = null;
-            try
-            {
-                fullpath = Path.Combine(path,file);
-            }
-            catch
-            {
-                wk.SendWriteLine("ERROR:Unexpcted path name");
-                return;
-            }
-            m_slagunity.ReadScript(fullpath);
-        }
+        //public static void Read(string path, string file)
+        //{
+        //    string fullpath = null;
+        //    try
+        //    {
+        //        fullpath = Path.Combine(path,file);
+        //    }
+        //    catch
+        //    {
+        //        wk.SendWriteLine("ERROR:Unexpcted path name");
+        //        return;
+        //    }
+        //    m_slagunity.ReadScript(fullpath);
+        //}
         public static slagtool.slag Load(string path, string file)
         {
             string fullpath = null;
@@ -444,6 +444,20 @@ namespace slagremote
         {
             var s = slagtool.runtime.builtin.builtin_func.Help();
             wk.SendWriteLine(s);
+        }
+
+        public static void GetPlayText()
+        {
+            var s = slagunity.m_script;
+            if (!string.IsNullOrEmpty(s))
+            { 
+                var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
+                wk.SendWriteLine("?TEXT?" + base64);
+            }
+            else
+            {
+                wk.SendWriteLine("No Text");
+            }
         }
 
         //--- tool for this class

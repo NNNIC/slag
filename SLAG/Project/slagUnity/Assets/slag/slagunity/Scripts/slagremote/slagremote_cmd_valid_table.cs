@@ -28,32 +28,33 @@ namespace slagremote {
             
             // enum COMMANDでの定義順に記述。他の要素が出てきたときに利用予定
                                                           //bRunLimit 
-            list.Add(cmd.COMMAND.NONE,         new valid_item(false          ));
-            list.Add(cmd.COMMAND.WD  ,         new valid_item(false          ));
-                                                                             
-            list.Add(cmd.COMMAND.READ,         new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOAD,         new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOADRUN,      new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOADBIN,      new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOADBASE64,   new valid_item(false          ));
-            list.Add(cmd.COMMAND.SAVETMPBIN,   new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOADTMPBIN,   new valid_item(false          ));
-            list.Add(cmd.COMMAND.SAVETMPBASE64,new valid_item(false          ));
-            list.Add(cmd.COMMAND.LOADTMPBASE64,new valid_item(false          ));
-                                                                             
-            list.Add(cmd.COMMAND.RUN,          new valid_item(false          ));
-            list.Add(cmd.COMMAND.RUNTEXT,      new valid_item(false          ));
-            list.Add(cmd.COMMAND.STEP,         new valid_item(true           ));
-            list.Add(cmd.COMMAND.BP,           new valid_item(true           ));
-            list.Add(cmd.COMMAND.PRINT,        new valid_item(true           ));
-            list.Add(cmd.COMMAND.STOP,         new valid_item(true           ));
-            list.Add(cmd.COMMAND.RESUME,       new valid_item(true           ));
-            list.Add(cmd.COMMAND.DEBUG,        new valid_item(true           ));
-            list.Add(cmd.COMMAND.HELP,         new valid_item(true           ));
-            list.Add(cmd.COMMAND.QUIT,         new valid_item(true           ));
-            list.Add(cmd.COMMAND.RESET,        new valid_item(false          ));
-        }
+            list.Add(cmd.COMMAND.NONE,         new valid_item(false    ));
+            list.Add(cmd.COMMAND.WD  ,         new valid_item(false    ));
+                                                                       
+            //list.Add(cmd.COMMAND.READ,         new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOAD,         new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOADRUN,      new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOADBIN,      new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOADBASE64,   new valid_item(false    ));
+            list.Add(cmd.COMMAND.SAVETMPBIN,   new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOADTMPBIN,   new valid_item(false    ));
+            list.Add(cmd.COMMAND.SAVETMPBASE64,new valid_item(false    ));
+            list.Add(cmd.COMMAND.LOADTMPBASE64,new valid_item(false    ));
+                                                                       
+            list.Add(cmd.COMMAND.RUN,          new valid_item(false    ));
+            list.Add(cmd.COMMAND.RUNTEXT,      new valid_item(false    ));
+            list.Add(cmd.COMMAND.STEP,         new valid_item(true     ));
+            list.Add(cmd.COMMAND.BP,           new valid_item(true     ));
+            list.Add(cmd.COMMAND.PRINT,        new valid_item(true     ));
+            list.Add(cmd.COMMAND.STOP,         new valid_item(true     ));
+            list.Add(cmd.COMMAND.RESUME,       new valid_item(true     ));
+            list.Add(cmd.COMMAND.DEBUG,        new valid_item(true     ));
+            list.Add(cmd.COMMAND.HELP,         new valid_item(true     ));
+            list.Add(cmd.COMMAND.QUIT,         new valid_item(true     ));
+            list.Add(cmd.COMMAND.RESET,        new valid_item(false    ));
 
+            list.Add(cmd.COMMAND.GETPLAYTEXT,  new valid_item(true     ));
+        }
 
         internal static bool IsValid(RUNMODE mode, cmd.COMMAND command)
         {
@@ -68,5 +69,4 @@ namespace slagremote {
             return true;
         }
     }
-
 }
