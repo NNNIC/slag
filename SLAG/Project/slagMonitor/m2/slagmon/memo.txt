@@ -7,6 +7,7 @@ Unity -> Monitor
 03/15案
 
 [SS$L:行,N:ファイル名]　　　 もしファイル名が ?TEXT?だったら、テキストは GETPLAYTEXTで取得可能
+                             ?TEXT?ＢＡＳＥ６４テキスト
 
 ?TEXT?ＢＡＳＥ６４テキスト    GETPLAYTEXTで取得するテキスト
 

@@ -190,4 +190,11 @@ public class slagremote_unity_manager : MonoBehaviour {
             });
         }
     }
+    public void WriteNetLog(string s)
+    {
+        if (m_netcomm!=null)
+        {
+            m_netcomm.SendMsg(s);
+        }
+    }
 }

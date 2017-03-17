@@ -50,7 +50,9 @@ namespace slagtool
 
         public object m_owner; //本クラスを所有するオブジェクト
 
-        public string[] m_idlist;
+        [Obsolete]     public string[] m_idlist;
+
+        public Filelist m_filelist;
 
         private List<YVALUE> m_exelist;
         private StateBuffer m_statebuf;
@@ -77,7 +79,7 @@ namespace slagtool
             {
                 case ".JS":
                     {
-                        LoadJSFiles(new filelist( filename ));
+                        LoadJSFiles(new Filelist( filename ));
                     }
                     break;
                 case ".BASE64":
@@ -99,18 +101,19 @@ namespace slagtool
         /// <summary>
         /// 拡張子JSのファイル（複数）をロード
         /// </summary>
-        public void LoadJSFiles(filelist filenames)
+        public void LoadJSFiles(Filelist filenames)
         {
             //m_curslag = this;
-            var ids = new List<string>();
+            // var ids = new List<string>();
             var sources = new List<string>();
 
             for(var i = 0; i<filenames.Count; i++)
             {
                 sources.Add(File.ReadAllText(filenames[i]));
-                ids.Add(Path.GetFileNameWithoutExtension(filenames[i]));
+                //ids.Add(Path.GetFileNameWithoutExtension(filenames[i]));
             }
-            m_idlist = ids.ToArray();
+            //m_idlist = ids.ToArray();
+            m_filelist = filenames;
             m_exelist = util_sub.Compile(sources);
         }
         /// <summary>
@@ -120,7 +123,8 @@ namespace slagtool
         public void LoadSrc(string src, string id = null)
         {
             //m_curslag = this;
-            m_idlist = id != null ? new string[] { id } : null;
+            //m_idlist = id != null ? new string[] { id } : null;
+            m_filelist = new Filelist(id);
             m_exelist = util_sub.Compile(src);
         }
         /// <summary>
@@ -130,7 +134,8 @@ namespace slagtool
         {
             //m_curslag = this;
             var d = deserialize(bin);
-            m_idlist = d.ids;
+            //m_idlist = d.ids;
+            m_filelist = d.filelist;
             m_exelist = d.list;
         }
         /// <summary>
@@ -157,7 +162,7 @@ namespace slagtool
         public byte[] GetBin()
         {
             //m_curslag = this;
-            return serialize(m_exelist, m_idlist);
+            return serialize(m_exelist, m_filelist);
         }
         public string GetBase64()
         {
@@ -169,7 +174,8 @@ namespace slagtool
         [System.Serializable]
         public class SaveFormat
         {
-            public string[] ids;
+            //[Obsolete]  public string[] ids;
+            public Filelist     filelist;
             public List<YVALUE> list;
         }
 
@@ -181,11 +187,25 @@ namespace slagtool
                 return (SaveFormat)bf.Deserialize(ms);
             }
         }
-        private byte[] serialize(List<YVALUE> list, string[] ids)
+        //private byte[] serialize(List<YVALUE> list, string[] ids)
+        //{
+        //    var d = new SaveFormat();
+            
+        //    d.ids = ids;
+        //    d.list = list;
+        //    var bf = new BinaryFormatter();
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        bf.Serialize(ms, d);
+        //        return ms.ToArray();
+        //    }
+        //}
+        private byte[] serialize(List<YVALUE> list, Filelist filelist)
         {
             var d = new SaveFormat();
             
-            d.ids = ids;
+            //d.ids = ids;
+            d.filelist = filelist;
             d.list = list;
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
@@ -194,6 +214,7 @@ namespace slagtool
                 return ms.ToArray();
             }
         }
+
         #endregion
 
         public void Run()
@@ -376,11 +397,15 @@ namespace slagtool
         {
             id = base1 ? id-- : id;
 
-            if (id>=0 && m_idlist!=null && id < m_idlist.Length)
-            {
-                return m_idlist[id];
-            }
-            return null;
+            //if (id>=0 && m_idlist!=null && id < m_idlist.Length)
+            //{
+            //    return m_idlist[id];
+            //}
+            //return null;
+
+            return m_filelist.GetFile(id);
+
+
         }
 #endregion
     }

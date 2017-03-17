@@ -17,8 +17,6 @@ public class slagunity {
     public slagunity_root m_root   {get; private set; }
     public static string           m_script;
     
-    //public static netcomm m_netcomm;
-
     private slagunity()
     { }
 
@@ -87,7 +85,19 @@ public class slagunity {
     public void TerminateNetComm(Action cb=null)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        slagremote_unity_manager.V.AbortCom(cb);
+        if (slagremote_unity_manager.V!=null)
+        { 
+            slagremote_unity_manager.V.AbortCom(cb);
+        }
+#endif
+    }
+    public void WriteNetLog(string s)
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        if (slagremote_unity_manager.V!=null)
+        {
+            slagremote_unity_manager.V.WriteNetLog(s);
+        }
 #endif
     }
     public void SetResetCallback(Action cb)
@@ -114,9 +124,9 @@ public class slagunity {
             m_slag.LoadFile(path);
         }
     }
-    slagtool.filelist convert_inc(string f)
+    slagtool.Filelist convert_inc(string f)
     {
-        var fl = new slagtool.filelist();
+        var fl = new slagtool.Filelist();
 
         string[] readlist = null;
         try { 
@@ -139,7 +149,7 @@ public class slagunity {
     /// <summary>
     /// 拡張子JSファイル（複数）をロード
     /// </summary>
-    public void LoadJSFiles(slagtool.filelist files)
+    public void LoadJSFiles(slagtool.Filelist files)
     {
         m_slag.LoadJSFiles(files);
     }
@@ -148,7 +158,15 @@ public class slagunity {
     /// </summary>
     public void LoadSrc(string src)
     {
-        m_slag.LoadSrc(src);
+        m_script = src;
+        string base64 = null;
+        if (!string.IsNullOrEmpty(src))
+        { 
+            base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(src));
+        }
+
+        var temp_filename = string.Format("?TEXT?{0}", base64);
+        m_slag.LoadSrc(src,temp_filename);
     }
     /// <summary>
     /// バイナリロード

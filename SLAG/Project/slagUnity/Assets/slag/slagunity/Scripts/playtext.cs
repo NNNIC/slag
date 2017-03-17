@@ -21,7 +21,7 @@ public class playtext : MonoBehaviour {
 
     private void Start()
     {
-        if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。\n//   または、モニターよりコマンドを入力してください。";
+        if (m_src==null) m_src = "//　スクリプトを入力するか、Loadボタンを押してください。\n";
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
 
@@ -211,7 +211,8 @@ public class playtext : MonoBehaviour {
             }
             catch (SystemException e)
             {
-                guiDisplay.Write(e.Message);                       
+                guiDisplay.Write(e.Message);    
+                if (m_slagunity!=null) m_slagunity.WriteNetLog(e.Message+"\n");                   
             }
             m_sm.Goto(S_RUNNING);
         }

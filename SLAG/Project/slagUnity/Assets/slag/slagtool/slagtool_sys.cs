@@ -51,9 +51,6 @@ namespace slagtool
             
             string es = "ERROR"+ (line>=0 ? "(L:" + line.ToString() + ")" : "") + ":" + s;
 
-            //Console.WriteLine(es);
-            //if (m_conWriteLine!=null) m_conWriteLine(es);
-
             conWriteLine(es);
 
             throw new SystemException(es);
@@ -63,10 +60,6 @@ namespace slagtool
         {
             if (DEBUGMODE||bForce)
             {
-                //if (m_conWrite!=null)
-                //{
-                //    m_conWrite(s);
-                //}
                 conWrite(s);
             }
         }
@@ -75,10 +68,6 @@ namespace slagtool
         {
             if (DEBUGMODE||bForce)
             { 
-                //if (m_conWriteLine!=null)
-                //{
-                //    m_conWriteLine(s);
-                //}
                 conWriteLine(s);
             }
         }

@@ -355,9 +355,17 @@ namespace slagtool
             current_v.get_dbg_id_line(out fileid,out line);
             if (fileid>=0 && line>=0)
             { 
+                string fn = null;
+                if (slag.m_latest_slag!=null && slag.m_latest_slag.m_filelist!=null)
+                { 
+                    fn = slag.m_latest_slag.m_filelist.GetFile(fileid);
+                }
+
                 fileid++;
                 line ++;
-                return "[SS$L:"+line + ",F:" + fileid +"]";
+
+
+                return "[SS$L:"+line + ",F:" + fileid +"]" + " / " + "[SS$L:"+line + ",N:" + fn +"]";
             }
             return null;
         }

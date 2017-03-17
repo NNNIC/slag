@@ -16,7 +16,7 @@ namespace slagremote
         {
             //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
 
-            var file_list = new slagtool.filelist();//new List<string>();
+            var file_list = new slagtool.Filelist();//new List<string>();
             file_list.root = path;
 
             for (var i = 0; i<files.Length; i++)
@@ -93,7 +93,7 @@ namespace slagremote
                 {
                     if (bJS)
                     { 
-                        m_slagunity.LoadJSFiles(new slagtool.filelist(path,file));
+                        m_slagunity.LoadJSFiles(new slagtool.Filelist(path,file));
                     }
                     else
                     {
@@ -112,7 +112,7 @@ namespace slagremote
             {
                 if (bJS)
                 { 
-                    m_slagunity.LoadJSFiles(new slagtool.filelist(path,file));
+                    m_slagunity.LoadJSFiles(new slagtool.Filelist(path,file));
                 }
                 else
                 {
