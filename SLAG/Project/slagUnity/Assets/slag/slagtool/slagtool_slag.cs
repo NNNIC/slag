@@ -77,7 +77,7 @@ namespace slagtool
             {
                 case ".JS":
                     {
-                        LoadJSFiles(new string[1] { filename });
+                        LoadJSFiles(new filelist( filename ));
                     }
                     break;
                 case ".BASE64":
@@ -99,18 +99,17 @@ namespace slagtool
         /// <summary>
         /// 拡張子JSのファイル（複数）をロード
         /// </summary>
-        /// <param name="filenames"></param>
-        public void LoadJSFiles(string[] filenames)
+        public void LoadJSFiles(filelist filenames)
         {
             m_curslag = this;
             var ids = new List<string>();
             var sources = new List<string>();
-            Array.ForEach(filenames, f =>
-            {
-                sources.Add(File.ReadAllText(f));
-                ids.Add(Path.GetFileNameWithoutExtension(f));
-            });
 
+            for(var i = 0; i<filenames.Count; i++)
+            {
+                sources.Add(File.ReadAllText(filenames[i]));
+                ids.Add(Path.GetFileNameWithoutExtension(filenames[i]));
+            }
             m_idlist = ids.ToArray();
             m_exelist = util_sub.Compile(sources);
         }

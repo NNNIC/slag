@@ -14,7 +14,7 @@ namespace slagremote {
 
     public enum RUNMODE
     {
-        NONE,
+        NORMAL,
         RunLimit
     }
 

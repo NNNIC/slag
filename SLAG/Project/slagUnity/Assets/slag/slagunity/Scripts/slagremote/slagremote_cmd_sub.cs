@@ -16,7 +16,9 @@ namespace slagremote
         {
             //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
 
-            var fullpath_files = new List<string>();
+            var file_list = new slagtool.filelist();//new List<string>();
+            file_list.root = path;
+
             for (var i = 0; i<files.Length; i++)
             {
                 var file = files[i];
@@ -25,24 +27,24 @@ namespace slagremote
                     wk.SendWriteLine("ERROR:File is not JS :" + file );
                     return null;
                 }
-                string fullpath = null;
-                try
-                {
-                    fullpath = Path.Combine(path,file);
-                }
-                catch
-                {
-                    wk.SendWriteLine("ERROR:Unexpcted path name");
-                    return null;
-                }
+                //string fullpath = null;
+                //try
+                //{
+                //    fullpath = Path.Combine(path,file);
+                //}
+                //catch
+                //{
+                //    wk.SendWriteLine("ERROR:Unexpcted path name");
+                //    return null;
+                //}
 
-                if (fullpath==null)
-                {
-                    wk.SendWriteLine("ERROR:File name is null!");
-                    return null;
-                }
+                //if (fullpath==null)
+                //{
+                //    wk.SendWriteLine("ERROR:File name is null!");
+                //    return null;
+                //}
 
-                fullpath_files.Add(fullpath);
+                file_list.files.Add(file);
             }
 
             if (slagtool.sys.USETRY)
@@ -53,7 +55,7 @@ namespace slagremote
                     //m_slag.LoadJSFiles(fullpath_files.ToArray());
 
                     //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
-                    m_slagunity.LoadJSFiles(fullpath_files.ToArray());
+                    m_slagunity.LoadJSFiles(file_list);
                 }
                 catch(SystemException e)
                 {
@@ -68,7 +70,7 @@ namespace slagremote
                 //m_slag = new slagtool.slag(null);
                 //m_slag.LoadJSFiles(fullpath_files.ToArray());
                 //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
-                m_slagunity.LoadJSFiles(fullpath_files.ToArray());
+                m_slagunity.LoadJSFiles(file_list);
             }
             wk.SendWriteLine("Loaded.");
 

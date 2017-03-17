@@ -30,7 +30,7 @@ namespace slagremote
         bool          m_bReqAbort;
         bool          m_bEnd;
 
-        public netcomm(RUNMODE mode = RUNMODE.NONE)
+        public netcomm(RUNMODE mode = RUNMODE.NORMAL)
         {
             cmd.m_runMode = mode;
         }

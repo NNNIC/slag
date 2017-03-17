@@ -17,7 +17,7 @@ public class slagunity {
     public slagunity_root m_root   {get; private set; }
     public static string           m_script;
     
-    public static netcomm m_netcomm;
+    //public static netcomm m_netcomm;
 
     private slagunity()
     { }
@@ -91,7 +91,7 @@ public class slagunity {
 #endif
     }
     #endregion
-
+    
     /// <summary>
     /// 指定パスよりロード
     /// ファイル：*.js | *.bin | *.base64 | *.inc
@@ -108,9 +108,9 @@ public class slagunity {
             m_slag.LoadFile(path);
         }
     }
-    string[] convert_inc(string f)
+    slagtool.filelist convert_inc(string f)
     {
-        List<string> filelist = new List<string>();
+        var fl = new slagtool.filelist();
 
         string[] readlist = null;
         try { 
@@ -119,18 +119,21 @@ public class slagunity {
 
         if (readlist==null || readlist.Length==0) return null;
 
+        fl.root = Path.GetDirectoryName(f);
+
         foreach(var l in readlist)
         {
             var nl = l.Trim();
             if (string.IsNullOrEmpty(nl) || nl.StartsWith("//") ) continue;
-            filelist.Add(Path.Combine(Path.GetDirectoryName(f),nl));
+            
+            fl.files.Add(nl);
         }
-        return filelist.ToArray();
+        return fl;
     }
     /// <summary>
     /// 拡張子JSファイル（複数）をロード
     /// </summary>
-    public void LoadJSFiles(string[] files)
+    public void LoadJSFiles(slagtool.filelist files)
     {
         m_slag.LoadJSFiles(files);
     }
