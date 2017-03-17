@@ -90,6 +90,12 @@ public class slagunity {
         slagremote_unity_manager.V.AbortCom(cb);
 #endif
     }
+    public void SetResetCallback(Action cb)
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        slagremote_unity_manager.V.m_reset_callback = cb;
+#endif        
+    }
     #endregion
     
     /// <summary>
@@ -144,22 +150,6 @@ public class slagunity {
     {
         m_slag.LoadSrc(src);
     }
-    //#region スクリプト格納とコンパイル
-    ///// <summary>
-    ///// ファイルを読み込み、m_scriptに格納する
-    ///// </summary>
-    //public void ReadScript(string file)
-    //{
-    //    m_script = File.ReadAllText(file,Encoding.UTF8);
-    //}
-    ///// <summary>
-    ///// m_scriptをコンパイル
-    ///// </summary>
-    //public void CompileScript()
-    //{
-    //    m_slag.LoadSrc(m_script);
-    //}
-    //#endregion
     /// <summary>
     /// バイナリロード
     /// </summary>

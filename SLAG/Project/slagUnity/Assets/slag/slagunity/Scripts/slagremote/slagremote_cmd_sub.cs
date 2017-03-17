@@ -27,23 +27,6 @@ namespace slagremote
                     wk.SendWriteLine("ERROR:File is not JS :" + file );
                     return null;
                 }
-                //string fullpath = null;
-                //try
-                //{
-                //    fullpath = Path.Combine(path,file);
-                //}
-                //catch
-                //{
-                //    wk.SendWriteLine("ERROR:Unexpcted path name");
-                //    return null;
-                //}
-
-                //if (fullpath==null)
-                //{
-                //    wk.SendWriteLine("ERROR:File name is null!");
-                //    return null;
-                //}
-
                 file_list.files.Add(file);
             }
 
@@ -51,10 +34,6 @@ namespace slagremote
             {
                 try
                 {
-                    //m_slag = new slagtool.slag(null);
-                    //m_slag.LoadJSFiles(fullpath_files.ToArray());
-
-                    //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                     m_slagunity.LoadJSFiles(file_list);
                 }
                 catch(SystemException e)
@@ -67,9 +46,6 @@ namespace slagremote
             }
             else
             {
-                //m_slag = new slagtool.slag(null);
-                //m_slag.LoadJSFiles(fullpath_files.ToArray());
-                //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
                 m_slagunity.LoadJSFiles(file_list);
             }
             wk.SendWriteLine("Loaded.");
@@ -78,20 +54,6 @@ namespace slagremote
 
             return  m_slagunity.m_slag;
         }
-        //public static void Read(string path, string file)
-        //{
-        //    string fullpath = null;
-        //    try
-        //    {
-        //        fullpath = Path.Combine(path,file);
-        //    }
-        //    catch
-        //    {
-        //        wk.SendWriteLine("ERROR:Unexpcted path name");
-        //        return;
-        //    }
-        //    m_slagunity.ReadScript(fullpath);
-        //}
         public static slagtool.slag Load(string path, string file)
         {
             string fullpath = null;
@@ -121,16 +83,22 @@ namespace slagremote
                 wk.SendWriteLine("ERROR:File does not exist!");
             }
 
+            bool bJS = ext == ".JS";
+
             //m_slagunity = null;
 
             if (slagtool.sys.USETRY)
             {
                 try
                 {
-                    //m_slag = new slagtool.slag(null);
-                    //m_slag.LoadFile(fullpath);
-                    //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
-                    m_slagunity.LoadFile(fullpath);
+                    if (bJS)
+                    { 
+                        m_slagunity.LoadJSFiles(new slagtool.filelist(path,file));
+                    }
+                    else
+                    {
+                        m_slagunity.LoadFile(fullpath);
+                    }
                 }
                 catch(SystemException e)
                 {
@@ -142,10 +110,14 @@ namespace slagremote
             }
             else
             {
-                //m_slag = new slagtool.slag(null);
-                //m_slag.LoadFile(fullpath);
-                //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
-                m_slagunity.LoadFile(fullpath);
+                if (bJS)
+                { 
+                    m_slagunity.LoadJSFiles(new slagtool.filelist(path,file));
+                }
+                else
+                {
+                    m_slagunity.LoadFile(fullpath);
+                }
             }
             wk.SendWriteLine("Loaded.");
 
@@ -225,10 +197,14 @@ namespace slagremote
             slagtool.YDEF_DEBUG.ResetAllBreakpoints();//BPクリア
             slagtool.YDEF_DEBUG.bPausing = false;     //ポーズOFF
 
-            var main_go = UnityEngine.GameObject.Find("main");
-            if (main_go!=null)
-            { 
-                main_go.SendMessage("Reset");
+            //var main_go = UnityEngine.GameObject.Find("main");
+            //if (main_go!=null)
+            //{ 
+            //    main_go.SendMessage("Reset");
+            //}
+            if (slagremote_unity_manager.V.m_reset_callback!=null)
+            {
+                slagremote_unity_manager.V.m_reset_callback();
             }
         }
         #region BP

@@ -58,7 +58,7 @@ public class slagunity_builtinfunc {
         return mono;
     }
 
-    #region ステートマシン
+#region ステートマシン
     public static object F_StateManager(bool bHelp, object[] ol, StateBuffer sb)
     {
         if (bHelp)
@@ -97,7 +97,7 @@ public class slagunity_builtinfunc {
         return sm;
     }
 
-    #endregion
+#endregion
 
     public static object F_SendMsg(bool bHelp, object[] ol, StateBuffer sb)
     {

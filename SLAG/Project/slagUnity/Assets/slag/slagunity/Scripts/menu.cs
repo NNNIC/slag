@@ -15,6 +15,14 @@ public class menu : MonoBehaviour {
 	void Update () {
 		
 	}
+    private void OnDestroy()
+    {
+        if (m_slagunity!=null)
+        {
+            m_slagunity.TerminateNetComm();
+        }
+    }
+
     private void OnGUI()
     {
         var gh = GUILayout.Height(100);
@@ -43,8 +51,6 @@ public class menu : MonoBehaviour {
             {
                 Application.OpenURL("https://github.com/NNNIC/slag/wiki");
             }
-
-
         }
         GUILayout.EndArea();
     }

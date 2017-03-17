@@ -24,10 +24,14 @@ namespace slagtool
 
         public string root;
         public List<string> files = new List<string>();
-        public filelist(string file=null, string iroot = null)
+        public filelist(string file=null)
+        {
+            if (file!=null) files.Add(file);
+        }
+        public filelist(string iroot, string file)
         {
             root = iroot;
-            if (file!=null) files.Add(file);
+            files.Add(file);
         }
     }
 }

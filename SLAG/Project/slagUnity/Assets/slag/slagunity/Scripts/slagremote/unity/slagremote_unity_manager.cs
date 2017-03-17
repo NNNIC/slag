@@ -50,6 +50,9 @@ public class slagremote_unity_manager : MonoBehaviour {
     //コマンド制限用の実行モード
     slagremote.RUNMODE m_runmode;
 
+    //Resetコマンド時のコールバック
+    public Action      m_reset_callback;
+
     // 以下ステート
     public netcomm m_netcomm;
     bool   m_bReqAbort = false; //停止リクエストあり
@@ -186,9 +189,4 @@ public class slagremote_unity_manager : MonoBehaviour {
             });
         }
     }
-    //public void SetRunMode(slagremote.RUNMODE mode)
-    //{
-    //    if (m_netcomm!=null) m_netcomm.SetRunMode(mode);
-    //}
-
 }

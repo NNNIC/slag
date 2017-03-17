@@ -1,6 +1,6 @@
 @echo off
 cd %~dp0
-set MAJORVER=0.6
+set MAJORVER=0.7
 set MINORVER=
 
 echo Get-Date -format "yyyyMMdd" > ~tmp.ps1
