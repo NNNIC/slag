@@ -60,8 +60,6 @@ public class slagunity {
             }
         }
 
-        m_slag = new slagtool.slag(this);
-
         if (!bCompileOnly)
         { 
             if (go!=null)
@@ -73,6 +71,8 @@ public class slagunity {
                 }
             }
         }
+
+        m_slag = new slagtool.slag(this);
     }
     #endregion
 

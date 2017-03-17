@@ -46,7 +46,7 @@ namespace slagtool
     /// </summary>
     public class slag
     {
-        public static slag m_curslag;
+        public static slag m_latest_slag;
 
         public object m_owner; //本クラスを所有するオブジェクト
 
@@ -57,8 +57,8 @@ namespace slagtool
 
         public slag(object owner)
         {
-            m_curslag = this;
-            m_owner   = owner;
+            m_latest_slag = this;
+            m_owner       = owner;
         }
 
         #region ロード&セーブ
@@ -71,7 +71,7 @@ namespace slagtool
         /// </summary>
         public void LoadFile(string filename, string id = null)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var ext = Path.GetExtension(filename);
             switch (ext.ToUpper())
             {
@@ -101,7 +101,7 @@ namespace slagtool
         /// </summary>
         public void LoadJSFiles(filelist filenames)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var ids = new List<string>();
             var sources = new List<string>();
 
@@ -119,7 +119,7 @@ namespace slagtool
         /// </summary>
         public void LoadSrc(string src, string id = null)
         {
-            m_curslag = this;
+            //m_curslag = this;
             m_idlist = id != null ? new string[] { id } : null;
             m_exelist = util_sub.Compile(src);
         }
@@ -128,7 +128,7 @@ namespace slagtool
         /// </summary>
         public void LoadBin(byte[] bin)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var d = deserialize(bin);
             m_idlist = d.ids;
             m_exelist = d.list;
@@ -138,30 +138,30 @@ namespace slagtool
         /// </summary>
         public void LoadBase64(string base64str)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var bin = Convert.FromBase64String(base64str);
             LoadBin(bin);
         }
         public void SaveBin(string filename)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var bytes = GetBin();
             File.WriteAllBytes(filename, bytes);
         }
         public void SaveBase64(string base64File)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var src = GetBase64();
             File.WriteAllText(base64File, src);
         }
         public byte[] GetBin()
         {
-            m_curslag = this;
+            //m_curslag = this;
             return serialize(m_exelist, m_idlist);
         }
         public string GetBase64()
         {
-            m_curslag = this;
+            //m_curslag = this;
             var bytes = GetBin();
             return Convert.ToBase64String(bytes);
         }
@@ -203,7 +203,7 @@ namespace slagtool
                 return;
             }
 
-            m_curslag = this;
+            //m_curslag = this;
             m_statebuf = new StateBuffer(this);
             runtime.builtin.builtin_func.Init();
 
@@ -237,7 +237,7 @@ namespace slagtool
 #region 関数関連
         public bool ExistFunc(string funcname)
         {
-            m_curslag = this;
+            //m_curslag = this;
             return builtin_func.IsFunc(funcname);
         }
         public YVALUE FindFunc(string funcname)
@@ -247,7 +247,7 @@ namespace slagtool
         }
         public object CallFunc(string funcname, object[] param = null)
         {
-            m_curslag = this;
+            //m_curslag = this;
             var fv = (YVALUE)m_statebuf.get_func(funcname);
             if (fv == null)
             {
@@ -264,7 +264,7 @@ namespace slagtool
         {
             if (func!=null)
             { 
-                m_curslag = this;
+                //m_curslag = this;
                 List<object> ol = param!=null ? new List<object>(param) : null;
                 m_statebuf = runtime.util.CallFunction(func,ol,m_statebuf);
                 return m_statebuf.m_cur;

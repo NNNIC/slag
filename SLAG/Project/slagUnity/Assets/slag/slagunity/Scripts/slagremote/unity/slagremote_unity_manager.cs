@@ -25,7 +25,6 @@ public class slagremote_unity_manager : MonoBehaviour {
             GameObject.DontDestroyOnLoad(go);
 
             V = go.AddComponent<slagremote_unity_manager>();
-            V.m_slagunity   = p_slagunity;
 
             V.m_start_done  = false;
 
@@ -33,6 +32,8 @@ public class slagremote_unity_manager : MonoBehaviour {
             V.m_abort_done  = false;
             V.m_seq = new StateSequencer();
         }
+
+        V.m_slagunity   = p_slagunity;
     }
     #endregion
 

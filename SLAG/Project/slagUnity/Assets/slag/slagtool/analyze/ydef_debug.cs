@@ -335,7 +335,7 @@ namespace slagtool
             var fid = current_v.dbg_file_id;
             string file = null;
             try { 
-                file = slag.m_curslag!=null &&  fid>=0 && slag.m_curslag.m_idlist.Length > fid ? slag.m_curslag.m_idlist[fid] : "";
+                file = slag.m_latest_slag!=null &&  fid>=0 && slag.m_latest_slag.m_idlist.Length > fid ? slag.m_latest_slag.m_idlist[fid] : "";
             }
             catch { file = null; }
 

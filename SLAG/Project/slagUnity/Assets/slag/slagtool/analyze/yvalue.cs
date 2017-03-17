@@ -226,7 +226,7 @@ namespace slagtool
         }
         public string get_dbg_file()
         {
-            var slag= slagtool.slag.m_curslag;
+            var slag= slagtool.slag.m_latest_slag;
             if (slag!=null && slag.m_idlist!=null && slag.m_idlist.Length > dbg_file_id)
             {
                 return slag.m_idlist[dbg_file_id];
