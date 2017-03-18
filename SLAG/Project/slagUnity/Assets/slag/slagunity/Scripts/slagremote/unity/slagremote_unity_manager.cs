@@ -138,14 +138,14 @@ public class slagremote_unity_manager : MonoBehaviour {
     {
         m_runmode = runmode;
 
-        if (m_seq.IsEmpty())  //シーケンスに次のリクエストがない状態で
-        {         
-            if (m_start_done) //既に実行済みにつき、すぐに終了
-            {
-                if (cb != null) cb();
-                return;
-            }
-        }
+        //if (m_seq.IsEmpty())  //シーケンスに次のリクエストがない状態 
+        //{         
+        //    if (m_start_done) //既に実行済みにつき、すぐに終了
+        //    {
+        //        if (cb != null) cb();
+        //        return;
+        //    }
+        //}
         var last_statename = m_seq.LastStateNameInQueue();
         if (last_statename!=null && last_statename.StartsWith("start")) //多重要求禁止
         {
@@ -165,14 +165,14 @@ public class slagremote_unity_manager : MonoBehaviour {
     }
     public void AbortCom(Action cb=null) //停止
     {
-        if (m_seq.IsEmpty())            //次のリクエストがない状態で
-        {
-            if (m_start_done == false) // スタートしていないので、すぐ終了
-            {
-                if (cb != null) cb();
-                return;
-            }
-        }
+        //if (m_seq.IsEmpty())            //次のリクエストがない状態で
+        //{
+        //    if (m_start_done == false) // スタートしていないので、すぐ終了
+        //    {
+        //        if (cb != null) cb();
+        //        return;
+        //    }
+        //}
         var statename = m_seq.LastStateNameInQueue();
         if (statename!=null && statename.StartsWith("abort")) //多重要求禁止
         {

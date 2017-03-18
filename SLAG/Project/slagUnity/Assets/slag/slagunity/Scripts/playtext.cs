@@ -25,10 +25,8 @@ public class playtext : MonoBehaviour {
         m_sm = new StateManager();
         m_guiDisplay.gameObject.SetActive(false);
 
-        m_slagunity = slagunity.Create(gameObject);
-        m_slagunity.StartNetComm( slagremote.RUNMODE.RunLimit);    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
+        m_sm.Goto(S_START);
 
-        m_sm.Goto(S_EDIT);
     }
 
     private void Update()
@@ -49,6 +47,16 @@ public class playtext : MonoBehaviour {
         }
     }
 
+    void S_START(bool bFirst)
+    {
+        if (bFirst)
+        {
+            m_slagunity = slagunity.Create(gameObject);
+            m_slagunity.StartNetComm( slagremote.RUNMODE.RunLimit);    // 終了時は OnDestroyにて TerminateNetCommを呼び出し
+
+            m_sm.Goto(S_EDIT);
+        }
+    }
     #region edit
     private void S_EDIT(bool bFirst)
     {

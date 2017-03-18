@@ -101,7 +101,25 @@ namespace slagmon
         public static void Jump(Form1 form, string wd) //wd = "[SS$L:6,F:1]"
         {
             System.Diagnostics.Debug.WriteLine(wd);
+            try {
+                var nwd = wd.Substring(4).TrimEnd(']'); // L:6,F:1
+                var tokens = nwd.Split(',');
 
+                if (tokens.Length > 0)
+                {
+                    int line = 0;
+                    {
+                        var w = tokens[0]; //"L:6"
+                        line = int.Parse(w.Substring(2));
+                        line --;
+                        FocusSrc(form,line);
+                    }
+                }
+
+
+            }
+            catch { }
+#if obs
             try { 
                 var nwd = wd.Substring(4).TrimEnd(']'); // L:6,F:1
                 var tokens = nwd.Split(',');
@@ -129,13 +147,19 @@ namespace slagmon
             {
                System.Diagnostics.Debug.WriteLine(e.Message);
             }
+#endif
         }
-        #endregion
+#endregion
 
-        #region Focus Source
+#region Focus Source
         static int? m_changedIndex = null;
         public static void FocusSrc(Form1 form, int focusline)
         {
+            try {
+                form.dataSource.ClearSelection();
+                form.dataSource.Rows[focusline].Selected = true;
+            }
+            catch { }
 #if obs
             var text = form.textBox2_src.Text;
 
@@ -188,9 +212,9 @@ namespace slagmon
             }
 #endif
         }
-        #endregion
+#endregion
 
-        #region list text
+#region list text
         public static void WriteTextToSrcDG(string text)
         {
             var sd = Form1.V.dataSource;
@@ -208,7 +232,9 @@ namespace slagmon
                 row.Cells[1].Value = (idx+1).ToString("0000");
                 row.Cells[2].Value = l.TrimEnd();
             }
+
+            sd.ClearSelection();
         }
-        #endregion
+#endregion
     }
 }
