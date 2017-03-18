@@ -14,8 +14,7 @@ namespace slagmon
     public partial class Form1 : Form
     {
         public static string m_work_path = @"N:\Project\test";
-        
-        public static Form1 V;
+
 
         Queue<string> m_log;
         FilePipe m_pipe;
@@ -24,8 +23,6 @@ namespace slagmon
         public Form1()
         {
             InitializeComponent();
-
-            V = this;
 
             m_log = new Queue<string>();
 
@@ -84,8 +81,7 @@ namespace slagmon
                 var bytes = Convert.FromBase64String(base64);
 
                 
-                //textBox2_src.Text = Encoding.UTF8.GetString(bytes).Replace("\n",Environment.NewLine);
-                util.WriteTextToSrcDG( Encoding.UTF8.GetString(bytes));
+                textBox2_src.Text = Encoding.UTF8.GetString(bytes).Replace("\n",Environment.NewLine);
             } catch {
                 WriteLog("GetPlayText got unknown text");
             }
@@ -322,22 +318,19 @@ namespace slagmon
                 {
                     var filename = comboBoxFiles.Items[index].ToString().Substring(3);
                     var path = @"N:\Project\test\" + filename;
-                    util.WriteTextToSrcDG("");
-                    //textBox2_src.Text = null;
+                    textBox2_src.Text = null;
 
                     if (File.Exists(path))
                     {
                         var ext = Path.GetExtension(path).ToLower();
                         if (ext==".js")
                         { 
-                            //var lines = File.ReadAllLines(path,Encoding.UTF8);
-                            //for(int i = 0; i<lines.Length; i++)
-                            //{
-                            //    if (textBox2_src.Text!=null) textBox2_src.Text += Environment.NewLine;
-                            //    textBox2_src.Text += (i+1).ToString("0000") + " : " + lines[i];
-                            //}
-                            var text = File.ReadAllText(path,Encoding.UTF8);
-                            util.WriteTextToSrcDG(text);
+                            var lines = File.ReadAllLines(path,Encoding.UTF8);
+                            for(int i = 0; i<lines.Length; i++)
+                            {
+                                if (textBox2_src.Text!=null) textBox2_src.Text += Environment.NewLine;
+                                textBox2_src.Text += (i+1).ToString("0000") + " : " + lines[i];
+                            }
                         }
                         
                         //textBox2_src.Text = File.ReadAllText(path,Encoding.UTF8);

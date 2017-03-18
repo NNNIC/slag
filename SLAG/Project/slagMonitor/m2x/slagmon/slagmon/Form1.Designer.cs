@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.textBox1_log = new System.Windows.Forms.TextBox();
+            this.textBox2_src = new System.Windows.Forms.TextBox();
             this.textBox3_input = new System.Windows.Forms.TextBox();
             this.label1_log = new System.Windows.Forms.Label();
             this.label2_source = new System.Windows.Forms.Label();
@@ -44,11 +45,6 @@
             this.textBoxVar = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxFiles = new System.Windows.Forms.ComboBox();
-            this.dataSource = new System.Windows.Forms.DataGridView();
-            this.bp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSource)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1_log
@@ -64,6 +60,20 @@
             this.textBox1_log.Size = new System.Drawing.Size(398, 328);
             this.textBox1_log.TabIndex = 0;
             this.textBox1_log.WordWrap = false;
+            // 
+            // textBox2_src
+            // 
+            this.textBox2_src.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox2_src.Location = new System.Drawing.Point(406, 24);
+            this.textBox2_src.Multiline = true;
+            this.textBox2_src.Name = "textBox2_src";
+            this.textBox2_src.ReadOnly = true;
+            this.textBox2_src.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox2_src.Size = new System.Drawing.Size(379, 328);
+            this.textBox2_src.TabIndex = 1;
+            this.textBox2_src.WordWrap = false;
+            this.textBox2_src.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_src_KeyDown);
             // 
             // textBox3_input
             // 
@@ -204,56 +214,11 @@
             this.comboBoxFiles.TabIndex = 14;
             this.comboBoxFiles.SelectedIndexChanged += new System.EventHandler(this.comboBoxFiles_SelectedIndexChanged);
             // 
-            // dataSource
-            // 
-            this.dataSource.AllowUserToAddRows = false;
-            this.dataSource.AllowUserToDeleteRows = false;
-            this.dataSource.AllowUserToResizeColumns = false;
-            this.dataSource.AllowUserToResizeRows = false;
-            this.dataSource.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.dataSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataSource.ColumnHeadersVisible = false;
-            this.dataSource.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.bp,
-            this.Line,
-            this.Code});
-            this.dataSource.Location = new System.Drawing.Point(406, 29);
-            this.dataSource.Name = "dataSource";
-            this.dataSource.ReadOnly = true;
-            this.dataSource.RowHeadersVisible = false;
-            this.dataSource.RowTemplate.Height = 12;
-            this.dataSource.Size = new System.Drawing.Size(379, 323);
-            this.dataSource.TabIndex = 15;
-            // 
-            // bp
-            // 
-            this.bp.Frozen = true;
-            this.bp.HeaderText = "bp";
-            this.bp.Name = "bp";
-            this.bp.ReadOnly = true;
-            this.bp.Width = 20;
-            // 
-            // Line
-            // 
-            this.Line.Frozen = true;
-            this.Line.HeaderText = "Line";
-            this.Line.Name = "Line";
-            this.Line.ReadOnly = true;
-            this.Line.Width = 30;
-            // 
-            // Code
-            // 
-            this.Code.HeaderText = "Code";
-            this.Code.Name = "Code";
-            this.Code.ReadOnly = true;
-            this.Code.Width = 500;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 469);
-            this.Controls.Add(this.dataSource);
             this.Controls.Add(this.comboBoxFiles);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxVar);
@@ -266,6 +231,7 @@
             this.Controls.Add(this.label2_source);
             this.Controls.Add(this.label1_log);
             this.Controls.Add(this.textBox3_input);
+            this.Controls.Add(this.textBox2_src);
             this.Controls.Add(this.textBox1_log);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -275,7 +241,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.dataSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -298,10 +263,7 @@
         private System.Windows.Forms.TextBox textBoxVar;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.ComboBox comboBoxFiles;
-        public System.Windows.Forms.DataGridView dataSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Line;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
+        public System.Windows.Forms.TextBox textBox2_src;
     }
 }
 

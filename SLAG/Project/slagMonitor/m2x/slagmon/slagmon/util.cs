@@ -136,7 +136,6 @@ namespace slagmon
         static int? m_changedIndex = null;
         public static void FocusSrc(Form1 form, int focusline)
         {
-#if obs
             var text = form.textBox2_src.Text;
 
             if (m_changedIndex!=null)
@@ -185,28 +184,6 @@ namespace slagmon
                     form.textBox2_src.Focus();  
                     form.textBox2_src.ScrollToCaret();              
                 }
-            }
-#endif
-        }
-        #endregion
-
-        #region list text
-        public static void WriteTextToSrcDG(string text)
-        {
-            var sd = Form1.V.dataSource;
-            sd.Rows.Clear();
-
-            if (text==null) return;
-
-            var lines = text.Split('\n');
-
-            foreach(var l in lines)
-            { 
-                sd.Rows.Add();
-                var idx = sd.Rows.Count-1;
-                var row = sd.Rows[idx];
-                row.Cells[1].Value = (idx+1).ToString("0000");
-                row.Cells[2].Value = l.TrimEnd();
             }
         }
         #endregion

@@ -212,7 +212,7 @@ public class playtext : MonoBehaviour {
             catch (SystemException e)
             {
                 guiDisplay.Write(e.Message);    
-                if (m_slagunity!=null) m_slagunity.WriteNetLog(e.Message+"\n");                   
+                if (m_slagunity!=null) m_slagunity.WriteNetLog(e.Message);                   
             }
             m_sm.Goto(S_RUNNING);
         }

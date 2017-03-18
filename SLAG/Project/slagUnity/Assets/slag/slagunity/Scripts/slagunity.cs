@@ -96,7 +96,11 @@ public class slagunity {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         if (slagremote_unity_manager.V!=null)
         {
-            slagremote_unity_manager.V.WriteNetLog(s);
+            if (!string.IsNullOrEmpty(s))
+            { 
+                var list = s.Split('\n');
+                Array.ForEach(list,i=>slagremote_unity_manager.V.WriteNetLog(i));
+            }
         }
 #endif
     }

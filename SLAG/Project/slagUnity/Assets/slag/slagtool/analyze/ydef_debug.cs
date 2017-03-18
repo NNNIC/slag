@@ -361,11 +361,14 @@ namespace slagtool
                     fn = slag.m_latest_slag.m_filelist.GetFile(fileid);
                 }
 
-                fileid++;
                 line ++;
 
+                if (fn.StartsWith("?TEXT?"))
+                {
+                    return fn + "\n" + "[SS$L:"+line+ "]";
+                }
 
-                return "[SS$L:"+line + ",F:" + fileid +"]" + " / " + "[SS$L:"+line + ",N:" + fn +"]";
+                return "[SS$L:"+line + ",N:" + fn +"]";
             }
             return null;
         }
