@@ -86,6 +86,8 @@ public class slagunity {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         slagremote_unity_manager.Create(this);
         slagremote_unity_manager.V.StartCom(mode, cb);
+#else
+        if (cb!=null) cb();
 #endif
     }
     public void TerminateNetComm(Action cb=null)
@@ -95,6 +97,8 @@ public class slagunity {
         { 
             slagremote_unity_manager.V.AbortCom(cb);
         }
+#else
+        if (cb!=null) cb();
 #endif
     }
     public void TransferFileData()

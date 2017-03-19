@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1_log = new System.Windows.Forms.TextBox();
             this.textBox3_input = new System.Windows.Forms.TextBox();
             this.label1_log = new System.Windows.Forms.Label();
@@ -243,6 +244,8 @@
             // 
             // Code
             // 
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Code.DefaultCellStyle = dataGridViewCellStyle1;
             this.Code.HeaderText = "Code";
             this.Code.Name = "Code";
             this.Code.ReadOnly = true;

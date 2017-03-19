@@ -67,6 +67,7 @@ public class slagunittest : MonoBehaviour {
             StartCoroutine(_run_co());
         }
     }
+    string m_outputstr;
     IEnumerator _run_co()
     {
         Action<string> log = (s)=> { guiDisplay.WriteLine(s); m_output += s + "\n"; };
@@ -82,39 +83,78 @@ public class slagunittest : MonoBehaviour {
 
             log("###########################[test"+n.ToString("00") + "]");
             log("\n");
-                
-            string os;
-            _run(src, out os);
+        
+            
+            // 実行
+            bool bStartDone=false;
+            var slag = _startSlag(()=>bStartDone=true);
+            while(!bStartDone) yield return null;
+                    
+            m_outputstr = null;
+            _change_output();
 
-            log(os);
+            _loadsrc(slag,src);
+
+            yield return null;
+
+            _run(slag, src);
+
+            bool bEndDone=false;
+            _endSlag(slag, ()=>bEndDone=true);
+            while(!bEndDone) yield return null;
+
+            log(m_outputstr);
+
+            //実行終了
+
             yield return new WaitForSeconds(0.5f);
         }
 
         m_sm.Goto(S_CHECK);
     }
 
-    void _run(string src, out string so)
+    slagunity _startSlag(Action cb)
     {
-        so = null;
         var slag = slagunity.Create(gameObject);
-        
-        string outputstr = null;
+        slag.StartNetComm( slagremote.RUNMODE.RunLimit,cb);
+        return slag;
+    }
 
+    void _change_output()
+    {
         //表示の切り替え
-        slagtool.runtime.builtin.builtin_sysfunc.m_printFunc   = (s)=> { Debug.Log(s); guiDisplay.Write(s);      outputstr+=s;     };
-        slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc = (s)=> { Debug.Log(s); guiDisplay.WriteLine(s);  outputstr+=s+"\n";};
+        slagtool.runtime.builtin.builtin_sysfunc.m_printFunc   = (s)=> { Debug.Log(s); guiDisplay.Write(s);      m_outputstr+=s;     };
+        slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc = (s)=> { Debug.Log(s); guiDisplay.WriteLine(s);  m_outputstr+=s+"\n";};
+    }
 
+    void _loadsrc(slagunity slag, string src)
+    {
         try
         {
             slag.LoadSrc(src);
+            slag.TransferFileData();
+        }
+        catch (SystemException e)
+        {
+            slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc(e.Message);
+        }
+    }
+
+    void _endSlag(slagunity slag, Action cb)
+    {
+        slag.TerminateNetComm(cb);
+    }
+
+    void _run(slagunity slag, string src)
+    {
+        try
+        {
             slag.Run();
         }
         catch (SystemException e)
         {
             slagtool.runtime.builtin.builtin_sysfunc.m_printLnFunc(e.Message);
         }
-
-        so = outputstr;
     }
     #endregion
 
