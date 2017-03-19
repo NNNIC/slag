@@ -105,7 +105,19 @@ namespace slagmon
                     else if (s.StartsWith("?TEXT?"))
                     {
                         WritePlayText(s);
-                    } 
+                    }
+                    else if (s.StartsWith("[FILELIST:"))
+                    {
+                        var ns = s.Substring(10);
+                        var toks = ns.Split(',');
+                        var list = new List<string>();
+                        foreach(var i in toks)
+                        {
+                            var fn = i.TrimEnd(']');
+                            list.Add(fn);
+                        }
+                        __loadMultiScript(list);
+                    }
                     else
                     {                   
                         WriteLog(s);
@@ -250,7 +262,6 @@ namespace slagmon
                     textBox3_input.AppendText(">");
                 }
             }
-            
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -306,14 +317,28 @@ namespace slagmon
             if (tokens[0].Trim().ToUpper()=="LOAD" && tokens.Length>=2)
             {
                 comboBoxFiles.Items.Clear();
+                var list = new List<string>();
+
                 for(int i = 0; i<tokens.Length-1;i++)
                 {
                     var tok = tokens[i+1]; 
                     var filename = tok.Trim();
-                    comboBoxFiles.Items.Add((i+1).ToString("00") + " " +  filename);
+                    //comboBoxFiles.Items.Add((i+1).ToString("00") + " " +  filename);
+                    list.Add(filename);
                 }
-                _SetSource(0);
+                //_SetSource(0);
+
+                __loadMultiScript(list);
             }
+        }
+        private void __loadMultiScript(List<string> list)
+        {
+            comboBoxFiles.Items.Clear();
+            for(int i = 0; i<list.Count; i++)
+            {
+                comboBoxFiles.Items.Add((i+1).ToString("00") + " " + list[i]);
+            }
+            _SetSource(0);
         }
         private void _SetSource(int index)
         {
@@ -323,24 +348,16 @@ namespace slagmon
                     var filename = comboBoxFiles.Items[index].ToString().Substring(3);
                     var path = @"N:\Project\test\" + filename;
                     util.WriteTextToSrcDG("");
-                    //textBox2_src.Text = null;
 
                     if (File.Exists(path))
                     {
                         var ext = Path.GetExtension(path).ToLower();
                         if (ext==".js")
                         { 
-                            //var lines = File.ReadAllLines(path,Encoding.UTF8);
-                            //for(int i = 0; i<lines.Length; i++)
-                            //{
-                            //    if (textBox2_src.Text!=null) textBox2_src.Text += Environment.NewLine;
-                            //    textBox2_src.Text += (i+1).ToString("0000") + " : " + lines[i];
-                            //}
                             var text = File.ReadAllText(path,Encoding.UTF8);
                             util.WriteTextToSrcDG(text);
                         }
                         
-                        //textBox2_src.Text = File.ReadAllText(path,Encoding.UTF8);
                         comboBoxFiles.SelectedIndex = index;
                     }
                 }

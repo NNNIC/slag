@@ -102,7 +102,10 @@ public class slagremote_unity_manager : MonoBehaviour {
 
         yield return null;
 
-        guiDisplay.WriteLine("slag monitor からコマンドを入力して下さい。"+System.Environment.NewLine);
+        if (m_runmode == RUNMODE.NORMAL)
+        {
+            guiDisplay.WriteLine("slag monitor からコマンドを入力して下さい。"+System.Environment.NewLine);
+        }
 
         while(true)
         {

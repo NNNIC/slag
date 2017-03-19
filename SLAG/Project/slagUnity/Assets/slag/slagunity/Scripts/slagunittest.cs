@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 
-public class unittest : MonoBehaviour {
+public class slagunittest : MonoBehaviour {
 
     public guiDisplay m_guiDisplay;
 

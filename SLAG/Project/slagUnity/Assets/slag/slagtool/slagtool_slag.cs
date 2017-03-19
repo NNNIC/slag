@@ -127,8 +127,6 @@ namespace slagtool
         /// </summary>
         public void LoadSrc(string src, string id = null)
         {
-            //m_curslag = this;
-            //m_idlist = id != null ? new string[] { id } : null;
             if (id == null) id = TMPFILENAME;
             m_filelist = new Filelist(id);
             m_exelist = util_sub.Compile(src);

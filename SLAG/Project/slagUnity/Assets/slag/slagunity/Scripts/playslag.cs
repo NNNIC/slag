@@ -27,6 +27,14 @@ public class playslag : MonoBehaviour {
         if (m_guiFunc!=null) m_guiFunc();        
     }
 
+    private void OnDestroy()
+    {
+        if (m_slagunity!=null)
+        {
+            m_slagunity.TerminateNetComm();
+        }
+    }
+
     void S_INIT(bool bFirst)
     {
         if (bFirst)
@@ -43,6 +51,7 @@ public class playslag : MonoBehaviour {
             });
 
             m_slagunity = slagunity.Create(gameObject);
+            m_slagunity.StartNetComm( slagremote.RUNMODE.RunLimit);
 
             m_sm.Goto(S_TESTMENU);
         }
@@ -72,12 +81,15 @@ public class playslag : MonoBehaviour {
             {
                 try { 
                     var bytes = Resources.Load<TextAsset>("slag/bin/" + fn).bytes;
-                    m_slagunity.LoadBin(bytes);
-                    m_slagunity.Run();
+                    if (m_slagunity!=null) {
+                        m_slagunity.LoadBin(bytes);
+                        m_slagunity.TransferFileData();
+                    }
                 }
                 catch (SystemException e)
                 {
                     guiDisplay.Write(e.Message);  
+                    if (m_slagunity!=null) m_slagunity.WriteNetLog(e.Message);   
                 }
                 m_sm.Goto(S_PLAYING);
             }
@@ -96,10 +108,25 @@ public class playslag : MonoBehaviour {
     }
     void playingGUI()
     {  
-        var rect = new Rect((float)Screen.width/3f,0,(float)Screen.width/3f,50);
-        if (GUI.Button(rect,"RESET"))
+        var rect = new Rect((float)Screen.width/3f,0,(float)Screen.width/3f,80);
+        GUILayout.BeginArea(rect);
         {
-            SceneManager.LoadScene("playslagreset");
+            if (GUILayout.Button("RUN",GUILayout.Height(38)))
+            {
+                try {
+                    if (m_slagunity!=null) m_slagunity.Run();
+                }
+                catch(SystemException e)
+                {
+                    guiDisplay.Write(e.Message);    
+                    if (m_slagunity!=null) m_slagunity.WriteNetLog(e.Message);
+                }
+            }
+            if (GUILayout.Button("RESET",GUILayout.Height(38)))
+            {
+                SceneManager.LoadScene("playslagreset");
+            }
         }
+        GUILayout.EndArea();
     }
 }

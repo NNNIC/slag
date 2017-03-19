@@ -8,6 +8,8 @@ namespace slagremote
 {
     public class cmd_sub
     {
+        private static string TMPFILENAME { get { return slagtool.slag.TMPFILENAME; } } //便宜
+
         private static slagunity m_slagunity
         {
             get { return slagremote_unity_manager.V.m_slagunity; }
@@ -382,7 +384,7 @@ namespace slagremote
             if (!string.IsNullOrEmpty(s))
             { 
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
-                wk.SendWriteLine(slagtool.slag.TMPFILENAME + base64);
+                wk.SendWriteLine(TMPFILENAME + base64);
             }
             else
             {
@@ -402,6 +404,71 @@ namespace slagremote
                     wk.SendWriteLine(s);
                 }
                 wk.SendWriteLine("==================");
+            }
+            catch (SystemException e)
+            {
+                wk.SendWriteLine("Error ListFile: " + e.Message);
+            }
+        }
+
+        public static void TransferFileData() //リモートに対象のファイルデータを送る
+        {
+            try {
+                var list = slagtool.slag.m_latest_slag.m_filelist;
+                
+                if (
+                    list==null
+                        ||
+                    list.Count==0
+                        ||
+                    (list!=null && list.Count==1 && list.GetFile(0) == TMPFILENAME)
+                    )
+                {
+                    GetPlayText();  //対象のスクリプトを送る
+                    return;
+                }
+
+                var s = "[FILELIST:";
+                for(int i = 0; i<list.Count; i++)
+                {
+                    s+=list.GetFile(i);
+                    if (i<list.Count-1) s+=",";
+                }
+                s+="]";
+
+                wk.SendWriteLine(s);
+
+            } catch (SystemException e)
+            {
+                wk.SendWriteLine("Error ListFile: " + e.Message);
+            }
+        }
+
+        public static void ListFileCom() // リモート伝達用
+        {
+            try {
+                var list = slagtool.slag.m_latest_slag.m_filelist;
+                
+                if (
+                    list==null
+                        ||
+                    list.Count==0
+                        ||
+                    (list!=null && list.Count==1 && list.GetFile(0) == TMPFILENAME)
+                    )
+                {
+                    return; //ファイルが存在しない
+                }
+
+                var s = "[FILELIST:";
+                for(int i = 0; i<list.Count; i++)
+                {
+                    s+=list.GetFile(i);
+                    if (i<list.Count-1) s+=",";
+                }
+                s+="]";
+
+                wk.SendWriteLine(s);
             }
             catch (SystemException e)
             {

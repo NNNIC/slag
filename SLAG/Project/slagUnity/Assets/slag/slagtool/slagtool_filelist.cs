@@ -53,10 +53,6 @@ namespace slagtool
 
         #region access 
         public int Count { get { return (files==null) ? 0 : files.Count;   }  }
-        //public string this [int i]
-        //{
-        //    get { var n = GetFile(i); return n!=null ? Path.Combine(root,n) : null;  }
-        //}
         public string GetFullPath(int idx)
         {
             var n = GetFile(idx);

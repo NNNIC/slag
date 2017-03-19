@@ -97,6 +97,12 @@ public class slagunity {
         }
 #endif
     }
+    public void TransferFileData()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        slagremote.cmd_sub.TransferFileData();
+#endif
+    }
     public void WriteNetLog(string s)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
@@ -110,6 +116,9 @@ public class slagunity {
         }
 #endif
     }
+
+
+
     public void SetResetCallback(Action cb)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN

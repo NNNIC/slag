@@ -63,7 +63,8 @@ public class playtext : MonoBehaviour {
         if (bFirst)
         {
             m_guiFunc = gui_edit;
-            slagremote. cmd_sub.GetPlayText();
+            m_slagunity.TransferFileData();
+            //slagremote.cmd_sub.GetPlayText();
             //m_slagunity.LoadSrc(m_src); //事前コンパイル
         }
     }
