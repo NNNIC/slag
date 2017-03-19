@@ -74,7 +74,8 @@ namespace slagtool
 
             //スペース・コメント削除。"文字列"以外大文字化。
             engine.Normalize(ref lex_output);
-            sys.logline("\n*lex_output");
+            sys.logline("\n*lex_output done");
+
             YDEF_DEBUG.DumpList(lex_output, true);
 
             //改行を無くしBOFとEOFを追加
@@ -86,7 +87,7 @@ namespace slagtool
 
 
             //ダンプ
-            sys.logline("\n[executable_value_list]\n");
+            sys.logline("\n[executable_value_list] done\n");
 
             YDEF_DEBUG.PrintListValue(executable_value_list);
 

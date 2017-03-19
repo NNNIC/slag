@@ -380,8 +380,8 @@ namespace slagtool.runtime
                 obj  = o;
             }
 #if !test
-            var mem1 = type.GetDefaultMembers();
-            var mem2 = type.GetMembers();
+            //var mem1 = type.GetDefaultMembers();
+            //var mem2 = type.GetMembers();
             var find_mi = Array.Find(type.GetMembers(),mi=>mi.Name.ToUpper()==name);
             if (find_mi!=null)
             { 
@@ -539,8 +539,8 @@ namespace slagtool.runtime
                 }
 
             }
-            var mem1 = otype.GetDefaultMembers();
-            var mem2 = otype.GetMembers();
+            //var mem1 = otype.GetDefaultMembers();
+            //var mem2 = otype.GetMembers();
             var find_mi = Array.Find(otype.GetMembers(),mi=>mi.Name.ToUpper()==name);
             if (find_mi!=null)
             { 
@@ -605,7 +605,7 @@ namespace slagtool.runtime
                 m_dic = new Dictionary<string, Type>();
                 foreach(var asm in System.AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    var types= asm.GetTypes();
+                    //var types= asm.GetTypes();
 
                     foreach(var ti in asm.GetTypes())
                     {

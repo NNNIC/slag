@@ -8,10 +8,10 @@ namespace slagtool
 {
     public class yengine
     {
-        string dbg_src;                 // デバッグ用途
+        string dbg_src { get;set;}                 // デバッグ用途
         
-        List<List<YVALUE>> dbg_src_list; //     〃
-        List<List<YVALUE>> dbg_out_list; //     〃
+        List<List<YVALUE>> dbg_src_list {get;set; } //     〃
+        List<List<YVALUE>> dbg_out_list {get;set; }//     〃
 
         public List<List<YVALUE>> Lex(string src,int file_id)
         {

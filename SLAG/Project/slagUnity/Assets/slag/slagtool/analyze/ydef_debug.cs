@@ -61,9 +61,12 @@ namespace slagtool
         #region Dump
         public static void DumpList(List<List<YVALUE>> list, bool bOmitTerminalType = false)
         {
-            foreach(var l in list)
+            if (YDEF_DEBUG.level >=2)
             {
-                DumpLine_detail(l,bOmitTerminalType);
+                foreach(var l in list)
+                {
+                    DumpLine_detail(l,bOmitTerminalType);
+                }
             }
         }
         public static void DumpLine_detail(List<YVALUE> l,bool bOmitTerminalType=false)
@@ -105,8 +108,11 @@ namespace slagtool
         #region Print
         public static void PrintListValue(List<YVALUE> l,bool bForce=false)
         {
-            var s = GetStringListValue(l);
-            sys.logline(s,bForce);
+            if (YDEF_DEBUG.level>=2)
+            {
+                var s = GetStringListValue(l);
+                sys.logline(s,bForce);
+            }
         }
         public static string GetStringListValue(List<YVALUE> l)
         {

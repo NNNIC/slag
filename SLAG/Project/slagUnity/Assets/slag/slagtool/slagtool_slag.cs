@@ -191,24 +191,10 @@ namespace slagtool
                 return (SaveFormat)bf.Deserialize(ms);
             }
         }
-        //private byte[] serialize(List<YVALUE> list, string[] ids)
-        //{
-        //    var d = new SaveFormat();
-            
-        //    d.ids = ids;
-        //    d.list = list;
-        //    var bf = new BinaryFormatter();
-        //    using (var ms = new MemoryStream())
-        //    {
-        //        bf.Serialize(ms, d);
-        //        return ms.ToArray();
-        //    }
-        //}
         private byte[] serialize(List<YVALUE> list, Filelist filelist)
         {
             var d = new SaveFormat();
             
-            //d.ids = ids;
             d.filelist = filelist;
             d.list = list;
             var bf = new BinaryFormatter();
@@ -228,7 +214,6 @@ namespace slagtool
                 return;
             }
 
-            //m_curslag = this;
             m_statebuf = new StateBuffer(this);
             runtime.builtin.builtin_func.Init();
 
@@ -400,12 +385,6 @@ namespace slagtool
         public string GetFileName(int id, bool base1=false)
         {
             id = base1 ? id-- : id;
-
-            //if (id>=0 && m_idlist!=null && id < m_idlist.Length)
-            //{
-            //    return m_idlist[id];
-            //}
-            //return null;
 
             return m_filelist.GetFile(id);
 

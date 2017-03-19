@@ -77,7 +77,7 @@ namespace slagtool
             }
             vp = null;
 
-            sys.logline("整合カウンタ(max_stopmatch_count)がＭＡＸに達した。カウンタを増やせ。現在値：" + max_stopmatch_count);
+            //sys.logline("整合カウンタ(max_stopmatch_count)がＭＡＸに達した。カウンタを増やせ。現在値：" + max_stopmatch_count);
 
             return true; 
         }

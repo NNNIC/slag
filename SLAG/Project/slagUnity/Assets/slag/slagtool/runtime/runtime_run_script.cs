@@ -961,7 +961,7 @@ namespace slagtool.runtime
                     var is_new_word  = (vlist0.type == YDEF.NEW);
 
                     var is_2nd_arrayindex     = vlist1.IsType(YDEF.sx_array_index);
-                    var is_2nd_arrayindex_seq = vlist1.IsType(YDEF.sx_array_index_seq); 
+                    //var is_2nd_arrayindex_seq = vlist1.IsType(YDEF.sx_array_index_seq); 
 
                     if (is_1st_incop)
                     {
@@ -1243,17 +1243,17 @@ namespace slagtool.runtime
 
                 var expr_bracket = v.list_at(1);
 
-                int numofparam = 0;
+                //int numofparam = 0;
                 List<object> ol = new List<object>();
                 if (expr_bracket.list_size()==2)
                 {
-                    numofparam = 0;
+                    //numofparam = 0;
                 }
                 else if (expr_bracket.list_at(1).type == YDEF.get_type(YDEF.sx_expr))
                 {
                     nsb = run(expr_bracket.list_at(1),nsb.curnull());
                     ol.Add(nsb.m_cur);
-                    numofparam = 1;
+                    //numofparam = 1;
                 }
                 else if (expr_bracket.list_at(1).type == YDEF.get_type(YDEF.sx_param_list))
                 {
@@ -1263,12 +1263,14 @@ namespace slagtool.runtime
                         nsb = run(param_list.list_at(i),nsb.curnull());
                         ol.Add(nsb.m_cur);
                     }
-                    numofparam = param_list.list_size();
+                    //numofparam = param_list.list_size();
                 }
                 else
                 {
                     util._error("unexpected");
                 }
+
+                
 
                 if (save_pvitem!=null) //ポインタ変数
                 {
