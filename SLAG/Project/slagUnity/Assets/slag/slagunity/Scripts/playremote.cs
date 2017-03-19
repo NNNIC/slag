@@ -32,6 +32,7 @@ public class playremote : MonoBehaviour {
         {
             m_slagunity.TerminateNetComm(()=> {
                 SceneManager.LoadScene("remotereset");
+                m_slagunity = null;
             });
         }
     }
