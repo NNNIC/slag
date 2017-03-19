@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 /*
     ファイルリスト
@@ -17,31 +18,56 @@ namespace slagtool
     [System.Serializable]
     public class Filelist {
 
+        #region fileItem 
+        public class Item {
+            public string filename;
+            public int    hash;
+        }
+        public List<Item> files = new List<Item>();
+        public void filesAdd(string filename)
+        {
+            var i = new Item();
+            i.filename = filename;
+            i.hash     = YDEF_DEBUG.GetFilenameHash(filename);
+            files.Add(i);
+        }
+        #endregion
 
         public string root;
-        public List<string> files = new List<string>();
 
         #region constructor
         public Filelist(string file=null)
         {
-            if (file!=null) files.Add(file);
+            if (file!=null)
+            {
+                filesAdd(file);
+            }
         }
         public Filelist(string iroot, string file)
         {
             root = iroot;
-            files.Add(file);
+            filesAdd(file);
         }
         #endregion
 
         #region access 
         public int Count { get { return (files==null) ? 0 : files.Count;   }  }
-        public string this [int i]
+        //public string this [int i]
+        //{
+        //    get { var n = GetFile(i); return n!=null ? Path.Combine(root,n) : null;  }
+        //}
+        public string GetFullPath(int idx)
         {
-            get { var n = GetFile(i); return n!=null ? Path.Combine(root,n) : null;  }
+            var n = GetFile(idx);
+            return n!=null ? Path.Combine(root,n) : null;
         }
         public string GetFile(int idx)
         {
-            return idx>=0 && idx<Count ? files[idx] : null;
+            return idx>=0 && idx<Count ? files[idx].filename : null;
+        }
+        public int GetHash(int idx)
+        {
+            return idx>=0 && idx<Count ? files[idx].hash : 0;
         }
         #endregion
     }

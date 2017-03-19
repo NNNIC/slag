@@ -8,39 +8,46 @@ namespace slagremote
 {
     internal class cmd
     {
+        /// <summary>
+        /// デバッグ用コマンド
+        /// ※変更の際は、slagremote_cmd_data_table.csへの変更を忘れずに
+        /// </summary>
         internal enum COMMAND
         {
             /*
-               slagremote_cmd_valid_table.cs にフラグあり
+               slagremote_cmd_data_table.cs にフラグあり
             */
 
             NONE,
             WD,     //Set Working Directory
 
-            //READ,   //Read FILENAME (.js or .inc)
             LOAD,   //Load FILENAME (.js, .inc, .bin or .base64)
-            LOADRUN,//Load and run FILENAME (.js or .txt)
-            LOADBIN,//Load binary file
-            LOADBASE64, //Load Base64 file
+            //LOADBIN,//Load binary file
+            //LOADBASE64, //Load Base64 file
+
             SAVETMPBIN, //Save the current to tmp.bin
             LOADTMPBIN, //Load tmp.bin
+
             SAVETMPBASE64,//Save the current to tmp.base64
             LOADTMPBASE64,//Load tmp.base64
             
             RUN,    //Run
-            RUNTEXT,//Run text
+            STOP,   //Stop next line         
+            RESUME, //Resume
+
+            QUIT,   //Quit and Close         
+            RESET,  //Same as Quit
+
+            DEBUG,  //Debug [0|1|2]
             STEP,   //Step in or out
             BP,     //Set breakpoint          
             PRINT,  //Print variable
-            STOP,   //Stop next line          --- 実行中OK
-            RESUME, //Resume
-            TEST,   //Test
-            DEBUG,  //Debug [0|1|2]
-            HELP, 
-            QUIT,   //Quit and Close          --- 実行中OK
-            RESET,  //Same as Quit
 
-            GETPLAYTEXT, //実行側でリードしたテキスト要求する
+            TEST,   //Test
+            HELP, 
+
+            GETTEXT,    //実行側でリードしたテキスト要求する
+            LISTFILE,   //保持しているファイル名をリストする
         }
 
         public static string m_workDir = @"N:\Project\test";
@@ -59,7 +66,7 @@ namespace slagremote
 
         public static RUNMODE m_runMode;
 
-        public static string preexecute(string cmdbuf)        //※UnityAPI使用不可
+        public static string preexecute(string cmdbuf)        //※UnityAPI使用不可期間に実行
         {
             if (!slagtool.YDEF_DEBUG.bPausing) return cmdbuf; //ポーズ外・・通過。
 
@@ -67,7 +74,7 @@ namespace slagremote
             COMMAND cmd = GetCmd(cmdbuf,out plist);
             string p1 = plist!=null && plist.Length>0 ? plist[0] : null;
 
-            if (!valid_table.IsValid(m_runMode,cmd))
+            if (!cmd_data_table.IsValid(m_runMode,cmd))
             {
                 wk.SendWriteLine(cmd +" is disabled on purpose.");
                 return null;
@@ -76,18 +83,24 @@ namespace slagremote
 
             switch (cmd)
             {
-                case COMMAND.BP:    cmd_sub.BP(plist);      return null; 
-                case COMMAND.STEP:  cmd_sub.Step(p1);       return null;
+                case COMMAND.BP:        cmd_sub.BP(plist);      return null; 
+                case COMMAND.STEP:      cmd_sub.Step(p1);       return null;
 
                 case COMMAND.RUN:
-                case COMMAND.RESUME:cmd_sub.Resume();       return null;
+                case COMMAND.RESUME:    cmd_sub.Resume();       return null;
 
                 case COMMAND.QUIT:
-                case COMMAND.RESET: cmd_sub.BP(new string[1] {"c"});  cmd_sub.Resume(); m_nextcmd = "reset";  return null;
+                case COMMAND.RESET:     cmd_sub.BP(new string[1] {"c"});
+                                        cmd_sub.Resume(); m_nextcmd = "reset";
+                                        return null;
 
-                case COMMAND.TEST:         cmd_sub.Test();            return null;
+                case COMMAND.TEST:      cmd_sub.Test();         return null;
 
-                case COMMAND.GETPLAYTEXT:  cmd_sub.GetPlayText();     return null;
+                case COMMAND.GETTEXT:   cmd_sub.GetPlayText();  return null;
+
+                case COMMAND.LISTFILE:  cmd_sub.ListFile();     return null;
+
+                case COMMAND.HELP:      cmd_sub.Help();         return null;
             }
 
             return cmdbuf;
@@ -98,7 +111,7 @@ namespace slagremote
             string[] plist;
             COMMAND cmd = GetCmd(cmdbuff,out plist);
             string p1 = plist!=null && plist.Length>0 ? plist[0] : null;
-            if (!valid_table.IsValid(m_runMode,cmd))
+            if (!cmd_data_table.IsValid(m_runMode,cmd))
             {
                 wk.SendWriteLine(cmd +" is disabled on purpose.");
                 return;
@@ -106,7 +119,6 @@ namespace slagremote
             switch (cmd)
             {
                 case COMMAND.WD:           if (!string.IsNullOrEmpty(p1)) Set_WorkingDirectoy(p1);     break;
-                //case COMMAND.READ:         cmd_sub.Read(m_workDir,p1);                                 break;
                 case COMMAND.LOAD:         if (plist!=null)
                                            { 
                                                if (plist.Length == 1) { cmd_sub.Load(m_workDir,p1);    break; }
@@ -135,7 +147,10 @@ namespace slagremote
                                                                                                      
                 case COMMAND.HELP:         cmd_sub.Help();                                             break;
 
-                case COMMAND.GETPLAYTEXT:  cmd_sub.GetPlayText();                                      break;
+                case COMMAND.GETTEXT:      cmd_sub.GetPlayText();                                      break;
+
+                case COMMAND.LISTFILE:     cmd_sub.ListFile();                                         break;
+                
 
                 default:                   wk.SendWriteLine("ignore:" + cmdbuff); break;
             }

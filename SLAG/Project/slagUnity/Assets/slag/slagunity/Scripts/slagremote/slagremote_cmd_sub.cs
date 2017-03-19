@@ -27,7 +27,7 @@ namespace slagremote
                     wk.SendWriteLine("ERROR:File is not JS :" + file );
                     return null;
                 }
-                file_list.files.Add(file);
+                file_list.filesAdd(file);
             }
 
             if (slagtool.sys.USETRY)
@@ -192,23 +192,16 @@ namespace slagremote
 
         public static void Reset()
         {
-            m_updateFunc = null;
-
             slagtool.YDEF_DEBUG.ResetAllBreakpoints();//BPクリア
             slagtool.YDEF_DEBUG.bPausing = false;     //ポーズOFF
 
-            //var main_go = UnityEngine.GameObject.Find("main");
-            //if (main_go!=null)
-            //{ 
-            //    main_go.SendMessage("Reset");
-            //}
             if (slagremote_unity_manager.V.m_reset_callback!=null)
             {
                 slagremote_unity_manager.V.m_reset_callback();
             }
         }
         #region BP
-        public static int? m_curFild_id=null; //base 0
+        //public static int? m_curFild_id=null; //base 0
         public static void BP(string[] plist)
         {
             var NL = Environment.NewLine;
@@ -221,13 +214,14 @@ namespace slagremote
 
             var p0 = plist[0].ToLower();
             string p1 = plist.Length > 1 ? plist[1].ToLower() : null;
+            string p2 = plist.Length > 2 ? plist[2].ToLower() : null;
             if (Array.FindIndex(new string[] {"?","h","help"}, i=>i==p0) >= 0)
             {
                 var helpmsg = 
                                 "bp - ブレイクポインタのリスト表示                         " + NL +
                                 "bp c|clear|r|reset - ブレイクポインタのクリア             " + NL +
-                                "bp d NUM - NUM行のブレイクポインタ削除                    " + NL +
-                                "bp NUM - カレントファイルのnum行目にブレイクポインタ設定  " + NL +
+                                "bp d NUM [FID|\"ファイル名\"]- NUM行のブレイクポインタ削除                    " + NL +
+                                "bp NUM [FID|\"ファイル名\"]　- カレントファイルのnum行目にブレイクポインタ設定  " + NL +
                                 "bp f FID - file FIDのファイルに変更                       " + NL +
                                 "bp f - BP設定対象のファイル名表示                         " + NL +
                                 "                                                          " + NL +
@@ -244,6 +238,25 @@ namespace slagremote
                 return;
             }
 
+            if (p0 == "f")
+            {
+                if (p1==null)
+                {
+                    wk.SendWriteLine("カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
+                    return;
+                }
+                var num = intparse(p1);
+                if (num==null||(int)num<=0)
+                {
+                    wk.SendWriteLine("削除の行番号が不正です。");
+                    return;
+                }
+                var dnum = (int)num - 1;
+                slagtool.YDEF_DEBUG.cur_file_id = dnum;
+                wk.SendWriteLine("カレントファイルを変更しました。カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
+                return;
+            }
+
             if (p0 == "d" && !string.IsNullOrEmpty(p1))
             {
                 var num = intparse(p1);
@@ -253,7 +266,7 @@ namespace slagremote
                     return;
                 }
                 int dnum = (int)num - 1;
-                var b = slagtool.YDEF_DEBUG.DelBreakpoint(dnum,(m_curFild_id!=null ? (int)m_curFild_id: 0));
+                var b = slagtool.YDEF_DEBUG.DelBreakpoint(dnum,p2);
                 if (b)
                 {
                     wk.SendWriteLine("削除しました。");
@@ -265,37 +278,6 @@ namespace slagremote
                 return;
             }
 
-
-            if (p0=="f" && !string.IsNullOrEmpty(p1))
-            {
-                var num = intparse(p1);
-                if (num==null || (int)num<=0)
-                {
-                    wk.SendWriteLine("ファイルＩＤが不正です。");
-                    return;
-                }
-                int dnum = (int)num - 1;
-                var file = m_slagunity.m_slag.GetFileName(dnum);
-                if (file==null)
-                {
-                    wk.SendWriteLine("ファイルＩＤが不正です。");
-                    return;
-                }
-                wk.SendWriteLine("カレントファイル(" + num + "):" + file );
-                m_curFild_id = dnum;
-                return;
-            }
-            if (p0=="f" && string.IsNullOrEmpty(p1))
-            {
-                int dnum = m_curFild_id!=null ? (int)m_curFild_id : 0;
-                var file = m_slagunity.m_slag.GetFileName(dnum);
-                if (file==null)
-                {
-                    wk.SendWriteLine("ファイルが取得できません。");
-                    return;
-                }
-                wk.SendWriteLine("カレントファイル(" + (dnum+1) + "):" + file );
-            }
             if (!string.IsNullOrEmpty(p0))
             {
                 var num = intparse(p0);
@@ -305,15 +287,8 @@ namespace slagremote
                     return;
                 }
                 int dnum = (int)num - 1;
-                var fileid = (int)(m_curFild_id!=null ? (int)m_curFild_id: 0);
-                var file = m_slagunity.m_slag.GetFileName(fileid);
-                if (file == null)
-                {
-                    wk.SendWriteLine("設定ファイルが不正です。");
-                    return;
-                }
 
-                slagtool.YDEF_DEBUG.AddBreakpoint(dnum,fileid);
+                slagtool.YDEF_DEBUG.AddBreakpoint(dnum,p2);
                 wk.SendWriteLine("設定しました。");
 
                 if (slagtool.sys.DEBUGLEVEL==0)
@@ -332,48 +307,24 @@ namespace slagremote
                 wk.SendWriteLine("ブレイクポインタは設定されていません。");
                 return;
             }
-            var keylist = new List<int>(slagtool.YDEF_DEBUG.breakpoints.Keys);
-            keylist.Sort();
-            foreach(var k in keylist)
+            var keylist = slagtool.YDEF_DEBUG.GetSortBpKeys(); // new List<int>(slagtool.YDEF_DEBUG.breakpoints.Keys);
+            if (keylist==null)
             {
-                if (slagtool.YDEF_DEBUG.breakpoints[k]==null||slagtool.YDEF_DEBUG.breakpoints[k].Count==0) continue;
-                var file = m_slagunity.m_slag.GetFileName(k);
-                wk.SendWriteLine("====" + (k+1).ToString("00") + ":" + file );
-                var lines = new List<int>(slagtool.YDEF_DEBUG.breakpoints[k]);
+                wk.SendWriteLine("ブレイクポインタは設定されていません。");
+                return;
+            }
+            for(int i = 0; i<keylist.Count; i++)
+            {
+                var k = keylist[i];
+                var item = slagtool.YDEF_DEBUG.breakpoints[k];
+                wk.SendWriteLine("====" + i.ToString("00") + ":" + item.filename );
+                var lines = item.lines;   //new List<int>(slagtool.YDEF_DEBUG.breakpo xsints[k]);
                 lines.Sort();
                 for(int n = 0; n<lines.Count;n++)
                 {
                     wk.SendWriteLine("Line:" + (lines[n]+1));
                 }
                 wk.SendWriteLine("===");
-            }
-        }
-
-        private static void AddBreakPoint(string[] plist) //p0 = line , p1 = fileid   
-        {
-            int line   = -1;
-            int fileid = -1;
-            if (plist==null && plist.Length<=2)   {  wk.SendWriteLine("Breakpoint needs parameters"); return; }
-
-            if (!int.TryParse(plist[0],out line))
-            {
-                wk.SendWriteLine("Breakpoint: the first parameter should be interger.");
-                return;
-            }
-            if (!int.TryParse(plist[1],out fileid))
-            {
-                wk.SendWriteLine("Breakpoint: the sencond parameter should be interger or should no be specified as using previous id.");
-                return;
-            }
-            if (line!=-1 && fileid!=-1)
-            { 
-                line--;
-                fileid--;
-                slagtool.YDEF_DEBUG.AddBreakpoint(line,fileid);
-            }
-            else
-            {
-                wk.SendWriteLine("Breakpoint needs parameters");
             }
         }
         #endregion
@@ -420,7 +371,8 @@ namespace slagremote
 
         public static void Help()
         {
-            var s = slagtool.runtime.builtin.builtin_func.Help();
+            var s = slagremote.cmd_data_table.GetHelpAll();
+            s  += slagtool.runtime.builtin.builtin_func.Help();
             wk.SendWriteLine(s);
         }
 
@@ -430,7 +382,7 @@ namespace slagremote
             if (!string.IsNullOrEmpty(s))
             { 
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
-                wk.SendWriteLine("?TEXT?" + base64);
+                wk.SendWriteLine(slagtool.slag.TMPFILENAME + base64);
             }
             else
             {
@@ -438,6 +390,24 @@ namespace slagremote
             }
         }
 
+        public static void ListFile()
+        {
+            try {
+                var list = slagtool.slag.m_latest_slag.m_filelist;
+
+                wk.SendWriteLine("== TARGET FILES ==");
+                for(int i = 0; i<list.Count; i++)
+                {
+                    var s = string.Format("{0}:{1}",(i+1).ToString(), list.GetFile(i));
+                    wk.SendWriteLine(s);
+                }
+                wk.SendWriteLine("==================");
+            }
+            catch (SystemException e)
+            {
+                wk.SendWriteLine("Error ListFile: " + e.Message);
+            }
+        }
         //--- tool for this class
         private static int? intparse(string s)
         {
@@ -447,94 +417,6 @@ namespace slagremote
                 return n;
             }
             return null;
-        }
-
-
-        //-- Update用
-        private static List<string> m_updateFunc;
-        [Obsolete]
-        public static void UpdateClear()
-        {
-            m_updateFunc = null;
-        }
-        [Obsolete]
-        public static void UpdateAddFunc(string func)
-        {
-            if (m_updateFunc==null) m_updateFunc = new List<string>();
-            m_updateFunc.Add(func);
-        }
-        [Obsolete]
-        public static void UpdateExec()
-        {
-            if (slagtool.sys.USETRY)
-            {
-                try
-                {
-                    _updateExec();
-                }
-                catch (SystemException e)
-                {
-                    wk.SendWriteLine("-- EXCEPTION --");
-                    wk.SendWriteLine(e.Message);
-                    wk.SendWriteLine("Stop at Line:" + slagtool.YDEF_DEBUG.current_v.get_dbg_line(true).ToString() );
-                    wk.SendWriteLine("---------------");
-                    //m_sm = null;
-                    m_updateFunc = null;
-                }
-            }
-            else
-            {
-                _updateExec();
-            }
-        }
-        [Obsolete]
-        private static void _updateExec()
-        {
-            //if (m_sm!=null) m_sm.Update();
-
-            if (m_slagunity.m_slag==null) return;
-            if (m_updateFunc==null) return;
-
-            var s = new System.Diagnostics.Stopwatch();
-            s.Start();
-            foreach (var f in m_updateFunc)
-            {
-                m_slagunity.m_slag.CallFunc(f);
-            }
-            s.Stop();
-        }
-
-        //-- StateMachine用
-        [Obsolete]
-        public class StateMachine
-        {
-            string m_cur;
-            string m_next;
-
-            int    m_waitcnt;
-
-            [Obsolete]
-            public void Goto(string func) { m_next     = func;  }
-            [Obsolete]
-            public void Wait(int c)       { m_waitcnt  = c;}
-
-            [Obsolete]
-            public void Update()
-            {
-                if (m_waitcnt>0)
-                {
-                    m_waitcnt--;
-                    return;
-                }
-                bool bFirst = false;
-                if (m_next!=null)
-                {
-                    m_cur  = m_next;
-                    m_next = null;
-                    bFirst = true;
-                }
-                if (m_slagunity.m_slag!=null &&  m_cur!=null) m_slagunity.m_slag.CallFunc(m_cur,new object[1] { bFirst });
-            }
         }
     }
 }

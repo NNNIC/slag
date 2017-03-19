@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using System.Text;
 
 using number = System.Double;
 using slagtool.runtime;
@@ -46,6 +47,7 @@ namespace slagtool
     /// </summary>
     public class slag
     {
+        public static readonly string TMPFILENAME = "?TEXT?";
         public static slag m_latest_slag;
 
         public object m_owner; //本クラスを所有するオブジェクト
@@ -53,6 +55,13 @@ namespace slagtool
         [Obsolete]     public string[] m_idlist;
 
         public Filelist m_filelist;
+        public string   m_script;
+        public string   m_script_filename { get {  return m_script!=null ? TMPFILENAME : null; }   }
+        public string   m_script_base64 {
+            get {
+                return m_script!=null ? Convert.ToBase64String(Encoding.UTF8.GetBytes(m_script)) : null;
+            }
+        }
 
         private List<YVALUE> m_exelist;
         private StateBuffer m_statebuf;
@@ -103,16 +112,12 @@ namespace slagtool
         /// </summary>
         public void LoadJSFiles(Filelist filenames)
         {
-            //m_curslag = this;
-            // var ids = new List<string>();
             var sources = new List<string>();
 
             for(var i = 0; i<filenames.Count; i++)
             {
-                sources.Add(File.ReadAllText(filenames[i]));
-                //ids.Add(Path.GetFileNameWithoutExtension(filenames[i]));
+                sources.Add(File.ReadAllText(filenames.GetFullPath(i)));
             }
-            //m_idlist = ids.ToArray();
             m_filelist = filenames;
             m_exelist = util_sub.Compile(sources);
         }
@@ -124,6 +129,7 @@ namespace slagtool
         {
             //m_curslag = this;
             //m_idlist = id != null ? new string[] { id } : null;
+            if (id == null) id = TMPFILENAME;
             m_filelist = new Filelist(id);
             m_exelist = util_sub.Compile(src);
         }

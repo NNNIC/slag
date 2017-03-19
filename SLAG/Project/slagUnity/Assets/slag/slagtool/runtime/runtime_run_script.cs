@@ -402,7 +402,7 @@ namespace slagtool.runtime
 
                     v.get_dbg_id_line(out dbgfile_id,out dbgline);
 
-                    List<int> breakpoints = (YDEF_DEBUG.breakpoints!=null && YDEF_DEBUG.breakpoints.ContainsKey(dbgfile_id)) ? YDEF_DEBUG.breakpoints[dbgfile_id] : null;
+                    var breakpoints = YDEF_DEBUG.FindBpLinesList(dbgfile_id);//(YDEF_DEBUG.breakpoints!=null && YDEF_DEBUG.breakpoints.ContainsKey(dbgfile_id)) ? YDEF_DEBUG.breakpoints[dbgfile_id] : null;
 
                     if (
                             YDEF_DEBUG.bPausing

@@ -8,8 +8,14 @@ using number = System.Double;
 
 namespace slagtool
 {
-    public class YDEF_DEBUG
+    public partial class YDEF_DEBUG
     {
+        // 便宜
+        static string   TMPFILENAME { get { return slag.TMPFILENAME; } }
+
+        static slag     m_slag      { get { return slag.m_latest_slag;  } }
+        static Filelist m_filelist  { get { return (m_slag!=null) ? m_slag.m_filelist : null;   } }
+
         #region [  ANALIZE  ]
         #region Check executable
         public static bool IsExecutable(List<YVALUE> list, out List<int> errorline)
@@ -99,8 +105,6 @@ namespace slagtool
         #region Print
         public static void PrintListValue(List<YVALUE> l,bool bForce=false)
         {
-            //var s = "";
-            //l.ForEach(v=>s+=PrintValue(v)); 
             var s = GetStringListValue(l);
             sys.logline(s,bForce);
         }
@@ -192,8 +196,8 @@ namespace slagtool
         public static int                       save_endindex;      //解析時の終了インデックス
         public static YVALUE                    current_v;          //実行中のＶ
         public static runtime.StateBuffer       current_sb;         //ステートバッファ
-        public static List<int>                 breakpoints_obs;    //ブレイクポイント 
-        public static Dictionary<int,List<int>> breakpoints;        //ブレイクポイント
+
+
         public static bool                      bPausing;           //
         public static int                       stoppedLine;        //
 
@@ -231,37 +235,37 @@ namespace slagtool
         public static string NL { get {return Environment.NewLine; } }
 
         #region Set Breakpoint
-        public static void AddBreakpoint(int line, int file_id)
-        {
-            if (breakpoints==null) breakpoints = new Dictionary<int, List<int>>();
-            List<int> linelist = breakpoints.ContainsKey(file_id) ? breakpoints[file_id] : new List<int>();
-            if (linelist.Contains(line)) return;
-            linelist.Add(line);
-            linelist.Sort();
-            if (breakpoints.ContainsKey(file_id)) {
-                breakpoints[file_id] = linelist;
-            }
-            else
-            {
-                breakpoints.Add(file_id,linelist);
-            }
-        }
-        public static bool DelBreakpoint(int line, int file_id)
-        {
-            if (breakpoints==null) return false;
-            if (!breakpoints.ContainsKey(file_id)) return false;
-            var list = breakpoints[file_id];
-            if (list.Contains(line))
-            {
-                list.Remove(line);
-                return true;
-            }
-            return false;
-        }
-        public static void ResetAllBreakpoints()
-        {
-            breakpoints = null;
-        }
+        //public static void AddBreakpoint(int line, int file_id)
+        //{
+        //    if (breakpoints==null) breakpoints = new Dictionary<int, List<int>>();
+        //    List<int> linelist = breakpoints.ContainsKey(file_id) ? breakpoints[file_id] : new List<int>();
+        //    if (linelist.Contains(line)) return;
+        //    linelist.Add(line);
+        //    linelist.Sort();
+        //    if (breakpoints.ContainsKey(file_id)) {
+        //        breakpoints[file_id] = linelist;
+        //    }
+        //    else
+        //    {
+        //        breakpoints.Add(file_id,linelist);
+        //    }
+        //}
+        //public static bool DelBreakpoint(int line, int file_id)
+        //{
+        //    if (breakpoints==null) return false;
+        //    if (!breakpoints.ContainsKey(file_id)) return false;
+        //    var list = breakpoints[file_id];
+        //    if (list.Contains(line))
+        //    {
+        //        list.Remove(line);
+        //        return true;
+        //    }
+        //    return false;
+        //}
+        //public static void ResetAllBreakpoints()
+        //{
+        //    breakpoints = null;
+        //}
         #endregion
 
         public static void DumpCurrentVariables(runtime.StateBuffer bf)
@@ -335,7 +339,7 @@ namespace slagtool
             var fid = current_v.dbg_file_id;
             string file = null;
             try { 
-                file = slag.m_latest_slag!=null &&  fid>=0 && slag.m_latest_slag.m_idlist.Length > fid ? slag.m_latest_slag.m_idlist[fid] : "";
+                file = m_slag.m_filelist.GetFile(fid); //　　　　 _slag!=null &&  fid>=0 && m_slag.m_idlist.Length > fid ? m_slag.m_idlist[fid] : "";
             }
             catch { file = null; }
 
@@ -363,9 +367,9 @@ namespace slagtool
 
                 line ++;
 
-                if (fn.StartsWith("?TEXT?"))
+                if (fn==TMPFILENAME && m_slag!=null)
                 {
-                    return fn + "\n" + "[SS$L:"+line+ "]";
+                    return TMPFILENAME + m_slag.m_script_base64 + "\n" + "[SS$L:"+line+ "]";
                 }
 
                 return "[SS$L:"+line + ",N:" + fn +"]";

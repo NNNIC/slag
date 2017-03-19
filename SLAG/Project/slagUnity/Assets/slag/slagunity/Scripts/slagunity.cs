@@ -15,7 +15,12 @@ public class slagunity {
 
     public slagtool.slag  m_slag   {get; private set; }
     public slagunity_root m_root   {get; private set; }
-    public static string           m_script;
+    private static string           __script;
+    public  static string           m_script
+    {
+        set { __script = value; if (slagtool.slag.m_latest_slag!=null) slagtool.slag.m_latest_slag.m_script = value; }
+        get { return __script; }
+    }
     
     private slagunity()
     { }
@@ -71,6 +76,7 @@ public class slagunity {
         }
 
         m_slag = new slagtool.slag(this);
+        m_slag.m_script = m_script;
     }
     #endregion
 
@@ -146,7 +152,7 @@ public class slagunity {
             var nl = l.Trim();
             if (string.IsNullOrEmpty(nl) || nl.StartsWith("//") ) continue;
             
-            fl.files.Add(nl);
+            fl.filesAdd(nl);
         }
         return fl;
     }
@@ -163,14 +169,8 @@ public class slagunity {
     public void LoadSrc(string src)
     {
         m_script = src;
-        string base64 = null;
-        if (!string.IsNullOrEmpty(src))
-        { 
-            base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(src));
-        }
-
-        var temp_filename = string.Format("?TEXT?{0}", base64);
-        m_slag.LoadSrc(src,temp_filename);
+        m_slag.LoadSrc(src);
+        
     }
     /// <summary>
     /// バイナリロード

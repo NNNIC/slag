@@ -227,11 +227,13 @@ namespace slagtool
         public string get_dbg_file()
         {
             var slag= slagtool.slag.m_latest_slag;
-            if (slag!=null && slag.m_idlist!=null && slag.m_idlist.Length > dbg_file_id)
-            {
-                return slag.m_idlist[dbg_file_id];
-            }
-            return dbg_file_id.ToString();
+            //if (slag!=null && slag.m_idlist!=null && slag.m_idlist.Length > dbg_file_id)
+            //{
+            //    return slag.m_idlist[dbg_file_id];
+            //}
+            //return dbg_file_id.ToString();
+
+            return slag.m_filelist.GetFile(dbg_file_id);
         }
         public void get_dbg_id_line(out int id, out int line) 
         {
