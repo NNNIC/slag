@@ -124,13 +124,21 @@ public class slagunity {
     /// </summary>
     public void LoadFile(string path)
     {
-        if (Path.GetExtension(path).ToLower()==".inc")
+        var ext = Path.GetExtension(path).ToLower();
+        if (ext==".inc")
         { 
             var filelist = convert_inc(path);
             m_slag.LoadJSFiles(filelist);
         }
+        else if (ext == ".js")
+        {
+            var root = Path.GetDirectoryName(path);
+            var file = Path.GetFileName(path);
+
+            m_slag.LoadJSFiles( new slagtool.Filelist(root,file));
+        }
         else
-        { 
+        {
             m_slag.LoadFile(path);
         }
     }

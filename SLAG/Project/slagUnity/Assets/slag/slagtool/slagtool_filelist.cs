@@ -19,6 +19,7 @@ namespace slagtool
     public class Filelist {
 
         #region fileItem 
+        [System.Serializable]
         public class Item {
             public string filename;
             public int    hash;
@@ -63,7 +64,7 @@ namespace slagtool
         }
         public string GetFile(int idx)
         {
-            return idx>=0 && idx<Count ? files[idx].filename : null;
+            return files!=null && idx>=0 && idx<Count ? files[idx].filename : null;
         }
         public int GetHash(int idx)
         {
