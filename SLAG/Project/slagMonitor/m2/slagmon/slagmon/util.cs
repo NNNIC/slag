@@ -27,9 +27,6 @@ namespace slagmon
 
         public static void Save(SAVEFORMAT data)
         {
-            //var data = new SAVEFORMAT();
-            //data.EditorPath = textBox1.Text;
-
             var ms = new MemoryStream();
             var bf = new BinaryFormatter();
             bf.Serialize(ms,data);
@@ -236,5 +233,20 @@ namespace slagmon
             sd.ClearSelection();
         }
 #endregion
+
+        public static List<string> Get_inc_files(string path)
+        {
+            var list = new List<string>();
+            var readlist = File.ReadAllLines(Path.Combine(Form1.m_work_path, path),Encoding.UTF8);
+            foreach(var l in readlist)
+            {
+                var nl = l.Trim();
+                if (string.IsNullOrWhiteSpace(nl) || nl.StartsWith("//") ) continue;
+                list.Add(nl);
+            }
+            return list;
+        }
+
+
     }
 }

@@ -52,7 +52,7 @@ namespace slagtool
 
         public object m_owner; //本クラスを所有するオブジェクト
 
-        [Obsolete]     public string[] m_idlist;
+        //[Obsolete]     public string[] m_idlist;
 
         public Filelist m_filelist;
         public string   m_script;

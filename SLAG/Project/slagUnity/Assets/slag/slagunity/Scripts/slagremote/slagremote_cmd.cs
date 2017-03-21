@@ -22,8 +22,6 @@ namespace slagremote
             WD,     //Set Working Directory
 
             LOAD,   //Load FILENAME (.js, .inc, .bin or .base64)
-            //LOADBIN,//Load binary file
-            //LOADBASE64, //Load Base64 file
 
             SAVETMPBIN, //Save the current to tmp.bin
             LOADTMPBIN, //Load tmp.bin
@@ -47,6 +45,7 @@ namespace slagremote
             HELP, 
 
             GETTEXT,    //実行側でリードしたテキスト要求する
+            GETBP,      //通信用のBPLISTを請求
             LISTFILE,   //保持しているファイル名をリストする
         }
 
@@ -148,6 +147,7 @@ namespace slagremote
                 case COMMAND.HELP:         cmd_sub.Help();                                             break;
 
                 case COMMAND.GETTEXT:      cmd_sub.GetPlayText();                                      break;
+                case COMMAND.GETBP:        cmd_sub.GetBp();                                            break;
 
                 case COMMAND.LISTFILE:     cmd_sub.ListFile();                                         break;
                 

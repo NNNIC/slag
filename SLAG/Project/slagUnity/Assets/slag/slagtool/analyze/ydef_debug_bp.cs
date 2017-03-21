@@ -51,7 +51,7 @@ namespace slagtool
         }
 
         #region  normalize breakpoint 
-        private static void NormalizeBp()
+        public static void NormalizeBp()
         {
             if (breakpoints==null) return;
             for(var loop  = 0; loop <1000; loop++)

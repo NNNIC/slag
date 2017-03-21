@@ -18,8 +18,10 @@ namespace slagmon
         public static Form1 V;
 
         Queue<string> m_log;
-        FilePipe m_pipe;
+        public FilePipe m_pipe;
         public int?     m_focus;//デバッグ用フォーカスライン
+
+        public string   m_curfile;
 
         public Form1()
         {
@@ -38,23 +40,15 @@ namespace slagmon
 
             m_pipe = new FilePipe("mon");
             m_pipe.Start();
+        }
 
-           
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            m_pipe.Terminate();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-#if enable_resize
-            textBox1_log.Width = this.Width / 2 - 10;
-            textBox2_src.Width = this.Width / 2 - 20;
-            var loc = textBox2_src.Location;
-            loc.X = this.Width / 2;
-            textBox2_src.Location = loc;
-
-            loc= label2_source.Location;
-            loc.X = textBox2_src.Location.X;
-            label2_source.Location = loc;
-#endif
         }
 
         private void WriteLog(string s)
@@ -75,7 +69,7 @@ namespace slagmon
                 textBoxVar.Text="";
             }
 
-            textBoxVar.Text += s + Environment.NewLine;
+            textBoxVar.Text += s.Substring(1) + Environment.NewLine;
         }
         private void WritePlayText(string s)
         {
@@ -86,6 +80,9 @@ namespace slagmon
                 
                 //textBox2_src.Text = Encoding.UTF8.GetString(bytes).Replace("\n",Environment.NewLine);
                 util.WriteTextToSrcDG( Encoding.UTF8.GetString(bytes));
+
+                m_curfile = "?TEXT?";
+
             } catch {
                 WriteLog("GetPlayText got unknown text");
             }
@@ -117,6 +114,11 @@ namespace slagmon
                             list.Add(fn);
                         }
                         __loadMultiScript(list);
+                    }
+                    else if (s.StartsWith("[BPLIST:"))
+                    {
+                        util_bp.ReadBpListLog(s);
+                        util_bp.Refresh();
                     }
                     else
                     {                   
@@ -192,19 +194,17 @@ namespace slagmon
         {
             ncmd = null;
 
-            string[] readlist = null;
+            List<string> readlist = null;
             var tokens = cmd.Split(' ');
             if (tokens==null || tokens.Length<2 || tokens[0].ToLower()!="load" || !tokens[1].ToLower().EndsWith(".inc") ) return false;
             try { 
-                readlist = File.ReadAllLines(Path.Combine(m_work_path, tokens[1]),Encoding.UTF8);
+                readlist = util.Get_inc_files(tokens[1]);  //File.ReadAllLines(Path.Combine(m_work_path, tokens[1]),Encoding.UTF8);
             } catch { return false; }
 
-            if (readlist==null || readlist.Length==0) return false;
+            if (readlist==null || readlist.Count==0) return false;
 
-            foreach(var l in readlist)
+            foreach(var nl in readlist)
             {
-                var nl = l.Trim();
-                if (string.IsNullOrWhiteSpace(nl) || nl.StartsWith("//") ) continue;
                 ncmd = ncmd==null ? "load " : (ncmd + " ");
                 ncmd += nl;
             }
@@ -216,31 +216,20 @@ namespace slagmon
             if (i.ToUpper()!="HELP") return;
 
             var NL  =  Environment.NewLine;
-            var msg =        "# モニターコマンド #" 
-                      + NL + ": load  : ファイルロード。 ファイル：*.js|*.bin|*.base64|*.inc"
-                      + NL + ": run   : 実行"
-                      + NL + ": reset : リセット"
-                      + NL + ": debug : デバッグモード表示または指定。引数 0,1,2"
-                      + NL + ": bp    : ブレイクポインタ表示または設定。詳細:bp ?"
-                      + NL + ": step  : ステップ実行"
-                      + NL + ": wd    : ワーキングディレクトリ表示または指定。 引数を指定すると設定"
-                      + NL + ": savetmpbin   : [セーブテスト] tmp.bin作成"
-                      + NL + ": savetmpbase64: [セーブテスト] tmp.base64作成"
-                      + NL + ": loadtmpbin   : [セーブテスト] tmp.bin読込"
-                      + NL + ": loadtmpbase64: [セーブテスト] tmp.base64読込"
+            var msg =        "# モニターショートカット #" 
                       + NL + ":[ ショートカット ]" 
                       + NL + ": F6   : Step over (ソース画面)  "
-                      + NL + ": F6   : Step in   (ソース画面)  "
+                      + NL + ": F7   : Step in   (ソース画面)  "
+                      + NL + ": F9   : Set or reset Breakpoint    (ソース画面)  "
                       + NL + "" + NL;
 
-
             textBox1_log.AppendText(msg);
-
         }
 
 
         private void textBox3_input_KeyDown(object sender, KeyEventArgs e)
         {
+            Form1_KeyDown(sender,e);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -264,16 +253,11 @@ namespace slagmon
             }
         }
 
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            m_pipe.Terminate();
-        }
 
         private void button1clear_Click(object sender, EventArgs e)
         {
             textBox1_log.Clear();
         }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -308,7 +292,6 @@ namespace slagmon
             _SetSource(comboBoxFiles.SelectedIndex);
         }
 
-
         //---
         private void _loadScriptWhenCmdHas(string cmd)
         {
@@ -323,10 +306,8 @@ namespace slagmon
                 {
                     var tok = tokens[i+1]; 
                     var filename = tok.Trim();
-                    //comboBoxFiles.Items.Add((i+1).ToString("00") + " " +  filename);
                     list.Add(filename);
                 }
-                //_SetSource(0);
 
                 __loadMultiScript(list);
             }
@@ -347,6 +328,7 @@ namespace slagmon
                 {
                     var filename = comboBoxFiles.Items[index].ToString().Substring(3);
                     var path = @"N:\Project\test\" + filename;
+                    m_curfile = filename;
                     util.WriteTextToSrcDG("");
 
                     if (File.Exists(path))
@@ -365,7 +347,7 @@ namespace slagmon
             catch { }
         }
 
-        private void textBox2_src_KeyDown(object sender, KeyEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
 
             if (e.KeyCode == Keys.F6)
@@ -376,6 +358,61 @@ namespace slagmon
             {
                 m_pipe.Write("step i", "unity");
             }
+            if (e.KeyCode == Keys.F9)
+            {
+                util_bp.SetBp();
+            }
         }
+        private void dataSource_KeyDown(object sender, KeyEventArgs e)
+        {
+            Form1_KeyDown(sender,e);
+        }
+
+
+        #region drag and drop
+        private void dataSource_DragEnter(object sender, DragEventArgs e)
+        {
+            //ref http://dobon.net/vb/dotnet/control/droppedfile.html
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+        private void dataSource_DragDrop(object sender, DragEventArgs e)
+        {
+            var fileNames = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            
+            if (fileNames.Length==0) return;
+            var file = Path.GetFullPath( fileNames[0]);
+            
+            if (!file.StartsWith( Path.GetFullPath( m_work_path)))
+            {
+                MessageBox.Show("ファイルがワークディレクトリにありません");
+                return;
+            }
+            var refpath = file.Substring(m_work_path.Length + 1);
+
+            List<string> list = null;
+
+            if (Path.GetExtension(refpath)==".inc")
+            {
+                list = util.Get_inc_files(file);
+            }
+            else
+            {
+                list = new List<string>();
+                list.Add(refpath);
+            }
+            
+            __loadMultiScript(list);
+
+        }
+        #endregion
+
     }
 }

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.IO;
+using slagtool;
 
 namespace slagremote
 {
     public class cmd_sub
     {
-        private static string TMPFILENAME { get { return slagtool.slag.TMPFILENAME; } } //便宜
+        // 便宜
+        private static string             TMPFILENAME { get { return slag.TMPFILENAME;                                                                } } 
+        private static slagunity          m_slagunity { get { return slagremote_unity_manager.V!=null  ? slagremote_unity_manager.V.m_slagunity:null; } }
+        private static Filelist           m_fileList  { get { return slag.m_latest_slag!=null ? slag.m_latest_slag.m_filelist:null;                   } }
 
-        private static slagunity m_slagunity
-        {
-            get { return slagremote_unity_manager.V.m_slagunity; }
-        }
+        private static  Dictionary<int,YDEF_DEBUG.BPITEM> m_breakpoints { get { YDEF_DEBUG.NormalizeBp();  return YDEF_DEBUG.breakpoints;   } }
+
         public static slagtool.slag Load(string path, string[] files)
         {
-            //m_slagunity = slagunity.Create(slagremote_unity_main.V.gameObject);
-
             var file_list = new slagtool.Filelist();//new List<string>();
             file_list.root = path;
 
@@ -392,6 +392,35 @@ namespace slagremote
             }
         }
 
+        //[BPLIST:[ファイル名:行,行,・・]|[ファイル名:行,行,・・]|[ファイル名:行,行,・・]|・・・]
+        public static void GetBp()
+        {
+            var bplist = m_breakpoints;
+            if (bplist==null)
+            {
+                wk.SendWriteLine("[BPLIST:]");
+                return;
+            }
+
+            string sf = null;
+            foreach(var p in  bplist)
+            {
+                var item = p.Value;
+
+                string ls = null;
+                foreach(var l in item.lines)
+                {
+                    if (ls!=null) ls += ",";
+                    ls += (l+1).ToString();
+                }
+                    
+                if (sf!=null) sf += "|";
+                sf += string.Format("[{0}:{1}]",item.filename,ls);
+            }
+            wk.SendWriteLine("[BPLIST:" + sf + "]");
+        }
+
+        //
         public static void ListFile()
         {
             try {

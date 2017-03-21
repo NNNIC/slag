@@ -52,6 +52,7 @@ namespace slagremote {
         public static readonly string HELP   = "コマンドヘルプ表示";
 
         public static readonly string GETTEXT  = "実行中のテキスト表示";
+        public static readonly string GETBP    = "ブレイクポインタの表示";
         public static readonly string LISTFILE = "コンパイル対象のファイル一覧";
     }
 
@@ -88,6 +89,7 @@ namespace slagremote {
             list.Add(cmd.COMMAND.RESET,        new cmd_data_item(cmd_description.RESET,         true,false    ));
 
             list.Add(cmd.COMMAND.GETTEXT,      new cmd_data_item(cmd_description.GETTEXT,       true,true     ));
+            list.Add(cmd.COMMAND.GETBP,        new cmd_data_item(cmd_description.GETBP,         true,true     ));
 
             list.Add(cmd.COMMAND.LISTFILE,     new cmd_data_item(cmd_description.LISTFILE,      true,true     ));
         }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1_log = new System.Windows.Forms.TextBox();
             this.textBox3_input = new System.Windows.Forms.TextBox();
             this.label1_log = new System.Windows.Forms.Label();
@@ -174,8 +174,7 @@
             // 
             // textBoxVar
             // 
-            this.textBoxVar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxVar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxVar.Location = new System.Drawing.Point(791, 24);
             this.textBoxVar.Multiline = true;
@@ -188,6 +187,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(791, 9);
             this.label1.Name = "label1";
@@ -207,10 +207,15 @@
             // 
             // dataSource
             // 
+            this.dataSource.AllowDrop = true;
             this.dataSource.AllowUserToAddRows = false;
             this.dataSource.AllowUserToDeleteRows = false;
             this.dataSource.AllowUserToResizeColumns = false;
             this.dataSource.AllowUserToResizeRows = false;
+            this.dataSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataSource.BackgroundColor = System.Drawing.SystemColors.ControlLight;
             this.dataSource.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataSource.ColumnHeadersVisible = false;
@@ -223,8 +228,12 @@
             this.dataSource.ReadOnly = true;
             this.dataSource.RowHeadersVisible = false;
             this.dataSource.RowTemplate.Height = 12;
+            this.dataSource.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataSource.Size = new System.Drawing.Size(379, 323);
             this.dataSource.TabIndex = 15;
+            this.dataSource.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataSource_DragDrop);
+            this.dataSource.DragEnter += new System.Windows.Forms.DragEventHandler(this.dataSource_DragEnter);
+            this.dataSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataSource_KeyDown);
             // 
             // bp
             // 
@@ -244,8 +253,8 @@
             // 
             // Code
             // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Code.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Code.DefaultCellStyle = dataGridViewCellStyle2;
             this.Code.HeaderText = "Code";
             this.Code.Name = "Code";
             this.Code.ReadOnly = true;
@@ -277,6 +286,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataSource)).EndInit();
             this.ResumeLayout(false);
