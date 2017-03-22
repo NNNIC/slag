@@ -39,6 +39,10 @@ namespace slagtool
                     lines.Remove(line);
                 }
             }
+            public bool ExistLine(int line)
+            {
+                return lines.Contains(line);
+            }
         }
 
         public static  Dictionary<int,BPITEM> breakpoints;        //ブレイクポイント
@@ -188,6 +192,22 @@ namespace slagtool
             NormalizeBp();
             return true;
         }
+        public static void FlipBreakpoint(int line, string filename_or_id=null)
+        {
+            var item = FindBpItem(filename_or_id,false);
+            if (item!=null)
+            {
+                if (item.ExistLine(line))
+                {
+                    item.DelLine(line);
+                    NormalizeBp();
+                    return;
+                }
+            }
+            AddBreakpoint(line,filename_or_id);
+            return;
+        }
+
         #endregion
 
         public static void ResetAllBreakpoints()

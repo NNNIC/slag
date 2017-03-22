@@ -259,6 +259,25 @@ namespace slagremote
                 return;
             }
 
+            //BP X 行 ["ファイル名" or ファイル番号]    -- on/off逆転
+            if (p0 == "x")
+            {
+                var num = intparse(p1);  
+                if (num==null || (int)num<=0)
+                {
+                    wk.SendWriteLine("削除の行番号が不正です。");
+                    return;
+                }
+                var line = (int)num - 1;
+
+                YDEF_DEBUG.FlipBreakpoint(line,p2);
+
+                GetBp();
+
+                return;
+            }
+
+
             if (p0 == "d" && !string.IsNullOrEmpty(p1))
             {
                 var num = intparse(p1);
