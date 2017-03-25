@@ -111,7 +111,7 @@ namespace slagmon
                 findfile = "?TEXT?";
             }
 
-            var finditem = m_bpList.Find(i=>i.file == findfile);
+            var finditem = m_bpList.Find(i=>i.file.ToLower() == findfile.ToLower());
             if (finditem!=null)
             {
                 foreach(var line in finditem.lines)

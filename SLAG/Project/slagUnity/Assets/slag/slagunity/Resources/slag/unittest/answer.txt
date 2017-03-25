@@ -85,7 +85,7 @@ yhehe
 index(10) is out of range
 Error at line:13 in File:?TEXT?
 ?TEXT?Ly8NCi8vIFRFU1QgMTANCi8vDQoNClByaW50TG4oIuaVheaEj+OBq+ODj+ODs+OCsOOBl+OBvuOBmSIpOw0KDQp2YXIgYSA9ICgwLDEsMiwzLDQsNSw2LDcsKDEwMCwyMDApKTsNCkR1bXAoYSk7DQoNCmFbNV09LTU7DQpEdW1wKGEpOw0KDQphWzEwXT0xMDsgLy8gb3V0IG9mIGluZGV4DQpEdW1wKGEpOw0K
-[SS$L:13]
+[SS$L:<L12>]
 
 ###########################[test11]
 
