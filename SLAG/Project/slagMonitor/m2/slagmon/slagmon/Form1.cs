@@ -17,6 +17,8 @@ namespace slagmon
         
         public static Form1 V;
 
+        public static bool m_bDebug;
+
         Queue<string> m_log;
         public FilePipe m_pipe;
         public int?     m_focus;//デバッグ用フォーカスライン
@@ -51,7 +53,7 @@ namespace slagmon
         {
         }
 
-        private void WriteLog(string s)
+        public void WriteLog(string s)
         {
             textBox1_log.AppendText(s + System.Environment.NewLine);
             if (s.Contains("[SS$L"))
@@ -95,16 +97,21 @@ namespace slagmon
                 var s = m_pipe.Read();
                 if (s!=null&&!string.IsNullOrEmpty(s))
                 { 
+                    bool bConverted = false;
+
                     if (s[0]=='@')
                     {
+                        bConverted = true;
                         WriteVar(s);
                     }
                     else if (s.StartsWith("?TEXT?"))
                     {
+                        bConverted = true;
                         WritePlayText(s);
                     }
                     else if (s.StartsWith("[FILELIST:"))
                     {
+                        bConverted = true;
                         var ns = s.Substring(10);
                         var toks = ns.Split(',');
                         var list = new List<string>();
@@ -117,12 +124,21 @@ namespace slagmon
                     }
                     else if (s.StartsWith("[BPLIST:"))
                     {
+                        bConverted = true;
                         util_bp.ReadBpListLog(s);
                         util_bp.Refresh();
                     }
-                    else
-                    {                   
+
+                    if (m_bDebug)
+                    {
                         WriteLog(s);
+                    }                            
+                    else
+                    {
+                        if (!bConverted)
+                        {                   
+                            WriteLog(s);
+                        }
                     }
                 }
                 else
@@ -352,11 +368,21 @@ namespace slagmon
 
             if (e.KeyCode == Keys.F6)
             {
-                m_pipe.Write("step", "unity");
+                var cmd = "step";
+                m_pipe.Write(cmd, "unity");
+                if (m_bDebug)
+                {
+                    WriteLog(cmd);
+                }
             }
             if (e.KeyCode == Keys.F7)
             {
-                m_pipe.Write("step i", "unity");
+                var cmd = "step i";
+                m_pipe.Write(cmd, "unity");
+                if (m_bDebug)
+                {
+                    WriteLog(cmd);
+                }
             }
             if (e.KeyCode == Keys.F9)
             {

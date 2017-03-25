@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.textBox1_log = new System.Windows.Forms.TextBox();
             this.textBox3_input = new System.Windows.Forms.TextBox();
             this.label1_log = new System.Windows.Forms.Label();
@@ -49,6 +49,7 @@
             this.bp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -253,18 +254,30 @@
             // 
             // Code
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Code.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Code.DefaultCellStyle = dataGridViewCellStyle1;
             this.Code.HeaderText = "Code";
             this.Code.Name = "Code";
             this.Code.ReadOnly = true;
             this.Code.Width = 500;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(404, 355);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(180, 11);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "F6 Step Over | F7 Step In | F9 Flip Bp";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 469);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.dataSource);
             this.Controls.Add(this.comboBoxFiles);
             this.Controls.Add(this.label1);
@@ -315,6 +328,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn bp;
         private System.Windows.Forms.DataGridViewTextBoxColumn Line;
         private System.Windows.Forms.DataGridViewTextBoxColumn Code;
+        private System.Windows.Forms.Label label2;
     }
 }
 

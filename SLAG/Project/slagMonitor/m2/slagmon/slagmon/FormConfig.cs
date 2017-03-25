@@ -28,6 +28,7 @@ namespace slagmon
         private void FormConfig_Load(object sender, EventArgs e)
         {
             _load();
+            debugCheckBox.Checked = Form1.m_bDebug;
         }
 
 
@@ -50,5 +51,9 @@ namespace slagmon
         }
         #endregion
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Form1.m_bDebug = debugCheckBox.Checked;
+        }
     }
 }

@@ -371,14 +371,14 @@ namespace slagtool
                     fn = slag.m_latest_slag.m_filelist.GetFile(fileid);
                 }
 
-                line ++;
+                //line ++;
 
                 if (fn==TMPFILENAME && m_slag!=null)
                 {
-                    return TMPFILENAME + m_slag.m_script_base64 + "\n" + "[SS$L:"+line+ "]";
+                    return TMPFILENAME + m_slag.m_script_base64 + "\n" + "[SS$L:<L"+line+ ">]";
                 }
 
-                return "[SS$L:"+line + ",N:" + fn +"]";
+                return "[SS$L:<L"+line + ">,N:" + fn +"]";
             }
             return null;
         }

@@ -29,6 +29,11 @@ namespace slagmon
         // 便宜
         private static void pipe_write(string s)
         {
+            if (Form1.m_bDebug)
+            {
+                Form1.V.WriteLog(s);
+            }
+
             Form1.V.m_pipe.Write(s,"unity");
         }
         private static string m_curfile
@@ -79,7 +84,7 @@ namespace slagmon
                     var item = new BPITEM();
                     item.file = file;
                     item.lines = new List<int>();
-                    Array.ForEach(lines,i=>item.lines.Add(int.Parse(i)));
+                    Array.ForEach(lines,i=>item.lines.Add(int.Parse(i)-1));
 
                     m_bpList.Add(item);
                 }

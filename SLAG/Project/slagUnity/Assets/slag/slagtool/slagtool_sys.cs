@@ -32,12 +32,16 @@ namespace slagtool
 
         private   static void conWrite(string s)
         {
+            s = numbase.convert_log(s);
+
             Console.Write(s);
             if (m_conWrite!=null) m_conWrite(s);
             if (m_con_remoteWrite!=null) m_con_remoteWrite(s);
         }
         private   static void conWriteLine(string s)
         {
+            s = numbase.convert_log(s);
+
             Console.WriteLine(s);
             if (m_conWriteLine!=null) m_conWriteLine(s);
             if (m_con_remoteWriteLine!=null) m_con_remoteWriteLine(s);

@@ -16,6 +16,9 @@ namespace slagremote
 
         private static  Dictionary<int,YDEF_DEBUG.BPITEM> m_breakpoints { get { YDEF_DEBUG.NormalizeBp();  return YDEF_DEBUG.breakpoints;   } }
 
+        private static void SendWriteLine(string s)  { wk.SendWriteLine(numbase.convert_log(s));  }
+        private static void SendWrite(string s)      { wk.SendWrite(numbase.convert_log(s));      }
+
         public static slagtool.slag Load(string path, string[] files)
         {
             var file_list = new slagtool.Filelist();//new List<string>();
@@ -26,7 +29,7 @@ namespace slagremote
                 var file = files[i];
                 if (!file.ToUpper().EndsWith(".JS"))
                 {
-                    wk.SendWriteLine("ERROR:File is not JS :" + file );
+                    SendWriteLine("ERROR:File is not JS :" + file );
                     return null;
                 }
                 file_list.filesAdd(file);
@@ -40,9 +43,9 @@ namespace slagremote
                 }
                 catch(SystemException e)
                 {
-                    wk.SendWriteLine("-- EXCEPTION --");
-                    wk.SendWriteLine(e.Message);
-                    wk.SendWriteLine("---------------");
+                    SendWriteLine("-- EXCEPTION --");
+                    SendWriteLine(e.Message);
+                    SendWriteLine("---------------");
                     return null;
                 }
             }
@@ -50,9 +53,9 @@ namespace slagremote
             {
                 m_slagunity.LoadJSFiles(file_list);
             }
-            wk.SendWriteLine("Loaded.");
+            SendWriteLine("Loaded.");
 
-            wk.SendWriteLine("Checksum:" + m_slagunity.GetMD5());
+            SendWriteLine("Checksum:" + m_slagunity.GetMD5());
 
             return  m_slagunity.m_slag;
         }
@@ -65,24 +68,24 @@ namespace slagremote
             }
             catch
             {
-                wk.SendWriteLine("ERROR:Unexpcted path name");
+                SendWriteLine("ERROR:Unexpcted path name");
                 return null;
             }
 
             if (fullpath==null)
             {
-                wk.SendWriteLine("ERROR:File name is null!");
+                SendWriteLine("ERROR:File name is null!");
                 return null;
             }
             var ext = Path.GetExtension(fullpath).ToUpper();
             if (ext!=".JS" && ext!=".BIN" && ext!=".BASE64")
             {
-                wk.SendWriteLine("ERROR:File name is not allowed");
+                SendWriteLine("ERROR:File name is not allowed");
                 return null;
             }
             if (!File.Exists(fullpath))
             {
-                wk.SendWriteLine("ERROR:File does not exist!");
+                SendWriteLine("ERROR:File does not exist!");
             }
 
             bool bJS = ext == ".JS";
@@ -104,9 +107,9 @@ namespace slagremote
                 }
                 catch(SystemException e)
                 {
-                    wk.SendWriteLine("-- 例外発生 --");
-                    wk.SendWriteLine(e.Message);
-                    wk.SendWriteLine("---------------");
+                    SendWriteLine("-- 例外発生 --");
+                    SendWriteLine(e.Message);
+                    SendWriteLine("---------------");
                     return null;
                 }
             }
@@ -121,9 +124,9 @@ namespace slagremote
                     m_slagunity.LoadFile(fullpath);
                 }
             }
-            wk.SendWriteLine("Loaded.");
+            SendWriteLine("Loaded.");
 
-            wk.SendWriteLine("Checksum:" + m_slagunity.GetMD5());
+            SendWriteLine("Checksum:" + m_slagunity.GetMD5());
 
             return m_slagunity.m_slag;
         }
@@ -132,36 +135,36 @@ namespace slagremote
         {
             if (m_slagunity==null || m_slagunity.m_slag==null)
             {
-                wk.SendWriteLine("データがありません");
+                SendWriteLine("データがありません");
                 return;
             }
             try { 
                 var fp = Path.Combine(path,file);
                 m_slagunity.m_slag.SaveBin(Path.Combine(path,file));
-                wk.SendWriteLine("セーブしました ファイル:"+ fp);
+                SendWriteLine("セーブしました ファイル:"+ fp);
             } catch (SystemException e)
             {
-                wk.SendWriteLine("-- 例外発生 --");
-                wk.SendWriteLine(e.Message);
-                wk.SendWriteLine("---------------");
+                SendWriteLine("-- 例外発生 --");
+                SendWriteLine(e.Message);
+                SendWriteLine("---------------");
             }
         }
         public static void SaveBase64(string path, string file)
         {
             if (m_slagunity==null || m_slagunity.m_slag==null)
             {
-                wk.SendWriteLine("データがありません");
+                SendWriteLine("データがありません");
                 return;
             }
             try { 
                 var fp = Path.Combine(path,file);
                 m_slagunity.m_slag.SaveBase64(Path.Combine(path,file));
-                wk.SendWriteLine("セーブしました ファイル:"+ fp);
+                SendWriteLine("セーブしました ファイル:"+ fp);
             } catch (SystemException e)
             {
-                wk.SendWriteLine("-- 例外発生 --");
-                wk.SendWriteLine(e.Message);
-                wk.SendWriteLine("---------------");
+                SendWriteLine("-- 例外発生 --");
+                SendWriteLine(e.Message);
+                SendWriteLine("---------------");
             }
         }
 
@@ -177,10 +180,10 @@ namespace slagremote
                 } 
                 catch(SystemException e)
                 {
-                    wk.SendWriteLine("-- 例外発生 --");
-                    wk.SendWriteLine(e.Message);
-                    if (slagtool.YDEF_DEBUG.current_v!=null) wk.SendWriteLine("Stop at Line:" + slagtool.YDEF_DEBUG.current_v.get_dbg_line(true).ToString() );
-                    wk.SendWriteLine("---------------");
+                    SendWriteLine("-- 例外発生 --");
+                    SendWriteLine(e.Message);
+                    if (slagtool.YDEF_DEBUG.current_v!=null) SendWriteLine("Stop at Line:" + slagtool.YDEF_DEBUG.current_v.get_dbg_line(true).ToString() );
+                    SendWriteLine("---------------");
                 }
             }
             else
@@ -188,7 +191,7 @@ namespace slagremote
                 m_slagunity.m_slag.Run();
             }
             sw.Stop();
-            wk.SendWriteLine("! The program exection time : " + ((float)sw.ElapsedMilliseconds / 1000f).ToString("F3") + "sec !");
+            SendWriteLine("! The program exection time : " + ((float)sw.ElapsedMilliseconds / 1000f).ToString("F3") + "sec !");
 
         }
 
@@ -229,14 +232,14 @@ namespace slagremote
                                 "                                                          " + NL +
                                 "bpを設定すると debug 1も同時設定される。                  " + NL ;
 
-                wk.SendWriteLine(helpmsg);
+                SendWriteLine(helpmsg);
                 return;
             }
 
             if (Array.FindIndex(new string[] {"c","clear","r","reset" }, i=>i==p0) >=0)
             {
                 slagtool.YDEF_DEBUG.ResetAllBreakpoints();
-                wk.SendWriteLine("全てのブレイクポイントをクリアしました。");
+                SendWriteLine("全てのブレイクポイントをクリアしました。");
                 return;
             }
 
@@ -244,18 +247,18 @@ namespace slagremote
             {
                 if (p1==null)
                 {
-                    wk.SendWriteLine("カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
+                    SendWriteLine("カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
                     return;
                 }
                 var num = intparse(p1);
-                if (num==null||(int)num<=0)
+                if (num==null||(int)num<0)
                 {
-                    wk.SendWriteLine("削除の行番号が不正です。");
+                    SendWriteLine("削除の行番号が不正です。");
                     return;
                 }
-                var dnum = (int)num - 1;
+                var dnum = (int)num;
                 slagtool.YDEF_DEBUG.cur_file_id = dnum;
-                wk.SendWriteLine("カレントファイルを変更しました。カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
+                SendWriteLine("カレントファイルを変更しました。カレントファイル:" + slagtool.YDEF_DEBUG.cur_filename);
                 return;
             }
 
@@ -263,12 +266,12 @@ namespace slagremote
             if (p0 == "x")
             {
                 var num = intparse(p1);  
-                if (num==null || (int)num<=0)
+                if (num==null || (int)num<0)
                 {
-                    wk.SendWriteLine("削除の行番号が不正です。");
+                    SendWriteLine("削除の行番号が不正です。");
                     return;
                 }
-                var line = (int)num - 1;
+                var line = (int)num;
 
                 YDEF_DEBUG.FlipBreakpoint(line,p2);
 
@@ -281,20 +284,20 @@ namespace slagremote
             if (p0 == "d" && !string.IsNullOrEmpty(p1))
             {
                 var num = intparse(p1);
-                if (num==null||(int)num<=0)
+                if (num==null||(int)num<0)
                 {
-                    wk.SendWriteLine("削除の行番号が不正です。");
+                    SendWriteLine("削除の行番号が不正です。");
                     return;
                 }
-                int dnum = (int)num - 1;
+                int dnum = (int)num;
                 var b = slagtool.YDEF_DEBUG.DelBreakpoint(dnum,p2);
                 if (b)
                 {
-                    wk.SendWriteLine("削除しました。");
+                    SendWriteLine("削除しました。");
                 }
                 else
                 {
-                    wk.SendWriteLine("削除の入力が不正です。");
+                    SendWriteLine("削除の入力が不正です。");
                 }
                 return;
             }
@@ -302,20 +305,20 @@ namespace slagremote
             if (!string.IsNullOrEmpty(p0))
             {
                 var num = intparse(p0);
-                if (num==null||(int)num<=0)
+                if (num==null||(int)num<0)
                 {
-                    wk.SendWriteLine("設定行番号が不正です。");
+                    SendWriteLine("設定行番号が不正です。");
                     return;
                 }
-                int dnum = (int)num - 1;
+                int dnum = (int)num;
 
                 slagtool.YDEF_DEBUG.AddBreakpoint(dnum,p2);
-                wk.SendWriteLine("設定しました。");
+                SendWriteLine("設定しました。");
 
                 if (slagtool.sys.DEBUGLEVEL==0)
                 {
                     slagtool.util.SetDebugLevel(1);
-                    wk.SendWriteLine("デバッグレベル１を設定しました。");
+                    SendWriteLine("デバッグレベル１を設定しました。");
                 }
 
                 return;
@@ -325,27 +328,27 @@ namespace slagremote
         {
             if (slagtool.YDEF_DEBUG.breakpoints==null || slagtool.YDEF_DEBUG.breakpoints.Count==0)
             {
-                wk.SendWriteLine("ブレイクポインタは設定されていません。");
+                SendWriteLine("ブレイクポインタは設定されていません。");
                 return;
             }
             var keylist = slagtool.YDEF_DEBUG.GetSortBpKeys(); // new List<int>(slagtool.YDEF_DEBUG.breakpoints.Keys);
             if (keylist==null)
             {
-                wk.SendWriteLine("ブレイクポインタは設定されていません。");
+                SendWriteLine("ブレイクポインタは設定されていません。");
                 return;
             }
             for(int i = 0; i<keylist.Count; i++)
             {
                 var k = keylist[i];
                 var item = slagtool.YDEF_DEBUG.breakpoints[k];
-                wk.SendWriteLine("====" + i.ToString("00") + ":" + item.filename );
+                SendWriteLine("====" + i.ToString("00") + ":" + item.filename );
                 var lines = item.lines;   //new List<int>(slagtool.YDEF_DEBUG.breakpo xsints[k]);
                 lines.Sort();
                 for(int n = 0; n<lines.Count;n++)
                 {
-                    wk.SendWriteLine("Line:" + (lines[n]+1));
+                    SendWriteLine("Line:<L" + lines[n].ToString() +">");
                 }
-                wk.SendWriteLine("===");
+                SendWriteLine("===");
             }
         }
         #endregion
@@ -370,7 +373,7 @@ namespace slagremote
         public static void Test()
         {
 
-            wk.SendWriteLine("...Test returned!");
+            SendWriteLine("...Test returned!");
         }
 
         public static void Debug(string p)
@@ -378,7 +381,7 @@ namespace slagremote
             int x = -1;
             if (!string.IsNullOrEmpty(p) && int.TryParse(p,out x) && x>=0 && x<=2)
             {
-                wk.SendWriteLine("Set Debug Level : " + x);
+                SendWriteLine("Set Debug Level : " + x);
                 slagtool.util.SetDebugLevel(x);
 #if UNITY_5
                 UnityEngine.Debug.logger.logEnabled = (x>0);
@@ -386,7 +389,7 @@ namespace slagremote
             }
             else
             {
-                wk.SendWriteLine("Current Debug Level : " + slagtool.util.GetDebugLevel());
+                SendWriteLine("Current Debug Level : " + slagtool.util.GetDebugLevel());
             }
         }
 
@@ -394,7 +397,7 @@ namespace slagremote
         {
             var s = slagremote.cmd_data_table.GetHelpAll();
             s  += slagtool.runtime.builtin.builtin_func.Help();
-            wk.SendWriteLine(s);
+            SendWriteLine(s);
         }
 
         public static void GetPlayText()
@@ -403,11 +406,11 @@ namespace slagremote
             if (!string.IsNullOrEmpty(s))
             { 
                 var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
-                wk.SendWriteLine(TMPFILENAME + base64);
+                SendWriteLine(TMPFILENAME + base64);
             }
             else
             {
-                wk.SendWriteLine("No Text");
+                SendWriteLine("No Text");
             }
         }
 
@@ -417,7 +420,7 @@ namespace slagremote
             var bplist = m_breakpoints;
             if (bplist==null)
             {
-                wk.SendWriteLine("[BPLIST:]");
+                SendWriteLine("[BPLIST:]");
                 return;
             }
 
@@ -430,13 +433,13 @@ namespace slagremote
                 foreach(var l in item.lines)
                 {
                     if (ls!=null) ls += ",";
-                    ls += (l+1).ToString();
+                    ls += "<L"+l.ToString()+">";
                 }
                     
                 if (sf!=null) sf += "|";
                 sf += string.Format("[{0}:{1}]",item.filename,ls);
             }
-            wk.SendWriteLine("[BPLIST:" + sf + "]");
+            SendWriteLine("[BPLIST:" + sf + "]");
         }
 
         //
@@ -445,17 +448,17 @@ namespace slagremote
             try {
                 var list = slagtool.slag.m_latest_slag.m_filelist;
 
-                wk.SendWriteLine("== TARGET FILES ==");
+                SendWriteLine("== TARGET FILES ==");
                 for(int i = 0; i<list.Count; i++)
                 {
-                    var s = string.Format("{0}:{1}",(i+1).ToString(), list.GetFile(i));
-                    wk.SendWriteLine(s);
+                    var s = string.Format("{0}:{1}","<F" + i.ToString() +">", list.GetFile(i));
+                    SendWriteLine(s);
                 }
-                wk.SendWriteLine("==================");
+                SendWriteLine("==================");
             }
             catch (SystemException e)
             {
-                wk.SendWriteLine("Error ListFile: " + e.Message);
+                SendWriteLine("Error ListFile: " + e.Message);
             }
         }
 
@@ -484,11 +487,11 @@ namespace slagremote
                 }
                 s+="]";
 
-                wk.SendWriteLine(s);
+                SendWriteLine(s);
 
             } catch (SystemException e)
             {
-                wk.SendWriteLine("Error ListFile: " + e.Message);
+                SendWriteLine("Error ListFile: " + e.Message);
             }
         }
 
@@ -516,11 +519,11 @@ namespace slagremote
                 }
                 s+="]";
 
-                wk.SendWriteLine(s);
+                SendWriteLine(s);
             }
             catch (SystemException e)
             {
-                wk.SendWriteLine("Error ListFile: " + e.Message);
+                SendWriteLine("Error ListFile: " + e.Message);
             }
         }
         //--- tool for this class

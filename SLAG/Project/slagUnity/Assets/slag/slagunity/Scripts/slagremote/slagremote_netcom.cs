@@ -98,6 +98,7 @@ namespace slagremote
                     var cmd = m_pipe.Read();
                     if (cmd!=null)
                     { 
+                        cmd = slagtool.numbase.convert_cmd(cmd);
                         record(cmd);
                     }
                     else
