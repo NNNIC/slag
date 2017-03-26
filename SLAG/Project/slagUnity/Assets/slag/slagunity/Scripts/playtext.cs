@@ -64,6 +64,7 @@ public class playtext : MonoBehaviour {
         {
             m_guiFunc = gui_edit;
             m_slagunity.TransferFileData();
+            //m_slagunity.TransferBPList();ファイル表示が正しくなくなるため、ＣＯ
             //slagremote.cmd_sub.GetPlayText();
             //m_slagunity.LoadSrc(m_src); //事前コンパイル
         }

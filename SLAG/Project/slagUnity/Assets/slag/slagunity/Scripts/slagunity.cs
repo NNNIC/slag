@@ -107,6 +107,13 @@ public class slagunity {
         slagremote.cmd_sub.TransferFileData();
 #endif
     }
+    public void TransferBPList()
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        slagremote.cmd_sub.GetBp();
+#endif
+    }
+
     public void WriteNetLog(string s)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN

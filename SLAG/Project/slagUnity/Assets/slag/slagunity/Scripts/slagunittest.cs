@@ -133,6 +133,7 @@ public class slagunittest : MonoBehaviour {
         {
             slag.LoadSrc(src);
             slag.TransferFileData();
+            //slag.TransferBPList(); ファイル表示が正しくなくなるため、ＣＯ
         }
         catch (SystemException e)
         {

@@ -84,6 +84,7 @@ public class playslag : MonoBehaviour {
                     if (m_slagunity!=null) {
                         m_slagunity.LoadBin(bytes);
                         m_slagunity.TransferFileData();
+                        //m_slagunity.TransferBPList(); ファイル表示が正しくなくなるため、ＣＯ
                     }
                 }
                 catch (SystemException e)
