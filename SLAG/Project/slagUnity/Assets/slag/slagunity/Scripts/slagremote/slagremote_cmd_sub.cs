@@ -383,8 +383,8 @@ namespace slagremote
             {
                 SendWriteLine("Set Debug Level : " + x);
                 slagtool.util.SetDebugLevel(x);
-#if UNITY_5
-                UnityEngine.Debug.logger.logEnabled = (x>0);
+#if UNITY_5_3_OR_NEWER
+                UnityEngine.Debug.unityLogger.logEnabled = (x>0);
 #endif
             }
             else

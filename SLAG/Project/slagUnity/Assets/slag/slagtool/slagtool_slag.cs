@@ -220,7 +220,7 @@ namespace slagtool
 #if SLAGRELEASE
             run_script.run(m_exelist[0], m_statebuf);
 #else
-    #if UNITY_5
+    #if UNITY_5_3_OR_NEWER
             var save = UnityEngine.Time.realtimeSinceStartup;
 
             try { 

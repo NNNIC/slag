@@ -23,7 +23,7 @@ public class slagremote_unity_main : MonoBehaviour {
         m_bReqAbort = false;
         m_bEnd      = false;
 
-        UnityEngine.Debug.logger.logEnabled = false;
+        UnityEngine.Debug.unityLogger.logEnabled = false;
 
         m_netcomm = new netcomm();
         m_netcomm.Start();

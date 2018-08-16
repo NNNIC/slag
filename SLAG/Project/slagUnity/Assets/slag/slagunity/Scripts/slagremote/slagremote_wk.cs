@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace slagremote
 {
-#if UNITY_5
+#if UNITY_5_3_OR_NEWER
     public class wk
     { 
         public static void SendWrite(string s)
